@@ -1,0 +1,7 @@
+tencent:
+  sdkAppId: 1400497024
+  secretKey: "3976396c7c045fb9eca1969624b0a61f5d51762bed13743c4052bbaa59e81d93"
+  userId: "200017864179"
+app:
+  host: "https://dev-api.onlylive.jp"
+  configPath: https://storage.googleapis.com/dev-barry-image/maintenance-and-version-update-talent.json

@@ -1,0 +1,41 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "onlylive dev",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "development",
+        "--dart-define",
+        "FLAVOR=development",
+      ]
+    },
+    {
+      "name": "onlylive stg",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "staging",
+        "--dart-define",
+        "FLAVOR=staging",
+      ]
+    },
+    {
+      "name": "onlylive",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "production",
+        "--dart-define",
+        "FLAVOR=production",
+      ]
+    },
+  ]
+}

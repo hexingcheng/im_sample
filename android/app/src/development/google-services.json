@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "982950165365",
+    "project_id": "onlylive-stg",
+    "storage_bucket": "onlylive-stg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982950165365:android:e19e493c830381fb25f13c",
+        "android_client_info": {
+          "package_name": "com.ILEO.onlylive.development"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982950165365-enj8k00o62b0e2hpnse7dd83imiefhro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKer8YhHimT3Ekh7HGz1jF8EluSzGmggs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982950165365-enj8k00o62b0e2hpnse7dd83imiefhro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "982950165365-bcdptsl7fr8r6b2isscd8qs3cjqnukt9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.iMarke.OnlyLive"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
