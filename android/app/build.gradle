@@ -64,11 +64,11 @@ android {
         //     applicationId "com.ILEO.onlylive.staging"
         //     manifestPlaceholders = [appName: "onlylive stg"]
         // }
-        // production {
-        //     dimension "flavor-type"
-        //     applicationId "com.ILEO.onlylive"
-        //     manifestPlaceholders = [appName: "onlylive"]
-        // }
+        production {
+            dimension "flavor-type"
+            applicationId "com.ILEO.onlylive"
+            manifestPlaceholders = [appName: "onlylive"]
+        }
     }
 }
 
