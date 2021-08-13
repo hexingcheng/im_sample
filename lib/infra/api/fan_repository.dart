@@ -2,8 +2,8 @@ import 'package:onlylive/domain/entities/fan.dart';
 import 'package:onlylive/domain/repository/fan_repository.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/infra/api/client.dart';
-import 'package:onlylive/infra/dto/call_transaction_dto.dart';
-import 'package:onlylive/infra/dto/fan_dto.dart';
+import 'package:onlylive/infra/mapper/call_transaction_mapper.dart';
+import 'package:onlylive/infra/mapper/fan_mapper.dart';
 
 class APIFanRepository implements FanRepository {
   APIFanRepository(this._client);
@@ -12,14 +12,14 @@ class APIFanRepository implements FanRepository {
   @override
   Future<Fan> getFan(String fanUUID) async {
     final res =
-        await _client.get("v1/fans/$fanUUID", fromJson: FanDTO.fromJSON);
+        await _client.get("v1/fans/$fanUUID", fromJson: FanMapper.fromJSON);
     return res;
   }
 
   @override
   Future<CallTransaction> getCallTransaction(String fanUUID) async {
     final res = await _client.get("v1/fans/$fanUUID/call_transaction",
-        fromJson: CallTransactionDTO.fromJSON);
+        fromJson: CallTransactionMapper.fromJSON);
     return res;
   }
 
