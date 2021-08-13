@@ -1,9 +1,9 @@
 import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/domain/entities/fan.dart';
 import 'package:onlylive/domain/entities/sex.dart';
-import 'package:onlylive/infra/dto/time_stamp_dto.dart';
+import 'package:onlylive/infra/mapper/time_stamp_mapper.dart';
 
-class FanDTO {
+class FanMapper {
   static Fan fromJSON(Map<String, dynamic> json) {
     final fan = json["call_transaction"] as Map<String, dynamic>? ??
         {
@@ -17,7 +17,7 @@ class FanDTO {
       uuid: fan["uuid"] as String,
       introduction: fan["introduction"] as String,
       displayName: fan["display_name"] as String,
-      birth: TimeStampDTO.fromJSON(fan["updated_at"] as Map<String, dynamic>)
+      birth: TimeStampMapper.fromJSON(fan["updated_at"] as Map<String, dynamic>)
           .toDateTime,
       annotationID: fan["annotation_id"] as String,
       voipToken: fan["voip_token"] as String? ?? "",

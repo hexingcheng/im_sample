@@ -1,9 +1,9 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
-import 'package:onlylive/infra/dto/time_stamp_dto.dart';
+import 'package:onlylive/infra/mapper/time_stamp_mapper.dart';
 
-class FanMeetingDTO {
+class FanMeetingMapper {
   static FanMeeting fromJSON(Map<String, dynamic> json) {
-    final fanMeeting = json["FanMeeting"] as Map<String, dynamic>;
+    final fanMeeting = json["fan_meeting"] as Map<String, dynamic>;
 
     return FanMeeting(
       id: fanMeeting["id"] as int,
@@ -12,21 +12,21 @@ class FanMeetingDTO {
       limitedPeople: fanMeeting["limited_people"] as int,
       state: fanMeeting["state"] as FanMeetingState,
       isExtension: fanMeeting["is_extension"] as IsExtension,
-      eventDate: TimeStampDTO.fromJSON(
+      eventDate: TimeStampMapper.fromJSON(
               fanMeeting["event_date"] as Map<String, dynamic>)
           .toDateTime,
-      startTime: TimeStampDTO.fromJSON(
+      startTime: TimeStampMapper.fromJSON(
               fanMeeting["start_time"] as Map<String, dynamic>)
           .toDateTime,
-      finishTime: TimeStampDTO.fromJSON(
+      finishTime: TimeStampMapper.fromJSON(
               fanMeeting["finish_time"] as Map<String, dynamic>)
           .toDateTime,
       secondsPerReservation: fanMeeting["seconds_per_reservation"] as int,
       style: fanMeeting["style"] as FanMeetingStyle,
-      createdAt: TimeStampDTO.fromJSON(
+      createdAt: TimeStampMapper.fromJSON(
               fanMeeting["created_at"] as Map<String, dynamic>)
           .toDateTime,
-      updatedAt: TimeStampDTO.fromJSON(
+      updatedAt: TimeStampMapper.fromJSON(
               fanMeeting["updated_at"] as Map<String, dynamic>)
           .toDateTime,
     );

@@ -1,7 +1,7 @@
 import 'package:onlylive/domain/entities/call_transaction.dart';
-import 'package:onlylive/infra/dto/time_stamp_dto.dart';
+import 'package:onlylive/infra/mapper/time_stamp_mapper.dart';
 
-class CallTransactionDTO {
+class CallTransactionMapper {
   static CallTransaction fromJSON(Map<String, dynamic> json) {
     final callTransaction = json["call_transaction"] as Map<String, dynamic>? ??
         {
@@ -25,7 +25,7 @@ class CallTransactionDTO {
         balance: callTransaction["balance"] as int,
         reservationID: callTransaction["reservation_id"] as int,
         fanMeetingID: callTransaction["fan_meeting_id"] as int,
-        updatedAt: TimeStampDTO.fromJSON(
+        updatedAt: TimeStampMapper.fromJSON(
                 callTransaction["updated_at"] as Map<String, dynamic>)
             .toDateTime);
   }
