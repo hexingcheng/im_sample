@@ -3,40 +3,53 @@ import 'package:yaml/yaml.dart';
 import "package:flutter/services.dart" as service;
 
 class Config {
-  Config(dynamic doc) {
-    app = App(doc);
-    tencent = Tencent(doc);
+  Config(YamlMap doc) {
+    _app = App(doc["app"] as YamlMap);
+    _tencent = Tencent(doc["tencent"] as YamlMap);
   }
 
-  static App app = App(null);
-  static Tencent tencent = Tencent(null);
+  static App _app = App({} as YamlMap);
+  static Tencent _tencent = Tencent({} as YamlMap);
+
+  static Tencent get tencent => _tencent;
+  static App get app => _app;
 }
 
 class App {
-  App(dynamic doc) {
-    final app = doc["app"];
-    host = app["host"] as String;
-    configPath = app["configPath"] as String;
+  App(YamlMap doc) {
+    _host = doc["host"] as String;
+    _configPath = doc["configPath"] as String;
+    _imgixHost = doc["imgixHost"] as String;
+    _gcsSourcePath = doc["gcsSourcePath"] as String;
   }
 
-  late String host;
-  late String configPath;
+  late String _host;
+  late String _configPath;
+  late String _imgixHost;
+  late String _gcsSourcePath;
+
+  String get host => _host;
+  String get configPath => _configPath;
+  String get imgixHost => _imgixHost;
+  String get gcsSourcePath => _gcsSourcePath;
 }
 
 class Tencent {
-  Tencent(dynamic doc) {
-    final tencent = doc["tencent"];
-    sdkAppId = tencent["sdkAppId"] as int;
-    secretKey = tencent["secretKey"] as String;
+  Tencent(YamlMap doc) {
+    _sdkAppId = doc["sdkAppId"] as int;
+    _secretKey = doc["secretKey"] as String;
   }
 
-  late int sdkAppId;
-  late String secretKey;
+  late int _sdkAppId;
+  late String _secretKey;
+
+  int get sdkAppId => _sdkAppId;
+  String get secretKey => _secretKey;
 }
 
 Future<void> initConfig(Flavor flavor) async {
   final data =
       await service.rootBundle.loadString('env/${flavor.environment}.yaml');
-  final doc = loadYaml(data);
+  final doc = loadYaml(data) as YamlMap;
   Config(doc);
 }

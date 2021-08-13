@@ -5,3 +5,5 @@ tencent:
 app:
   host: "https://dev-api.onlylive.jp"
   configPath: https://storage.googleapis.com/dev-barry-image/maintenance-and-version-update-talent.json
+  imgixHost: https://dev-barry-image.imgix.net
+  gcsSourcePath: https://storage.googleapis.com/dev-barry-image

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:onlylive/domain/entities/talent.dart';
+import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/widgets/atoms/schedule_label.dart';
 import 'package:onlylive/widgets/molecules/category.dart';
 import 'package:onlylive/widgets/molecules/talent_card.dart';
 
-class ComingSoonTalentListView extends StatelessWidget {
-  const ComingSoonTalentListView(this.talents);
-  final List<Talent> talents;
+class FutureFanMeetingListView extends StatelessWidget {
+  const FutureFanMeetingListView(this.fanMeetigns);
+  final List<FanMeeting> fanMeetigns;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class ComingSoonTalentListView extends StatelessWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: List.generate(
-                talents.length,
+                fanMeetigns.length,
                 (index) => GestureDetector(
                   onTap: () => {},
                   child: Container(
@@ -30,9 +30,9 @@ class ComingSoonTalentListView extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 12),
                     child: TalentCard(
                       imgHeight: 150,
-                      imageSrc: talents[index].mainSquareImageUrl,
-                      name: talents[index].displayName,
-                      job: talents[index].genre,
+                      imageUrl: fanMeetigns[index].talent.mainSquareImageUrl,
+                      name: fanMeetigns[index].talent.displayName,
+                      genre: fanMeetigns[index].talent.genre[0],
                       filterColor: const Color.fromRGBO(196, 196, 196, 0.4),
                       label: Positioned(
                         bottom: 0,

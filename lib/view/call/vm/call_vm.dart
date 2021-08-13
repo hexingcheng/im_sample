@@ -169,7 +169,23 @@ class CallVM with ChangeNotifier {
     //     .get(callTransaction.fanUUID);
     fanMeeting = FanMeeting(
         id: 511,
-        talentUUID: "talentUUID",
+        talent: Talent(
+          uuid: "uuid",
+          introduction: "introduction",
+          displayName: "displayName",
+          annotationID: "annotationID",
+          mainSquareImageUrl:
+              "https://ichef.bbci.co.uk/news/800/cpsprodpb/509D/production/_112873602_whatsappimage2020-06-12at11.23.53-2.jpg",
+          mainRectangleImageUrl: "mainRectangleImageUrl",
+          twitterUrl: "twitterUrl",
+          instagramUrl: "instagramUrl",
+          tiktokUrl: "tiktokUrl",
+          youtubeUrl: "youtubeUrl",
+          customLinkName: "customLinkName",
+          customLinkUrl: "customLinkUrl",
+          genre: [],
+          imageUrls: [],
+        ),
         itemCode: "itemCode",
         limitedPeople: 10,
         state: FanMeetingState.now,
@@ -200,21 +216,6 @@ class CallVM with ChangeNotifier {
         finishTime: DateTime(0),
         createdAt: DateTime(0),
         updatedAt: DateTime(0));
-    talent = Talent(
-        uuid: "uuid",
-        introduction: "introduction",
-        displayName: "displayName",
-        annotationID: "annotationID",
-        mainSquareImageUrl:
-            "https://ichef.bbci.co.uk/news/800/cpsprodpb/509D/production/_112873602_whatsappimage2020-06-12at11.23.53-2.jpg",
-        mainRectangleImageUrl: "mainRectangleImageUrl",
-        twitterUrl: "twitterUrl",
-        instagramUrl: "instagramUrl",
-        tiktokUrl: "tiktokUrl",
-        youtubeUrl: "youtubeUrl",
-        customLinkName: "customLinkName",
-        customLinkUrl: "customLinkUrl",
-        genre: "genre");
     remainigTime =
         RemainigTime.convertFromSeconds(fanMeeting.secondsPerReservation);
   }
