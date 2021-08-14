@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/domain/entities/talent.dart';
 import 'package:onlylive/widgets/atoms/now_label.dart';
 import 'package:onlylive/widgets/molecules/category.dart';
 import 'package:onlylive/widgets/molecules/talent_card.dart';
 
-class NowTalentListView extends StatelessWidget {
-  const NowTalentListView(this.talents);
-  final List<Talent> talents;
+class NowFanmmetingListView extends StatelessWidget {
+  const NowFanmmetingListView(this.fanmeetings, {Key? key}) : super(key: key);
+  final List<FanMeeting> fanmeetings;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class NowTalentListView extends StatelessWidget {
       child: Column(
         children: [
           Category(text: "今すぐお話する", onPressedArrow: () {}),
-          talents.isEmpty
+          fanmeetings.isEmpty
               ? Container(
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   height: 76,
@@ -47,16 +48,18 @@ class NowTalentListView extends StatelessWidget {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: List.generate(
-                      talents.length,
+                      fanmeetings.length,
                       (index) => Container(
                         height: 254,
                         width: 150,
                         margin: const EdgeInsets.only(right: 12),
                         child: TalentCard(
                           imgHeight: 200,
-                          imageSrc: talents[index].mainSquareImageUrl,
-                          name: talents[index].displayName,
-                          job: talents[index].genre,
+                          imgWidth: 150,
+                          imageUrl:
+                              fanmeetings[index].talent.mainSquareImageUrl,
+                          name: fanmeetings[index].talent.displayName,
+                          genre: fanmeetings[index].talent.genre[0],
                           label: NowLabel(),
                         ),
                       ),

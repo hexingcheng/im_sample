@@ -30,6 +30,7 @@ class OnlyliveTheme {
 }
 
 class OnlyliveColor {
+  static const black = Color(0xff484848);
   static const darkPurple = Color(0xff5C7498);
   static const purple = Color(0xffA3B7FF);
   static const lightPurple = Color(0xffD2DCFF);

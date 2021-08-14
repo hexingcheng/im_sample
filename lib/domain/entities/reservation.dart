@@ -22,7 +22,7 @@ class Reservation {
 }
 
 enum ReservationState {
-  unknow, // 不明
+  unknown, // 不明
   wait, // 予約中
   done, // 通話完了
   abort, // ファンミーティングが終了し通話できなかった

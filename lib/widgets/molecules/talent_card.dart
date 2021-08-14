@@ -1,21 +1,25 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:onlylive/domain/entities/talent.dart';
+import 'package:onlylive/widgets/atoms/imgix.dart';
 
 class TalentCard extends StatelessWidget {
-  TalentCard({
-    required this.imageSrc,
-    required this.name,
-    required this.job,
-    required this.imgHeight,
-    this.label = const SizedBox.shrink(),
-    this.filterColor = Colors.transparent,
-  });
-  final String imageSrc;
+  const TalentCard(
+      {required this.imageUrl,
+      required this.name,
+      required this.genre,
+      required this.imgWidth,
+      required this.imgHeight,
+      this.label = const SizedBox.shrink(),
+      this.filterColor = Colors.transparent,
+      Key? key})
+      : super(key: key);
+  final String imageUrl;
   final String name;
-  final String job;
+  final Genre genre;
   final double imgHeight;
+  final double imgWidth;
   final Color filterColor;
-  Widget label;
+  final Widget label;
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +30,15 @@ class TalentCard extends StatelessWidget {
           height: imgHeight,
           child: Stack(
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: Image.asset(
-                    imageSrc,
-                    fit: BoxFit.fitWidth,
+                  child: Imgix(
+                    context: context,
+                    imageUrl: imageUrl,
+                    width: imgWidth,
+                    height: imgHeight,
                   ),
                 ),
               ),
@@ -54,7 +60,7 @@ class TalentCard extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Text(
-          job,
+          genre.string(),
           style: const TextStyle(
             color: Color(0xffA2ACBB),
             fontSize: 12,

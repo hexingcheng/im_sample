@@ -45,10 +45,11 @@ class APIClient {
   }
 
   T decode<T>(http.Response res, T Function(Map<String, dynamic>)? fromJson) {
+    final responseBody = utf8.decode(res.bodyBytes);
+    final jsonResponse = jsonDecode(responseBody) as Map<String, dynamic>;
     if (fromJson != null) {
-      final jsonResponse = jsonDecode(res.body) as Map<String, dynamic>;
       return fromJson(jsonResponse);
     }
-    return res as T;
+    return jsonResponse as T;
   }
 }
