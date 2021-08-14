@@ -21,7 +21,7 @@ class MainScreen extends StatelessWidget {
   }
 
   final List<TabItem> tabs = [
-    TabItem(text: "ホーム", iconRef: "assets/icons/home.png"),
+    // TabItem(text: "ホーム", iconRef: "assets/icons/home.png"),
     TabItem(text: "通話予約", iconRef: "assets/icons/reservation.png"),
     TabItem(text: "マイページ", iconRef: "assets/icons/my_page.png"),
   ];
@@ -40,16 +40,16 @@ class MainScreen extends StatelessWidget {
       ),
       tabBuilder: (context, index) {
         switch (index) {
+          // case 0: // 1番左のタブが選ばれた時の画面
+          //   return CupertinoTabView(builder: (context) {
+          //     return CupertinoPageScaffold(child: HomeScreen());
+          //   });
           case 0: // 1番左のタブが選ばれた時の画面
-            return CupertinoTabView(builder: (context) {
-              return const CupertinoPageScaffold(child: HomeScreen());
-            });
-          case 1: // 1番左のタブが選ばれた時の画面
             return CupertinoTabView(builder: (context) {
               return const CupertinoPageScaffold(
                   child: CallReservationScreen());
             });
-          case 2: // 1番左のタブが選ばれた時の画面
+          case 1: // 1番左のタブが選ばれた時の画面
             return CupertinoTabView(
               builder: (context) {
                 return const CupertinoPageScaffold(
@@ -60,7 +60,7 @@ class MainScreen extends StatelessWidget {
           default:
             return CupertinoTabView(
               builder: (context) {
-                return const CupertinoPageScaffold(child: HomeScreen());
+                return CupertinoPageScaffold(child: HomeScreen());
               },
             );
         }

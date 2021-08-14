@@ -7,6 +7,7 @@ class TalentCard extends StatelessWidget {
       {required this.imageUrl,
       required this.name,
       required this.genre,
+      required this.imgWidth,
       required this.imgHeight,
       this.label = const SizedBox.shrink(),
       this.filterColor = Colors.transparent,
@@ -16,6 +17,7 @@ class TalentCard extends StatelessWidget {
   final String name;
   final Genre genre;
   final double imgHeight;
+  final double imgWidth;
   final Color filterColor;
   final Widget label;
 
@@ -35,8 +37,8 @@ class TalentCard extends StatelessWidget {
                   child: Imgix(
                     context: context,
                     imageUrl: imageUrl,
-                    width: 150,
-                    height: 200,
+                    width: imgWidth,
+                    height: imgHeight,
                   ),
                 ),
               ),

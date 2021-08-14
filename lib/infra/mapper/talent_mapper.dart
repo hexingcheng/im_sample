@@ -4,12 +4,12 @@ import 'package:onlylive/infra/mapper/genre_mapper.dart';
 class TalentMapper {
   static Talent fromJSON(Map<String, dynamic> json) {
     return Talent(
-      uuid: json["uuid"] as String,
-      annotationID: json["annotation_id"] as String,
-      introduction: json["introduction"] as String,
-      displayName: json["display_name"] as String,
-      mainSquareImageUrl: json["main_square_image_uri"] as String,
-      mainRectangleImageUrl: json["main_rectangle_image_uri"] as String,
+      uuid: json["uuid"] as String? ?? "",
+      annotationID: json["annotation_id"] as String? ?? "",
+      introduction: json["introduction"] as String? ?? "",
+      displayName: json["display_name"] as String? ?? "",
+      mainSquareImageUrl: json["main_square_image_uri"] as String? ?? "",
+      mainRectangleImageUrl: json["main_rectangle_image_uri"] as String? ?? "",
       imageUrls: [],
       instagramUrl: json["instagram_url"] as String? ?? "",
       twitterUrl: json["twitter_url"] as String? ?? "",
@@ -18,7 +18,7 @@ class TalentMapper {
       customLinkName: json["custom_link_name"] as String? ?? "",
       customLinkUrl: json["custom_link_url"] as String? ?? "",
       genre: GenreMapper.decode(
-        json["genre"] as List<dynamic>,
+        json["genre"] as List<dynamic>? ?? [],
       ),
     );
   }

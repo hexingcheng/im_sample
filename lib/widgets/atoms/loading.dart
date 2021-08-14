@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:onlylive/theme/theme.dart';
 
 class Loading extends StatelessWidget {
-  const Loading({this.loading = true, this.isTransparent = false});
+  const Loading(
+      {this.loading = true, this.backgronudColor = Colors.transparent});
   final bool loading;
-  final bool isTransparent;
+  final Color backgronudColor;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class Loading extends StatelessWidget {
         ? Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: isTransparent ? Colors.black.withOpacity(0.4) : Colors.white,
+            color: backgronudColor,
             child: Center(
               child: SizedBox.fromSize(
                 size: const Size(30, 30),

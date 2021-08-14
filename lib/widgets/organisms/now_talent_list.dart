@@ -55,6 +55,7 @@ class NowFanmmetingListView extends StatelessWidget {
                         margin: const EdgeInsets.only(right: 12),
                         child: TalentCard(
                           imgHeight: 200,
+                          imgWidth: 150,
                           imageUrl:
                               fanmeetings[index].talent.mainSquareImageUrl,
                           name: fanmeetings[index].talent.displayName,

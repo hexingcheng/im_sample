@@ -10,6 +10,7 @@ class Imgix extends StatelessWidget {
       required this.width,
       required this.height,
       this.quality = 75,
+      this.borderRadius = BorderRadius.zero,
       Key? key})
       : super(key: key);
   final BuildContext context;
@@ -17,6 +18,7 @@ class Imgix extends StatelessWidget {
   final double width;
   final double height;
   final double quality;
+  final BorderRadius borderRadius;
 
   String _getImageUrl(String imageUrl) {
     final queryData = MediaQuery.of(context);
@@ -47,13 +49,22 @@ class Imgix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: OnlyliveColor.darkPurple,
-      child: CachedNetworkImage(
-        width: width,
-        height: height,
-        imageUrl: _getImageUrl(imageUrl),
-        fit: BoxFit.fitWidth,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        color: OnlyliveColor.darkPurple,
+      ),
+      child: ClipRRect(
+        borderRadius: borderRadius,
+        child: CachedNetworkImage(
+          width: width,
+          height: height,
+          imageUrl: _getImageUrl(imageUrl),
+          fit: BoxFit.fill,
+          errorWidget: (context, url, error) => Image.asset(
+            "assets/icons/no_icon.png",
+          ),
+        ),
       ),
     );
   }
