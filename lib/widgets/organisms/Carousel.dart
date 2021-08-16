@@ -28,7 +28,10 @@ class _CarouselState extends State<Carousel> {
 
   double _getCarouselWidth() {
     final box = carouselKey.currentContext!.findRenderObject() as RenderBox?;
-    return box!.size.width;
+    if (box != null) {
+      return box.size.width;
+    }
+    return 0;
   }
 
   @override
@@ -70,7 +73,7 @@ class _CarouselState extends State<Carousel> {
                     widget.items[currentIndex].url,
                     title: widget.items[currentIndex].title,
                   )),
-                  child: Container(
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Stack(
                       children: [

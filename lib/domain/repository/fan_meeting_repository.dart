@@ -6,9 +6,10 @@ abstract class FanMeetingRepository {
   Future<FanMeeting> getFanMeeting(int id);
 
   // listFanMeetingByState is getting list fanmeeting conditional on state
-  Future<List<FanMeeting>> listFanMeetingByState(
-      FanMeetingState state, bool paging);
+  Future<Map<String, List<FanMeeting>>> listFanMeetingByState(
+      FanMeetingState state, String pageToken);
 
   // listFanMeetingByTopic is getting list fanmeeting conditional on topic
-  Future<List<FanMeeting>> listFanMeetingByTopic(Topic topic, bool paging);
+  Future<Map<String, List<FanMeeting>>> listFanMeetingByTopic(
+      Topic topic, String pageToken);
 }

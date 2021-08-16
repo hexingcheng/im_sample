@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class NowLabel extends StatelessWidget {
-  const NowLabel({Key? key}) : super(key: key);
+class WaitLabel extends StatelessWidget {
+  const WaitLabel(this.waitingMinutes, {Key? key}) : super(key: key);
+  final int waitingMinutes;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 77,
+      width: 90,
       height: 28,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -25,12 +26,16 @@ class NowLabel extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(Icons.phone_rounded, color: Colors.white, size: 17),
-          SizedBox(width: 8),
+        children: <Widget>[
+          const Icon(
+            Icons.phone_rounded,
+            color: Colors.white,
+            size: 17,
+          ),
+          const SizedBox(width: 8),
           Text(
-            "開催中",
-            style: TextStyle(
+            waitingMinutes.toString(),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.w700,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlylive/domain/entities/ranking_user.dart';
-import 'package:onlylive/view/home/ranking/premium_rank_view.dart';
-import 'package:onlylive/view/home/ranking/ranking_cell_view.dart';
+import 'package:onlylive/view/home/components/ranking/premium_rank_view.dart';
+import 'package:onlylive/view/home/components/ranking/ranking_cell_view.dart';
 
 class RankingList extends StatelessWidget {
   const RankingList({required this.items, Key? key}) : super(key: key);

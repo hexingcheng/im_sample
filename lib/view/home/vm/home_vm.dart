@@ -67,21 +67,24 @@ class HomeVM with ChangeNotifier {
 
   Future<void> updatesHomeList() async {
     Future<void> initNowTalent() async {
-      fanMeetings[HomeListType.now] =
+      final _fanMeetings =
           await ListFanMeetingUseCase(Repositories.fanMeetingRepository)
-              .state(FanMeetingState.now, false);
+              .state(FanMeetingState.now);
+      fanMeetings[HomeListType.now] = _fanMeetings.values.first;
     }
 
     Future<void> initFutureTalent() async {
-      fanMeetings[HomeListType.future] =
+      final _fanMeetings =
           await ListFanMeetingUseCase(Repositories.fanMeetingRepository)
-              .state(FanMeetingState.future, false);
+              .state(FanMeetingState.future);
+      fanMeetings[HomeListType.future] = _fanMeetings.values.first;
     }
 
     Future<void> initTopicTalent() async {
-      fanMeetings[HomeListType.popular] =
+      final _fanMeetings =
           await ListFanMeetingUseCase(Repositories.fanMeetingRepository)
-              .topic(Topic.popular, false);
+              .topic(Topic.popular);
+      fanMeetings[HomeListType.popular] = _fanMeetings.values.first;
     }
 
     await Future.wait([
