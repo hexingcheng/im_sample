@@ -6,11 +6,13 @@ class ListFanMeetingUseCase {
   ListFanMeetingUseCase(this._fammeetingRepo);
   final FanMeetingRepository _fammeetingRepo;
 
-  Future<List<FanMeeting>> state(FanMeetingState state, bool paging) async {
-    return _fammeetingRepo.listFanMeetingByState(state, paging);
+  Future<Map<String, List<FanMeeting>>> state(FanMeetingState state,
+      {String? pageToken}) async {
+    return _fammeetingRepo.listFanMeetingByState(state, pageToken ?? "");
   }
 
-  Future<List<FanMeeting>> topic(Topic topic, bool paging) async {
-    return _fammeetingRepo.listFanMeetingByTopic(topic, paging);
+  Future<Map<String, List<FanMeeting>>> topic(Topic topic,
+      {String? pageToken}) async {
+    return _fammeetingRepo.listFanMeetingByTopic(topic, pageToken ?? "");
   }
 }

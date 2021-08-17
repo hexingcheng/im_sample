@@ -57,10 +57,10 @@ class Imgix extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius,
         child: CachedNetworkImage(
+          fit: BoxFit.fill,
           width: width,
           height: height,
           imageUrl: _getImageUrl(imageUrl),
-          fit: BoxFit.fill,
           errorWidget: (context, url, error) => Image.asset(
             "assets/icons/no_icon.png",
           ),

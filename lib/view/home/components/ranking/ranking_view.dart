@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onlylive/domain/entities/ranking.dart';
 import 'package:onlylive/domain/entities/ranking_user.dart';
 import 'package:onlylive/theme/theme.dart';
-import 'package:onlylive/view/home/ranking/ranking_list_view.dart';
-import 'package:onlylive/view/home/ranking/ranking_select_button.dart';
+import 'package:onlylive/view/home/components/ranking/ranking_list_view.dart';
+import 'package:onlylive/view/home/components/ranking/ranking_select_button.dart';
 import 'package:onlylive/view/home/vm/home_vm.dart';
 import 'package:onlylive/extension/date_time_extension.dart';
 

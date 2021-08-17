@@ -8,12 +8,6 @@ class APIFanmeetingRepository implements FanMeetingRepository {
   APIFanmeetingRepository(this._client);
   final APIClient _client;
 
-  static final Map<FanMeetingState, String> _statePageToken = Map.fromIterables(
-      FanMeetingState.values, FanMeetingState.values.map((e) => ""));
-
-  static final Map<Topic, String> _topicPageToken =
-      Map.fromIterables(Topic.values, Topic.values.map((e) => ""));
-
   @override
   Future<FanMeeting> getFanMeeting(int id) async {
     final res = _client.get("v1/fan-meetings/id/$id",
@@ -22,48 +16,44 @@ class APIFanmeetingRepository implements FanMeetingRepository {
   }
 
   @override
-  Future<List<FanMeeting>> listFanMeetingByState(
-      FanMeetingState state, bool paging) async {
+  Future<Map<String, List<FanMeeting>>> listFanMeetingByState(
+      FanMeetingState state, String pageToken) async {
     final res = await _client.get(
-      "v1/fan-meetings?state=${state.string()}&page_token=${paging ? _statePageToken[state] : ''}",
+      "v1/fan-meetings?state=${state.string()}&page_token=$pageToken",
     ) as Map<String, dynamic>;
 
     final fanMeetingAndReservedList =
         res["fan_meeting_and_reserved"] as List<dynamic>? ?? [];
 
-    final fanMeetings = <FanMeeting>[];
+    final _fanMeetings = <FanMeeting>[];
 
-    if (paging) {
-      _statePageToken[state] = res["next_page_token"] as String? ?? "";
-    }
+    final _nextPageToken = res["next_page_token"] as String? ?? "";
 
     for (final fanMeeting in fanMeetingAndReservedList) {
-      fanMeetings
+      _fanMeetings
           .add(FanMeetingMapper.fromJSON(fanMeeting as Map<String, dynamic>));
     }
-    return fanMeetings;
+    return {_nextPageToken: _fanMeetings};
   }
 
   @override
-  Future<List<FanMeeting>> listFanMeetingByTopic(
-      Topic topic, bool paging) async {
+  Future<Map<String, List<FanMeeting>>> listFanMeetingByTopic(
+      Topic topic, String pageToken) async {
     final res = await _client.get(
-      "v1/fan-meetings/topic/${topic.string()}?page_token=${paging ? _topicPageToken[topic] : ''}",
+      "v1/fan-meetings/topic/${topic.string()}?page_token=$pageToken",
     ) as Map<String, dynamic>;
 
     final fanMeetingAndReservedList =
         res["fan_meeting_and_reserved"] as List<dynamic>? ?? [];
 
-    final fanMeetings = <FanMeeting>[];
+    final _fanMeetings = <FanMeeting>[];
 
-    if (paging) {
-      _topicPageToken[topic] = res["next_page_token"] as String? ?? "";
-    }
+    final _nextPageToken = res["next_page_token"] as String? ?? "";
 
     for (final fanMeeting in fanMeetingAndReservedList) {
-      fanMeetings
+      _fanMeetings
           .add(FanMeetingMapper.fromJSON(fanMeeting as Map<String, dynamic>));
     }
-    return fanMeetings;
+    return {_nextPageToken: _fanMeetings};
   }
 }
