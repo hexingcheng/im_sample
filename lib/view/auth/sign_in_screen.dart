@@ -30,7 +30,7 @@ class SignInScreen extends StatelessWidget {
             leading: Close(context),
             title: "ログイン",
           ),
-          body: SizedBox(
+          body: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Padding(
@@ -47,6 +47,7 @@ class SignInScreen extends StatelessWidget {
                           onChanged: (val) => vm.phoneNumber = val,
                           validator: vm.validatePhoneNumber,
                           keyboardType: TextInputType.number,
+                          hintText: "08012345678",
                         ),
                         const SizedBox(height: 24),
                         OnlyliveTextFormField(
@@ -54,16 +55,22 @@ class SignInScreen extends StatelessWidget {
                           onChanged: (val) => vm.password = val,
                           validator: vm.validatePassword,
                           passwordMode: true,
+                          hintText: "Abcd01",
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          "半角のアルファベットと数字両方を含む6~29文字",
-                          style: TextStyle(
-                            color: context.select<SignInVM, bool>(
-                                    (vm) => vm.validPasswordFormat)
-                                ? OnlyliveColor.darkPurple
-                                : Colors.red,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              "半角のアルファベットと数字両方を含む6~20文字",
+                              style: TextStyle(
+                                color: context.select<SignInVM, bool>(
+                                        (vm) => vm.validPasswordFormat)
+                                    ? OnlyliveColor.grey
+                                    : Colors.red,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 24),
                         Center(
@@ -90,19 +97,12 @@ class SignInScreen extends StatelessWidget {
                         const SizedBox(height: 20),
                         Center(
                           child: HyperLinkText(
-                            "パスワードをお忘れの方はこちら",
+                            "お問い合わせ",
                             color: OnlyliveColor.purple,
                             pressedColor: OnlyliveColor.purple.withOpacity(0.6),
                           ),
                         ),
                       ],
-                    ),
-                    Center(
-                      child: HyperLinkText(
-                        "電話番号変更後のログインはこちら",
-                        color: OnlyliveColor.purple,
-                        pressedColor: OnlyliveColor.purple.withOpacity(0.6),
-                      ),
                     ),
                   ],
                 ),
