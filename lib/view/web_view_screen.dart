@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlylive/theme/theme.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:onlylive/widgets/atoms/toast.dart';
+import 'package:onlylive/snippets/toast.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen(this.url, {this.title, Key? key}) : super(key: key);

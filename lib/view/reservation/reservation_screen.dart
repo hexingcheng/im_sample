@@ -5,7 +5,7 @@ import 'package:onlylive/view/reservation/vm/reservation_vm.dart';
 import 'package:onlylive/widgets/atoms/call_icon.dart';
 import 'package:onlylive/widgets/atoms/round_rect_button.dart';
 import 'package:onlylive/widgets/molecules/talent_view.dart';
-import 'package:onlylive/widgets/molecules/simple_app_bar.dart';
+import 'package:onlylive/widgets/atoms/simple_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class CallReservationScreen extends StatelessWidget {

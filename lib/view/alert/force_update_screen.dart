@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onlylive/widgets/atoms/url_launcher.dart';
-import 'package:onlylive/widgets/templates/alert_screen.dart';
+import 'package:onlylive/snippets/url_launcher.dart';
+import 'package:onlylive/widgets/organisms/alert_screen.dart';
 
 class ForceUpdateScreen extends StatelessWidget {
   const ForceUpdateScreen({Key? key}) : super(key: key);

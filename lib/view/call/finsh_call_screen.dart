@@ -3,7 +3,7 @@ import 'package:onlylive/theme/theme.dart';
 import 'package:onlylive/view/splash_screen.dart';
 import 'package:onlylive/widgets/atoms/round_rect_button.dart';
 import 'package:onlylive/widgets/molecules/rounded_icon.dart';
-import 'package:onlylive/widgets/templates/blur_transition.dart';
+import 'package:onlylive/widgets/organisms/blur_transition.dart';
 
 class FinishCallScreen extends StatefulWidget {
   const FinishCallScreen(
