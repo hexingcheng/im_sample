@@ -1,0 +1,31 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service ContactService {
+  //インフルエンサー => 運営 へ、ファンの通報する時
+  //only own influencer
+  rpc CreateContactReport (CreateContactReportRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/contacts/reports"
+      body: "*"
+    };
+  }
+}
+
+message CreateContactReportRequest {
+  uint32 reservation_id = 1;
+  ReportType type = 2;
+  string body = 3;
+}
+
+enum ReportType {
+  slander = 0;             // 誹謗中傷/迷惑行為
+  adult = 1;               // アダルト
+  encounter = 2;           // 出会い目的
+  contravention = 3;       // 法令違反/公序良俗違反
+  otherReport = 4;         // その他
+}

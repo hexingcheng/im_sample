@@ -1,0 +1,70 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/protobuf/timestamp.proto";
+
+message Influencer {
+  string annotation_id = 1;                        //annotation_id ex) @hogehoge
+  string aps_token = 2;                            //push通知を送るためのtoken
+  string introduction = 3;                         //自己紹介
+  string display_name = 4;                         //表示される名前
+  string main_square_image_uri = 5;                //正方形の編集不可能なプロフィール画像URI
+  string main_rectangle_image_uri = 6;             //長方形の編集不可能なプロフィール画像URI
+  repeated string image_uri = 7;                   //編集可能なプロフィール画像URI
+  Sex sex = 9;                                     //性別
+  enum Sex {
+    unknown = 0;                                   //未定義
+    man = 1;                                       //男性
+    woman = 2;                                     //女性
+    undefined = 3;                                 //女性
+  }
+  string uuid = 10;                                //uuid
+  google.protobuf.Timestamp birth = 11;            //誕生日
+  string prefecture = 12;                          //県
+  InfluencerCredential influencerCredential = 13;  //influencerの詳細情報
+  repeated Genre genre = 14;                       //influencerのジャンル
+  string dynamic_link = 16;                        //influencerのDynamicLink
+  string twitter_url = 17;                         //influencerのTwitterURL
+  string instagram_url = 18;                       //influencerのInstagramURL
+  string tiktok_url = 19;                          //influencerのTikTokURL
+  string youtube_url = 20;                         //influencerのYouTubeURL
+  string custom_link_name = 21;                    //influencerのオリジナルリンク表示名
+  string custom_link_url = 22;                     //influencerのオリジナルリンクURL
+}
+
+message InfluencerCredential {
+  string first_name = 1;                           //氏名(姓)
+  string last_name = 2;                            //氏名(名)
+  string phone_number = 3;                         //電話番号
+  string email = 4;                                //メアド
+  string address = 5;                              //住所
+}
+
+message InfluencerAndFanMeeting {
+  Influencer influencer = 1;
+  uint32 fan_meeting_id =2;
+}
+
+
+//ジャンル
+enum Genre {
+  non_genre= 0;                          // 不明
+  model = 1;                             // モデル
+  actor = 2;                             // 俳優
+  actress = 3;                           // 女優
+  youtuber = 4;                          // youtuber
+  liver = 5;                             // liver
+  instagrammer = 6;                      // instagrammer
+  tiktoker = 7;                          // tiktoker 
+  idol = 8;                              // idol
+  cosplayer = 9;                         // コスプレイヤー
+  voice_actor = 10;                      // 声優 
+  talent = 11;                           // タレント 
+  artist = 12;                           // アーティスト 
+  comedian = 13;                         // お笑い芸人 
+  fortune_teller = 14;                   // 占い師
+  other = 15;                            // その他
+  influencer = 16;                            // インフルエンサー
+}
+

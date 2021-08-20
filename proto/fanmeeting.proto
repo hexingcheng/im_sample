@@ -1,0 +1,63 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/protobuf/timestamp.proto";
+import "influencer.proto";
+
+//ホーム画面のインフルエンサリスト
+message FanMeetingAndReserveds {
+  repeated FanMeetingAndReserved fan_meeting_and_reserved = 1;
+  bool is_empty = 2;
+}
+
+message FanMeetingAndReserved {
+  FanMeeting fan_meeting = 1;                 // インフルエンサが開催してるファンミーティング(今度話そうの場合は直近のファンミーティング)
+  uint32 wait_seconds = 2;                    // 約何秒待ちか
+  bool is_soldout = 3;                        // 売り切れか
+}
+
+message FanMeeting {
+  uint32 id = 1;                              // id
+  Influencer influencer = 2;                  // ファンミーティングを開催したインフルエンサー
+  uint32 limited_people = 3;                  // ファンが参加できる上限
+  FanMeetingState state = 4;                  // ファンミーティングの状態
+  IsExtension is_extension = 5;               // このファンミーティングで延長できるか
+  google.protobuf.Timestamp event_date = 6;   // ファンミーティング開催日
+  string item_code = 7;                       // ファンミーティングの価格(コイン)
+  uint32 seconds_per_reservation = 8;         // ファンミーティング1回あたりの基本秒数
+  string thumbnail_movie_uri = 9;             // ファンミーティングの紹介動画
+  string flv_uri = 10;                        // 覗きURL
+}
+
+enum FanMeetingState {
+  state_unknown = 0;                          // 不明
+  finish = 1;                                 // 終了
+  now = 2;                                    // 開催中
+  future = 3;                                 // 開催予定
+  cancel = 4;                                 // 予定の削除
+  not_held = 5;                               // 開催されなかった(予定があったのにも関わらず)
+}
+
+//トピック
+enum Topic {
+  non_topic = 0;                          // 不明
+  popular = 1;                               // 人気急上昇
+}
+
+enum IsExtension {
+  extension_unknown = 0;                       // 不明
+  false = 1;                                   // 延長しない
+  true = 2;                                    // 延長する
+}
+
+enum FanmeetingStyle {
+	style_unknown = 0; //例外
+	style_regular = 1; //通常開催
+	style_serial = 2; // 
+}
+
+message FanMeetingAndNumberOfReservation {
+  FanMeeting fanmeeting = 1;
+  uint32 reservation_num = 2;
+}

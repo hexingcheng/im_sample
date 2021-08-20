@@ -1,0 +1,29 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/api/annotations.proto";
+
+service HealthService {
+  rpc HealthCheck (HealthRequest) returns (HealthResponse) {
+      option (google.api.http) = {
+        get: "/v1/health"
+      };
+  }
+}
+
+message HealthRequest {
+    HealthStatus status = 1;
+}
+
+message HealthResponse {
+    string result = 1;
+}
+
+enum HealthStatus {
+    health_unknown = 0;                       // 不明
+    ok = 1;                                   // 200
+    not_found = 2;                            // 404
+    internal = 3;                             // 500
+    version = 4;                             // 500
+  }

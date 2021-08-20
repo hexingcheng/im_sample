@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package grpc;
+option go_package = "./;grpc";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "block service";
+        description: "block service の Web API 仕様書です。";
+        version: "1.0";
+    }
+    host: "dev-api.only-live.com";
+    schemes: HTTPS;
+    responses: {
+      key: "401";
+      value: {
+        description: "unauthenticated(code = UNAUTHENTICATED)";
+        schema: {
+          json_schema: {
+            ref: ".ErrorResponse";
+          }
+        }
+      }
+    }
+    responses: {
+      key: "404";
+      value: {
+        description: "not found(code = NOT_FOUND)";
+        schema: {
+          json_schema: {
+            ref: ".ErrorResponse";
+          }
+        }
+      }
+    }
+    responses: {
+      key: "500";
+      value: {
+        description: "server error(code = INTERNAL)";
+        schema: {
+          json_schema: {
+            ref: ".ErrorResponse";
+          }
+        }
+      }
+    }
+};
+
+service BlockService {
+  // インフルエンサがファンをブロックする
+  //
+  // type=influencerかつ自身のuuidのみ
+  rpc CreateBlock (CreateBlockRequest) returns (google.protobuf.Empty) {
+      option (google.api.http) = {
+        post: "/v1/blocks"
+        body: "*"
+      };
+  }
+}
+
+message CreateBlockRequest {
+  string fan_uuid = 1;
+  string influencer_uuid = 2;
+}
+

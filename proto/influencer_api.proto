@@ -1,0 +1,289 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "influencer.proto";
+
+// The greeting service definition.
+service InfluencerService {
+  rpc GetInfluencer (GetInfluencerRequest) returns (GetInfluencerResponse) {
+      option (google.api.http) = {
+        get: "/v1/influencers/uuid/{uuid}"
+      };
+      option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+        security: {};
+        responses: {
+          key: "401";
+          value: {
+            description: "unauthenticated(code = UNAUTHENTICATED)";
+            schema: {
+              json_schema: {
+                ref: ".ErrorResponse";
+              }
+            }
+          }
+        }
+        responses: {
+          key: "404";
+          value: {
+            description: "not found(code = NOT_FOUND)";
+            schema: {
+              json_schema: {
+                ref: ".ErrorResponse";
+              }
+            }
+          }
+        }
+      };
+  }
+  //only own influencer
+  rpc DeleteInfluencer (DeleteInfluencerRequest) returns (google.protobuf.Empty) {
+      option (google.api.http) = {
+        delete: "/v1/influencers/{uuid}"
+      };
+      option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+        security: {};
+        responses: {
+          key: "401";
+          value: {
+            description: "unauthenticated(code = UNAUTHENTICATED)";
+            schema: {
+              json_schema: {
+                ref: ".ErrorResponse";
+              }
+            }
+          }
+        }
+        responses: {
+          key: "404";
+          value: {
+            description: "not found(code = NOT_FOUND)";
+            schema: {
+              json_schema: {
+                ref: ".ErrorResponse";
+              }
+            }
+          }
+        }
+      };
+  }
+  //only own influencer
+  rpc CallToFan (CallToFanRequest) returns (google.protobuf.Empty) {
+      option (google.api.http) = {
+        post: "/v1/influencers/call"
+        body: "*"
+      };
+      option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+        security: {};
+        responses: {
+          key: "401";
+          value: {
+            description: "unauthenticated(code = UNAUTHENTICATED)";
+            schema: {
+              json_schema: {
+                ref: ".ErrorResponse";
+              }
+            }
+          }
+        }
+        responses: {
+          key: "404";
+          value: {
+            description: "not found(code = NOT_FOUND)";
+            schema: {
+              json_schema: {
+                ref: ".ErrorResponse";
+              }
+            }
+          }
+        }
+      };
+  }
+  // プロフィール画像をアップロードする
+  //only own influencer
+  rpc UploadInfluencerImage (UploadInfluencerImageRequest) returns (UploadInfluencerImageResponse) {
+      option (google.api.http) = {
+        put: "/v1/influencers/upload/image"
+        body: "*"
+      };
+      option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+        security: {};
+        responses: {
+          key: "401";
+          value: {
+            description: "unauthenticated(code = UNAUTHENTICATED)";
+            schema: {
+              json_schema: {
+                ref: ".ErrorResponse";
+              }
+            }
+          }
+        }
+        responses: {
+          key: "404";
+          value: {
+            description: "not found(code = NOT_FOUND)";
+            schema: {
+              json_schema: {
+                ref: ".ErrorResponse";
+              }
+            }
+          }
+        }
+      };
+    }
+
+  //only own influencer
+  rpc UpdateInfluencer (UpdateInfluencerRequest) returns (Influencer) {
+    option (google.api.http) = {
+      put: "/v1/influencers"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+      security: {};
+      responses: {
+        key: "401";
+        value: {
+          description: "unauthenticated(code = UNAUTHENTICATED)";
+          schema: {
+            json_schema: {
+              ref: ".ErrorResponse";
+            }
+          }
+        }
+      }
+      responses: {
+        key: "404";
+        value: {
+          description: "not found(code = NOT_FOUND)";
+          schema: {
+            json_schema: {
+              ref: ".ErrorResponse";
+            }
+          }
+        }
+      }
+    };
+  }
+
+    //only own influencer
+  rpc UpdateInfluencerLinks (UpdateInfluencerRequest) returns (Influencer) {
+    option (google.api.http) = {
+      put: "/v1/influencers/links"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+      security: {};
+      responses: {
+        key: "401";
+        value: {
+          description: "unauthenticated(code = UNAUTHENTICATED)";
+          schema: {
+            json_schema: {
+              ref: ".ErrorResponse";
+            }
+          }
+        }
+      }
+      responses: {
+        key: "404";
+        value: {
+          description: "not found(code = NOT_FOUND)";
+          schema: {
+            json_schema: {
+              ref: ".ErrorResponse";
+            }
+          }
+        }
+      }
+    };
+  }
+
+  // プロフィール画像を削除する
+  //only own influencer
+  rpc DeleteInfluencerImage (DeleteInfluencerImageRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/influencers/{influencer_uuid}/image"
+    };
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+      security: {};
+      responses: {
+        key: "402";
+        value: {
+          description: "unauthenticated(code = UNAUTHENTICATED)";
+          schema: {
+            json_schema: {
+              ref: ".ErrorResponse";
+            }
+          }
+        }
+      }
+      responses: {
+        key: "404";
+        value: {
+          description: "not found(code = NOT_FOUND)";
+          schema: {
+            json_schema: {
+              ref: ".ErrorResponse";
+            }
+          }
+        }
+      }
+    };
+  }
+}
+
+message CallToFanRequest {
+  string influencer_uuid = 1;
+  uint32 fan_meeting_id = 2;
+  string fan_uuid = 3;
+  Action action = 4;
+  enum Action {
+    call = 0;
+    hang_out = 1;
+  }
+}
+
+message GetInfluencerRequest {
+  string uuid = 1;       //influencer uuid
+  string fan_uuid = 2;   //fan uuid
+}
+
+message GetInfluencerResponse {
+  Influencer influencer = 1;
+  bool is_follow = 2;
+  uint32 follower_num = 3;               //followerの人数
+}
+
+message ListRecommendInfluencersRequest {
+  string fan_uuid = 1;
+}
+
+message ListRecommendInfluencersResponse {
+  repeated Influencer influencer = 1;
+}
+
+message UpdateInfluencerRequest {
+  Influencer influencer = 1;
+}
+
+message DeleteInfluencerRequest {
+  string uuid = 1;
+}
+
+message UploadInfluencerImageRequest {
+  string influencer_uuid = 1;
+  bytes image_byte = 2;
+}
+
+message UploadInfluencerImageResponse {
+  string image_uri = 1;
+}
+
+message DeleteInfluencerImageRequest {
+  string influencer_uuid = 1;
+  string image_uri = 2;
+}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "feature service";
+        description: "feature service の Web API 仕様書です。";
+        version: "1.0";
+    }
+    host: "dev-api.only-live.com";
+    schemes: HTTPS;
+    responses: {
+      key: "500";
+      value: {
+        description: "server error(code = INTERNAL)";
+        schema: {
+          json_schema: {
+            ref: ".ErrorResponse";
+          }
+        }
+      }
+    }
+};
+
+service FanMeetingHealthService {
+  rpc FanMeetingHealth (FanMeetingHealthRequest) returns (google.protobuf.Empty) {
+      option (google.api.http) = {
+        get: "/v1/fan-meetings/health/{fan_meeting_id}"
+      };
+  }
+}
+
+message FanMeetingHealthRequest {
+  uint32 fan_meeting_id = 1;
+}
+

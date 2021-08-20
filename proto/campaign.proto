@@ -1,0 +1,25 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/protobuf/timestamp.proto";
+import "fanmeeting.proto";
+
+message Campaign {
+  string uuid = 1;                            // キャンペーンコード
+  string influencer_uuid = 2;                 // ファンミーティングを開催したインフルエンサー
+  uint32 limited_people = 3;                  // ファンが参加できる上限
+  CampaignCodeState state = 4;                // キャンペーンコードの状態
+  enum CampaignCodeState {
+    state_unknown = 0;                          // 不明
+    not_used = 1;                                 // 終了
+    used = 2;                                    // 開催中
+  }
+  IsExtension is_extension = 5;               // このファンミーティングで延長できるか
+  google.protobuf.Timestamp start_time = 6;   // キャンペーン開催予定日
+  google.protobuf.Timestamp finish_time = 7;  // キャンペーン開催終了日
+  string item_code = 8;                       // ファンミーティングの価格(コイン)
+  uint32 seconds_per_reservation = 9;         // ファンミーティング1回あたりの基本秒数
+  string title = 10;
+}
+

@@ -1,0 +1,50 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/protobuf/timestamp.proto";
+
+message FanAndReservation{
+ Fan fan =1;
+ Status status = 2;
+ enum  Status{
+   unknownStatus = 0;
+   finish = 1;
+   not_finish = 2;
+ }
+}
+
+message Fan {
+  google.protobuf.Timestamp birth = 1;
+  string annotation_id = 2;
+  string introduction = 3;
+  string voip_token = 4;
+  string aps_token = 5;
+  string display_name = 6;
+  string image_uri = 7;
+  Sex sex = 8;
+  enum Sex {
+    unknown = 0;
+    man = 1;
+    woman = 2;
+    undefined = 3;
+  }
+  string uuid = 9;
+  string phone_number = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+  string email = 13;
+  string prefecture = 14;
+  string password = 15;
+}
+
+// 退会理由
+enum ReasonCancelMembership {
+  unknownReason = 0;
+  notExistLikeInfluencer = 1;  // 好きなテレライバーがいなかった
+  manyBugs = 2;                // 不具合が多かった
+  chargeDissatisfaction = 3;   // 料金が不満だった
+  supportDissatisfaction = 4;  // サポートが不満だった 
+  slanderFromInfluencer = 5;   // ライバーに嫌なことを言われた
+  otherReason = 6;             // その他
+}

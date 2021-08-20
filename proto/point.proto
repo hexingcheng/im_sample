@@ -1,0 +1,27 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "influencer.proto";
+
+message Ranking {
+  repeated RankingInfluencer influencers = 1;
+}
+
+message RankingInfluencer {
+  Influencer influencer = 1;   //influencer
+  uint32 points = 2;          //ポイント
+  uint32 diff_rank = 3;       // 前回のランキングとの差
+  uint32 diff_type = 4;       // 前回のランキングと比較してどうなったか
+  enum DiffType {
+    none = 0;                 // 例外
+    up = 1;                   // 上昇
+    down = 2;                 //下降
+    new = 5;                  // 新規
+  }
+}
+
+message InfluencerAndPoints {
+  Influencer influencer = 1;   //influencer
+  uint32 points = 2;            //ポイント
+}

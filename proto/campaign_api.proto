@@ -1,0 +1,113 @@
+syntax = "proto3";
+option go_package = "./;grpc";
+
+package grpc;
+import "google/protobuf/timestamp.proto";
+import "fanmeeting.proto";
+import "campaign.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service CampaignService {
+  
+  //gatewayで公開しない
+  rpc CreateCampaign (CreateCampaignRequest) returns (CreateCampaignResponse) {}
+  rpc CreateSerialCode (CreateSerialCodeRequest) returns (CreateSerialCodeResponse) {}
+  rpc ConsumeSerialCode (ConsumeSerialCodeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/v1/serial_codes/{serial_code}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+      security: {};
+    };
+  }
+  rpc ListCampaignByFan (ListCampaignByFanRequest) returns (ListCampaignByFanResponse) {
+    option (google.api.http) = {
+      get: "/v1/fans/{fan_uuid}/campaigns"
+    };
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+        responses: {
+          key: "404";
+          value: {
+            description: "fan uuidが存在しない時(code = NOT_FOUND).";
+						schema: {
+							json_schema: {
+								ref: ".ErrorResponse";
+							}
+						}
+          }
+        };
+      };
+    }
+  rpc ListCampaignByInfluencer (ListCampaignByInfluencerRequest) returns (ListCampaignByInfluencerResponse) {
+    option (google.api.http) = {
+      get: "/v1/influencers/{influencer_uuid}/campaigns"
+    };
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+        responses: {
+          key: "404";
+          value: {
+            description: "fan uuidが存在しない時(code = NOT_FOUND).";
+						schema: {
+							json_schema: {
+								ref: ".ErrorResponse";
+							}
+						}
+          }
+        };
+      };
+    }
+}
+
+message CreateCampaignRequest {
+  string title = 1;                          // タイトル
+  string item_code = 2;                      // 金額
+  uint32 limited_people = 3;                 // 枠数
+  IsExtension is_extension = 4;                  // 延長State
+  uint32 seconds_per_reservation = 5;        // 通話時間
+  google.protobuf.Timestamp start_time = 6;  // キャンペーン開催予定日
+  google.protobuf.Timestamp finish_time = 7; // キャンペーン開催終了予定日
+  string influencer_uuid = 8;
+}
+
+message CreateCampaignResponse {
+  string uuid = 1;        //キャンペーンコード
+}
+
+message CreateSerialCodeRequest {
+  string campaign_uuid = 1;                  // キャンペーンコード
+  uint32 serial_code_num = 2;                // シリアルコード発行数
+  google.protobuf.Timestamp expiration = 3;                     // 有効期限
+}
+
+message CreateSerialCodeResponse {
+  repeated string serial_codes = 1;
+}
+
+message ConsumeSerialCodeRequest {
+  string serial_code = 1;
+  string fan_uuid = 2;
+}
+
+message ListCampaignByFanRequest {
+  string fan_uuid = 1;
+}
+
+message ListCampaignByFanResponse {
+  repeated Message campaigns = 1;
+  message Message {
+    Campaign campaign = 1;
+    string display_name = 2;
+  }
+}
+
+
+message ListCampaignByInfluencerRequest {
+  string influencer_uuid = 1;
+}
+
+message ListCampaignByInfluencerResponse {
+  repeated Campaign campaigns = 1;
+}
