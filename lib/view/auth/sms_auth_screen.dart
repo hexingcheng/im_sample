@@ -3,7 +3,7 @@ import 'package:onlylive/theme/theme.dart';
 import 'package:onlylive/view/auth/vm/sms_auth_vm.dart';
 import 'package:onlylive/widgets/atoms/back.dart';
 import 'package:onlylive/widgets/atoms/onlylive_text_from_field.dart';
-import 'package:onlylive/widgets/molecules/simple_app_bar.dart';
+import 'package:onlylive/widgets/atoms/simple_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class SMSAuthScreen extends StatelessWidget {

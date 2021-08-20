@@ -4,7 +4,7 @@ import 'package:onlylive/services/call_service.dart';
 import 'package:onlylive/theme/theme.dart';
 import 'package:onlylive/view/call/vm/incoming_call_vm.dart';
 import 'package:onlylive/widgets/atoms/close.dart';
-import 'package:onlylive/widgets/molecules/simple_app_bar.dart';
+import 'package:onlylive/widgets/atoms/simple_app_bar.dart';
 import 'package:provider/provider.dart';
 // import 'package:tencent_trtc_cloud/trtc_cloud_video_view.dart';
 

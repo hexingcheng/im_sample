@@ -5,7 +5,7 @@ import 'package:onlylive/view/auth/vm/sign_up_vm.dart';
 import 'package:onlylive/widgets/atoms/close.dart';
 import 'package:onlylive/widgets/atoms/onlylive_text_from_field.dart';
 import 'package:onlylive/widgets/atoms/round_rect_button.dart';
-import 'package:onlylive/widgets/molecules/simple_app_bar.dart';
+import 'package:onlylive/widgets/atoms/simple_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {

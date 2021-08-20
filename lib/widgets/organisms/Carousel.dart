@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:onlylive/widgets/atoms/imgix.dart';
-import 'package:onlylive/widgets/templates/web_view.dart';
+import 'package:onlylive/view/web_view_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Carousel extends StatefulWidget {

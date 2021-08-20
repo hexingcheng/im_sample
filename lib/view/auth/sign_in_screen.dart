@@ -6,7 +6,7 @@ import 'package:onlylive/widgets/atoms/close.dart';
 import 'package:onlylive/widgets/atoms/hyper_link_text.dart';
 import 'package:onlylive/widgets/atoms/onlylive_text_from_field.dart';
 import 'package:onlylive/widgets/atoms/round_rect_button.dart';
-import 'package:onlylive/widgets/molecules/simple_app_bar.dart';
+import 'package:onlylive/widgets/atoms/simple_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatelessWidget {
