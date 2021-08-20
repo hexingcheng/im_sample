@@ -4,7 +4,7 @@ import 'package:onlylive/view/home/screens/list_fan_meeting_grid_view.dart';
 import 'package:onlylive/view/home/screens/now_talent_list/vm/now_talent_list_vm.dart';
 import 'package:onlylive/widgets/atoms/back.dart';
 import 'package:onlylive/widgets/atoms/now_label.dart';
-import 'package:onlylive/widgets/molecules/simple_app_bar.dart';
+import 'package:onlylive/widgets/atoms/simple_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class NowTalentListScreen extends StatelessWidget {
