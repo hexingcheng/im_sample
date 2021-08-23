@@ -7,6 +7,7 @@ import 'package:onlylive/infra/api/fan_repository.dart';
 import 'package:onlylive/infra/api/ranking_repository.dart';
 import 'package:onlylive/infra/api/reservation_repository..dart';
 import 'package:onlylive/infra/api/feature_repository.dart';
+import 'package:onlylive/infra/api/wallet_repository.dart';
 
 void di() {
   final _service = APIClient(Config.app.host);
@@ -17,5 +18,6 @@ void di() {
       fanMeetingRepository: APIFanmeetingRepository(_service),
       adminRepository: APIAdminRepository(_service),
       featureRepository: APIFeatureRepository(_service),
-      rankingRepository: APIRankingRepository(_service));
+      rankingRepository: APIRankingRepository(_service),
+      walletRepository: APIWalletRepository(_service));
 }

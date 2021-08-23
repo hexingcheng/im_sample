@@ -98,8 +98,7 @@ class SignInScreen extends StatelessWidget {
                         Center(
                           child: HyperLinkText(
                             "お問い合わせ",
-                            color: OnlyliveColor.purple,
-                            pressedColor: OnlyliveColor.purple.withOpacity(0.6),
+                            onTap: () => {},
                           ),
                         ),
                       ],

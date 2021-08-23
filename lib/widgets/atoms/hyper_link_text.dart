@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:onlylive/theme/theme.dart';
 
 class HyperLinkText extends StatefulWidget {
-  const HyperLinkText(this.text, {this.color: Colors.blue, this.pressedColor = Colors.blue});
+  const HyperLinkText(
+    this.text, {
+    required this.onTap,
+  });
   final String text;
-  final Color color;
-  final Color pressedColor;
+  final void Function() onTap;
 
   @override
   _HyperLinkTextState createState() => _HyperLinkTextState();
@@ -29,12 +32,15 @@ class _HyperLinkTextState extends State<HyperLinkText> {
     return GestureDetector(
       onTapDown: (_) => onTapDown(),
       onTapCancel: onTapCancel,
+      onTap: widget.onTap,
       child: Text(
         widget.text,
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w700,
-          color: isTapped ? widget.pressedColor : widget.color,
+          color: isTapped
+              ? OnlyliveColor.purple.withOpacity(0.6)
+              : OnlyliveColor.purple,
         ),
       ),
     );
