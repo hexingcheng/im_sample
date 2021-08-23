@@ -7,6 +7,6 @@ class ReservationUseCase {
   Future<void> create(int fanmeetingID) async {
     const accessToken = "";
     await _reservationRepository.createReservation(
-        accessToken, 500, "01cb1b7f-9878-4b59-bf25-36a9afa698ac");
+        accessToken, fanmeetingID, "01cb1b7f-9878-4b59-bf25-36a9afa698ac");
   }
 }

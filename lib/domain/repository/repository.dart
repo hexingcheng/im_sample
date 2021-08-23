@@ -4,6 +4,7 @@ import 'package:onlylive/domain/repository/ranking_repository.dart';
 import 'package:onlylive/domain/repository/reservation_repository.dart';
 import 'package:onlylive/domain/repository/fan_repository.dart';
 import 'package:onlylive/domain/repository/fan_meeting_repository.dart';
+import 'package:onlylive/domain/repository/wallet_repository.dart';
 
 class Repositories {
   Repositories({
@@ -13,6 +14,7 @@ class Repositories {
     required AdminRepository adminRepository,
     required FeatureRepository featureRepository,
     required RankingRepository rankingRepository,
+    required WalletRepository walletRepository,
   }) {
     _reservationRepository = reservationRepository;
     _fanRepository = fanRepository;
@@ -20,6 +22,7 @@ class Repositories {
     _adminRepository = adminRepository;
     _featureRepository = featureRepository;
     _rankingRepository = rankingRepository;
+    _walletRepository = walletRepository;
   }
 
   static ReservationRepository? _reservationRepository;
@@ -28,6 +31,7 @@ class Repositories {
   static AdminRepository? _adminRepository;
   static FeatureRepository? _featureRepository;
   static RankingRepository? _rankingRepository;
+  static WalletRepository? _walletRepository;
 
   static ReservationRepository get reservationRepo =>
       provider(_reservationRepository);
@@ -39,6 +43,7 @@ class Repositories {
       provider(_featureRepository);
   static RankingRepository get rankingRepository =>
       provider(_rankingRepository);
+  static WalletRepository get walletRepository => provider(_walletRepository);
 
   static T provider<T>(T? repository) {
     if (repository == null) throw Error();

@@ -1,14 +1,19 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:onlylive/theme/theme.dart';
+import 'package:onlylive/widgets/atoms/imgix.dart';
 
 class RoundedIconWithGradientBorder extends StatelessWidget {
   const RoundedIconWithGradientBorder(
-      {required this.imageUrl, this.width = 50, this.borderWidth = 3, Key? key})
+      {required this.imageUrl,
+      this.width = 50,
+      this.borderWidth = 3,
+      this.borderRadius = BorderRadius.zero,
+      Key? key})
       : super(key: key);
   final String imageUrl;
   final double width;
   final double borderWidth;
+  final BorderRadius borderRadius;
   @override
   Widget build(BuildContext context) {
     return ClipOval(
@@ -22,13 +27,12 @@ class RoundedIconWithGradientBorder extends StatelessWidget {
         child: Center(
           child: ClipOval(
             clipBehavior: Clip.hardEdge,
-            child: CachedNetworkImage(
+            child: Imgix(
+              context: context,
               width: width,
               height: width,
-              fit: BoxFit.cover,
               imageUrl: imageUrl,
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              borderRadius: borderRadius,
             ),
           ),
         ),
