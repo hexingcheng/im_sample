@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onlylive/theme/theme.dart';
 import 'package:onlylive/view/talent/vm/talent_detail_vm.dart';
+import 'package:onlylive/view/home/vm/home_vm.dart';
 import 'package:onlylive/widgets/atoms/round_rect_button.dart';
 import 'package:onlylive/widgets/atoms/gradient_button.dart';
 import 'package:onlylive/widgets/atoms/url_launcher.dart';
@@ -9,6 +10,9 @@ import 'package:onlylive/widgets/molecules/next_schedule.dart';
 import 'package:onlylive/widgets/molecules/talent_view.dart';
 import 'package:provider/provider.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:onlylive/widgets/organisms/complete_reservation_dialog.dart';
+import 'package:onlylive/widgets/organisms/reservation_dialog.dart';
+import 'package:onlylive/widgets/organisms/reservation_notes_dialog.dart';
 import 'package:onlylive/widgets/molecules/talent_sns.dart';
 
 class TalentDetailScreen extends StatelessWidget {
@@ -26,6 +30,7 @@ class TalentDetailScreen extends StatelessWidget {
         create: (context) => TalentDetailVM(),
         builder: (context, child) {
           final vm = context.watch<TalentDetailVM>();
+          final homeVM = context.watch<HomeVM>();
           return Scaffold(
               body: RefreshIndicator(
             onRefresh: vm.updateTalentDetail,
@@ -35,6 +40,44 @@ class TalentDetailScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        GestureDetector(
+                          onTap: () => showDialog(
+                            context: context,
+                            builder: (dialogContext) {
+                              final fanMeeting = homeVM
+                                  .fanMeetings[HomeListType.future]!.first;
+                              return ReservationDialog(
+                                fanMeeing: fanMeeting,
+                                balance: 1000,
+                                onPressedButton: () async {
+                                  Navigator.pop(dialogContext);
+                                  await showDialog(
+                                    context: context,
+                                    builder: (dialogContext2) =>
+                                        ReservationNotesDialog(
+                                      onPressedButton: () async {
+                                        await homeVM
+                                            .createReservation(fanMeeting.id);
+                                        Navigator.pop(dialogContext2);
+                                        await showDialog(
+                                          context: context,
+                                          builder: (dialogContext3) =>
+                                              CompleteReservationDialog(
+                                            fanMeeting
+                                                .talent.mainSquareImageUrl,
+                                          ),
+                                        );
+                                      },
+                                      talentImageUri:
+                                          fanMeeting.talent.mainSquareImageUrl,
+                                      style: fanMeeting.style,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
                         TalentView(
                           imgList: vm.imageList,
                         ),
