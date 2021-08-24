@@ -36,6 +36,7 @@ class OnlyliveColor {
   static const lightPurple = Color(0xffD2DCFF);
   static const paleGrey = Color(0xffECF3FC);
   static const grey = Color(0xffA2ACBB);
+  static const white = Color(0xffFFFFFF);
   static const gradient = LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,

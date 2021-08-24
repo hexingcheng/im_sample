@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onlylive/theme/theme.dart';
 import 'package:onlylive/view/talent/vm/talent_detail_vm.dart';
 import 'package:onlylive/widgets/atoms/round_rect_button.dart';
+import 'package:onlylive/widgets/atoms/gradient_button.dart';
 import 'package:onlylive/widgets/atoms/url_launcher.dart';
 import 'package:onlylive/widgets/molecules/next_schedule.dart';
 import 'package:onlylive/widgets/molecules/talent_view.dart';
@@ -26,88 +27,126 @@ class TalentDetailScreen extends StatelessWidget {
         builder: (context, child) {
           final vm = context.watch<TalentDetailVM>();
           return Scaffold(
-            body: Column(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      const TalentView(
-                        imgList: [
-                          "assets/images/splash.png",
-                          "assets/images/banner.png",
-                          "assets/images/logo.png"
-                        ],
-                      ),
-                      SizedBox(height: 18),
-                      const Text(
-                        'ふたばはすみ',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: OnlyliveColor.darkPurple),
-                      ),
-                      SizedBox(height: 18),
-                      Container(
-                        width: 117,
-                        height: 32,
-                        child: RoundRectButton(
-                          onPressed: () => {},
-                          text: 'お気に入り',
-                          backgroundColor: OnlyliveColor.lightPurple,
-                          textColor: Colors.white,
+              body: RefreshIndicator(
+            onRefresh: vm.updateTalentDetail,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        TalentView(
+                          imgList: vm.imageList,
                         ),
-                      ),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      NextSchedule(),
-                      Divider(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      const Text("自己紹介",
-                          style: TextStyle(color: OnlyliveColor.darkPurple)),
-                      Container(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            TalentSns(
-                                url:
-                                    "https://instagram.com/ry___517?utm_medium=copy_link"),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ],
+                        const SizedBox(height: 24),
+                        Text(vm.talentName,
+                            style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: OnlyliveColor.darkPurple)),
+                        const SizedBox(height: 16),
+                        Container(
+                          width: 117,
+                          height: 32,
+                          child: GradientButton(
+                            onPressed: () => {},
+                            text: 'お気に入り',
+                            textColor: Colors.white,
+                            colors: [
+                              Color(0xff8EC5FC),
+                              Color(0xffE0C3FC),
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () =>
-                                  openUrl(url: "https://www.google.com/"),
-                              child: const Text("リンクリンクリンク"),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Divider(),
-                            const Text(
-                              "次回以降のスケジュール",
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  color: OnlyliveColor.darkPurple),
-                            )
-                          ],
+                        const SizedBox(height: 24),
+                        const Divider(),
+                        const SizedBox(height: 20),
+                        Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Column(children: [
+                              Container(
+                                width: double.infinity,
+                                child: Text("自己紹介",
+                                    textAlign: TextAlign.left,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1!
+                                        .copyWith(
+                                            color: OnlyliveColor.darkPurple)),
+                              ),
+                              const SizedBox(height: 24),
+                              Container(
+                                width: double.infinity,
+                                child: Text(vm.introduction,
+                                    textAlign: TextAlign.left,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .copyWith(color: OnlyliveColor.grey)),
+                              ),
+                              const SizedBox(height: 18),
+                              Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TalentSns(url: vm.url),
+                                    const SizedBox(height: 20),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 14),
+                              Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () =>
+                                          openUrl(url: vm.customLinkUrl),
+                                      child: Text(vm.customLinkName,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2!
+                                              .copyWith(
+                                                  color: OnlyliveColor.purple)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ])),
+                        const SizedBox(height: 24),
+                        const Divider(),
+                        const SizedBox(height: 24),
+                        Container(
+                          padding: const EdgeInsets.only(left: 20),
+                          width: double.infinity,
+                          child: Text("次回以降のスケジュール",
+                              textAlign: TextAlign.left,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1!
+                                  .copyWith(color: OnlyliveColor.darkPurple)),
                         ),
-                      )
-                    ],
+                        const SizedBox(height: 23),
+                        const NextSchedule(),
+                        const SizedBox(height: 100)
+                      ],
+                    ),
                   ),
-                )
+                ),
+                Container(
+                  width: 215,
+                  height: 52,
+                  child: RoundRectButton(
+                    text: "あああ",
+                    textColor: OnlyliveColor.white,
+                    backgroundColor: OnlyliveColor.purple,
+                    onPressed: () => {},
+                  ),
+                ),
+                const SizedBox(height: 100)
               ],
             ),
-          );
+          ));
         });
   }
 }

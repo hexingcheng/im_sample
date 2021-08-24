@@ -9,6 +9,7 @@ import 'package:onlylive/infra/api/ranking_repository.dart';
 import 'package:onlylive/infra/api/reservation_repository..dart';
 import 'package:onlylive/infra/api/feature_repository.dart';
 import 'package:onlylive/infra/api/wallet_repository.dart';
+import 'package:onlylive/infra/api/talent_repository.dart';
 
 void di() {
   final basePath = Config.app.host;
