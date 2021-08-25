@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:onlylive/view/auth/sign_in_screen.dart';
 import 'package:onlylive/view/reservation/reservation_screen.dart';
 import 'package:onlylive/view/home/home_screen.dart';
 
@@ -40,16 +41,16 @@ class MainScreen extends StatelessWidget {
       ),
       tabBuilder: (context, index) {
         switch (index) {
-          // case 0: // 1番左のタブが選ばれた時の画面
-          //   return CupertinoTabView(builder: (context) {
-          //     return CupertinoPageScaffold(child: HomeScreen());
-          //   });
           case 0: // 1番左のタブが選ばれた時の画面
+            return CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(child: SignInScreen());
+            });
+          case 1: // 1番左のタブが選ばれた時の画面
             return CupertinoTabView(builder: (context) {
               return const CupertinoPageScaffold(
                   child: CallReservationScreen());
             });
-          case 1: // 1番左のタブが選ばれた時の画面
+          case 2: // 1番左のタブが選ばれた時の画面
             return CupertinoTabView(
               builder: (context) {
                 return const CupertinoPageScaffold(

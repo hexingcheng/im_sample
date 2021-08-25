@@ -1,6 +1,7 @@
 import 'package:onlylive/config.dart';
 import 'package:onlylive/domain/repository/repository.dart';
 import 'package:onlylive/infra/api/admin_repository.dart';
+import 'package:onlylive/infra/api/auth_repository.dart';
 import 'package:onlylive/infra/api/client.dart';
 import 'package:onlylive/infra/api/fan_meeting_repository.dart';
 import 'package:onlylive/infra/api/fan_repository.dart';
@@ -19,5 +20,6 @@ void di() {
       adminRepository: APIAdminRepository(_service),
       featureRepository: APIFeatureRepository(_service),
       rankingRepository: APIRankingRepository(_service),
-      walletRepository: APIWalletRepository(_service));
+      walletRepository: APIWalletRepository(_service),
+      authRepository: APIAuthRepository(_service));
 }

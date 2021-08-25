@@ -98,7 +98,7 @@ class ListFanMeetingGridViewState extends State<ListFanMeetingGridView> {
           child: SizedBox(
             width: 40,
             height: 40,
-            child: Loading(loading: loading),
+            child: Loading(loading),
           ),
         ),
       ],
