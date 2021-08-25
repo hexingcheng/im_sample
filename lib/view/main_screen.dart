@@ -42,6 +42,7 @@ class MainScreen extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return ChangeNotifierProvider<MainVM>(
       create: (context) => MainVM(),
       builder: (context, child) {
@@ -80,6 +81,34 @@ class MainScreen extends StatelessWidget with WidgetsBindingObserver {
                   builder: (context) {
                     return CupertinoPageScaffold(child: HomeScreen());
                   },
+=======
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
+        iconSize: 100,
+        activeColor: const Color(0xffA3B7FF),
+        inactiveColor: const Color(0xffA2ACBB),
+        items: List.generate(
+          tabs.length,
+          (index) => _buildTabBar(tabs[index].text, tabs[index].iconRef),
+        ),
+      ),
+      tabBuilder: (context, index) {
+        switch (index) {
+          case 0: // 1番左のタブが選ばれた時の画面
+            return CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(child: HomeScreen());
+            });
+          case 1: // 1番左のタブが選ばれた時の画面
+            return CupertinoTabView(builder: (context) {
+              return const CupertinoPageScaffold(
+                  child: CallReservationScreen());
+            });
+          case 2: // 1番左のタブが選ばれた時の画面
+            return CupertinoTabView(
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: SizedBox(),
+>>>>>>> implements extension ui
                 );
             }
           },

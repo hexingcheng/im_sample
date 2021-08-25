@@ -23,61 +23,21 @@ import 'package:tencent_im_sdk_plugin/enum/log_level.dart';
 import 'package:tencent_im_sdk_plugin/manager/v2_tim_manager.dart';
 import 'package:callkeep/callkeep.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-class RemainigTime {
-  RemainigTime({
-    required this.minutes,
-    required this.seconds,
-  });
-  int minutes;
-  int seconds;
-
-  static RemainigTime convertFromSeconds(int seconds) {
-    var remainingSeconds = seconds;
-    var remainingMinutes = 0;
-    if (60 <= seconds) {
-      remainingMinutes = seconds ~/ 60;
-      remainingSeconds = seconds - (remainingMinutes * 60);
-    }
-
-    return RemainigTime(minutes: remainingMinutes, seconds: remainingSeconds);
-  }
-
-  // Min:Sec formatter
-  String toMinSec() {
-    final min = minutes.toString().padLeft(2, "0");
-    final sec = seconds.toString().padLeft(2, "0");
-    return "$min:$sec";
-  }
-
-  void progress() {
-    if (0 < seconds) {
-      seconds--;
-    }
-    if (seconds == 0 && 0 < minutes) {
-      seconds = 59;
-      minutes--;
-    }
-  }
-
-  bool isZero() {
-    return seconds == 0 && minutes == 0;
-  }
-}
+import 'package:onlylive/extension/int_extension.dart';
 
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class CallVM with ChangeNotifier {
   CallVM({required CallTransaction callTransaction}) {
     isLoading = true;
     Future(() async {
-      await _permissionRequest();
+      // await _permissionRequest();
       // await call();
       await _initState(callTransaction);
       await _initTrtc();
-      // await _initIM();
-      // await createReservation();
+      await _initIM();
+      await createReservation();
       isLoading = false;
-      _startCall();
+      // _startCall();
       notifyListeners();
     });
   }
@@ -96,6 +56,16 @@ class CallVM with ChangeNotifier {
     TRTCCloud.destroySharedInstance();
   }
 
+  void progress() {
+    if (0 < remainigSeconds) {
+      remainigSeconds--;
+    }
+    if (remainigSeconds == 0 && 0 < remainigMinutes) {
+      remainigSeconds = 59;
+      remainigMinutes--;
+    }
+  }
+
   late FanMeeting fanMeeting;
   late Talent talent;
   late Reservation reservation;
@@ -104,6 +74,7 @@ class CallVM with ChangeNotifier {
   bool _showCautionPopUp = true;
   bool _isFinishedFanMeeting = false;
   late Timer _timer;
+  int _validExtensionNum = 3;
 
   void closeCautionPopUp() {
     _showCautionPopUp = false;
@@ -112,8 +83,10 @@ class CallVM with ChangeNotifier {
 
   bool get showCautionPopUp => _showCautionPopUp;
   bool get isFinishedFanMeeting => _isFinishedFanMeeting;
+  int get validExtensionNum => _validExtensionNum;
 
-  RemainigTime remainigTime = RemainigTime(minutes: 0, seconds: 0);
+  int remainigMinutes = 0;
+  int remainigSeconds = 0;
 
   final FlutterCallkeep _callKeep = FlutterCallkeep();
 
@@ -217,8 +190,9 @@ class CallVM with ChangeNotifier {
         finishTime: DateTime(0),
         createdAt: DateTime(0),
         updatedAt: DateTime(0));
-    remainigTime =
-        RemainigTime.convertFromSeconds(fanMeeting.secondsPerReservation);
+    remainigMinutes = fanMeeting.secondsPerReservation.convertSecondsToMinutes;
+    remainigSeconds = fanMeeting.secondsPerReservation -
+        Duration(minutes: remainigMinutes).inSeconds;
   }
 
   Future<void> _initTrtc() async {
@@ -253,8 +227,9 @@ class CallVM with ChangeNotifier {
 
   void _startCall() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      remainigTime.progress();
-      if (remainigTime.isZero()) {
+      progress();
+      if (Duration(minutes: remainigMinutes, seconds: remainigSeconds) ==
+          Duration.zero) {
         _finishFanMeeting();
         _timer.cancel();
       }
@@ -264,6 +239,17 @@ class CallVM with ChangeNotifier {
 
   void _finishFanMeeting() {
     _isFinishedFanMeeting = true;
+  }
+
+  void cheki() {}
+
+  void extension(int rate) {
+    _validExtensionNum = rate;
+    notifyListeners();
+  }
+
+  void showExtensionMenu() {
+    notifyListeners();
   }
 
   Future<void> _initIM() async {
