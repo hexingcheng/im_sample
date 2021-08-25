@@ -42,6 +42,24 @@ class CallVM with ChangeNotifier {
     });
   }
 
+  // private
+  bool _showCautionPopUp = true;
+  bool _isFinishedFanMeeting = false;
+  bool _hasDuringChekiShooting = false;
+  bool _isEnabledCheki = true;
+  late Timer _timer;
+  int _validExtensionNum = 3;
+
+  // gettter
+  bool get showCautionPopUp => _showCautionPopUp;
+  bool get isFinishedFanMeeting => _isFinishedFanMeeting;
+  bool get hasDuringChekiShooting => _hasDuringChekiShooting;
+  bool get isEnabledCheki => _isEnabledCheki;
+  bool get isEnabledExtnsion => 0 < _validExtensionNum;
+  int get validExtensionNum => _validExtensionNum;
+  String get remainingTime =>
+      "${_remainigMinutes.zeroFill(2)}:${_remainigSeconds.zeroFill(2)}";
+
   @override
   void dispose() {
     _destoryRoom();
@@ -57,12 +75,12 @@ class CallVM with ChangeNotifier {
   }
 
   void progress() {
-    if (0 < remainigSeconds) {
-      remainigSeconds--;
+    if (0 < _remainigSeconds) {
+      _remainigSeconds--;
     }
-    if (remainigSeconds == 0 && 0 < remainigMinutes) {
-      remainigSeconds = 59;
-      remainigMinutes--;
+    if (_remainigSeconds == 0 && 0 < _remainigMinutes) {
+      _remainigSeconds = 59;
+      _remainigMinutes--;
     }
   }
 
@@ -71,22 +89,14 @@ class CallVM with ChangeNotifier {
   late Reservation reservation;
   late Fan fan;
   bool isLoading = false;
-  bool _showCautionPopUp = true;
-  bool _isFinishedFanMeeting = false;
-  late Timer _timer;
-  int _validExtensionNum = 3;
 
   void closeCautionPopUp() {
     _showCautionPopUp = false;
     notifyListeners();
   }
 
-  bool get showCautionPopUp => _showCautionPopUp;
-  bool get isFinishedFanMeeting => _isFinishedFanMeeting;
-  int get validExtensionNum => _validExtensionNum;
-
-  int remainigMinutes = 0;
-  int remainigSeconds = 0;
+  int _remainigMinutes = 0;
+  int _remainigSeconds = 0;
 
   final FlutterCallkeep _callKeep = FlutterCallkeep();
 
@@ -190,9 +200,9 @@ class CallVM with ChangeNotifier {
         finishTime: DateTime(0),
         createdAt: DateTime(0),
         updatedAt: DateTime(0));
-    remainigMinutes = fanMeeting.secondsPerReservation.convertSecondsToMinutes;
-    remainigSeconds = fanMeeting.secondsPerReservation -
-        Duration(minutes: remainigMinutes).inSeconds;
+    _remainigMinutes = fanMeeting.secondsPerReservation.convertSecondsToMinutes;
+    _remainigSeconds = fanMeeting.secondsPerReservation -
+        Duration(minutes: _remainigMinutes).inSeconds;
   }
 
   Future<void> _initTrtc() async {
@@ -228,7 +238,7 @@ class CallVM with ChangeNotifier {
   void _startCall() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       progress();
-      if (Duration(minutes: remainigMinutes, seconds: remainigSeconds) ==
+      if (Duration(minutes: _remainigMinutes, seconds: _remainigSeconds) ==
           Duration.zero) {
         _finishFanMeeting();
         _timer.cancel();
@@ -241,7 +251,11 @@ class CallVM with ChangeNotifier {
     _isFinishedFanMeeting = true;
   }
 
-  void cheki() {}
+  void cheki() {
+    _hasDuringChekiShooting = true;
+    _isEnabledCheki = false;
+    notifyListeners();
+  }
 
   void extension(int rate) {
     _validExtensionNum = rate;

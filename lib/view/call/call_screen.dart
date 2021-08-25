@@ -15,7 +15,6 @@ import 'package:onlylive/widgets/molecules/rounded_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_video_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:onlylive/extension/int_extension.dart';
 
 class CallScreen extends StatelessWidget {
   const CallScreen({Key? key}) : super(key: key);
@@ -41,8 +40,8 @@ class CallScreen extends StatelessWidget {
         // vm.permissionRequest();
         return Scaffold(
           backgroundColor: Colors.blue.withOpacity(0.4),
-          body: vm.isLoading
-              ? const Loading(false)
+          body: context.select<CallVM, bool>((vm) => vm.isLoading)
+              ? const Loading(true)
               : Stack(
                   children: <Widget>[
                     TRTCCloudVideoView(
@@ -70,7 +69,8 @@ class CallScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          vm.showCautionPopUp
+                          context.select<CallVM, bool>(
+                                  (vm) => vm.showCautionPopUp)
                               ? Center(
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -121,7 +121,8 @@ class CallScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            "${vm.remainigMinutes.zeroFill(2)}:${vm.remainigSeconds.zeroFill(2)}",
+                            context.select<CallVM, String>(
+                                (vm) => vm.remainingTime),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 40,
@@ -139,20 +140,16 @@ class CallScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           CallActionIcon(
-                              icon: SvgPicture.asset(
-                                "assets/icons/camera.svg",
-                                width: 40,
-                                height: 40,
-                              ),
+                              assetName: "camera",
                               text: "写真をもらう",
+                              isEnabled: context.select<CallVM, bool>(
+                                  (vm) => vm.isEnabledCheki),
                               onPressed: vm.cheki),
                           TalentIcon(vm.talent),
                           CallActionIcon(
-                            icon: SvgPicture.asset(
-                              "assets/icons/extension.svg",
-                              width: 40,
-                              height: 40,
-                            ),
+                            assetName: "extension",
+                            isEnabled: context.select<CallVM, bool>(
+                                (vm) => vm.isEnabledExtnsion),
                             text: "延長する",
                             onPressed: () {
                               showModalBottomSheet(
@@ -178,6 +175,12 @@ class CallScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    context.select<CallVM, bool>(
+                            (vm) => vm.hasDuringChekiShooting)
+                        ? Center(
+                            child: Image.asset("assets/images/cheki_frame.png"),
+                          )
+                        : const SizedBox.shrink(),
                     IgnorePointer(
                       ignoring: !vm.isFinishedFanMeeting,
                       child: FinishCallScreen(
