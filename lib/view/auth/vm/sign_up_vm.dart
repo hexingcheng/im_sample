@@ -24,16 +24,12 @@ class SignUpVM with ChangeNotifier {
     _passwordConfirmation = val;
   }
 
-  String? validatePhoneNumber(String? val) {
-    var error = validator.require(val, "電話番号");
-    if (error != null) return error;
-    error = validator.isNumber(val);
-    if (error != null) return error;
-    return validator.range(val, max: 11);
+  bool validatePhoneNumber(String? val) {
+    return Validator.phoneNumber(val);
   }
 
   String? validatePassword(String? val) {
-    validPasswordFormat = validator.password(val);
+    validPasswordFormat = Validator.password(val);
     notifyListeners();
   }
 

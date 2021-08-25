@@ -44,37 +44,24 @@ extension CategoryExtenstion on Category {
 }
 
 class FCMService {
-  FCMService();
+  FCMService() {
+    FirebaseMessaging.onMessageOpenedApp.listen(openAppHandler);
+    FirebaseMessaging.onMessage.listen(_onMessage);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.instance.getInitialMessage().then(openAppHandler);
+    FirebaseMessaging.instance.getInitialMessage().then(openAppHandler);
+  }
+
   String toStringFromCategory(Category category) {
     Category.incomingCall.toString();
     return category.toString();
   }
 
-  void init() {
-    try {
-      FirebaseMessaging.onMessageOpenedApp.listen((event) {
-        openAppHandler(event);
-      });
-      FirebaseMessaging.onMessage.listen(_onMessage);
-      FirebaseMessaging.onBackgroundMessage(
-          _firebaseMessagingBackgroundHandler);
-      FirebaseMessaging.instance
-          .getInitialMessage()
-          .then((message) => openAppHandler(message));
-      FirebaseMessaging.instance
-          .getInitialMessage()
-          .then((message) => openAppHandler(message));
-      instance = FirebaseMessaging.instance;
-    } catch (e) {}
-  }
-
-  late FirebaseMessaging instance;
+  static final FirebaseMessaging _instance = FirebaseMessaging.instance;
   // BuildContext context;
 
-  Future<String> getToken() async {
-    final token = await instance.getToken();
-    print('[FCM] token => ' + token!);
-    return token;
+  static Future<String?> getToken() async {
+    return _instance.getToken();
   }
 
   Future<void> _onMessage(RemoteMessage message) async {

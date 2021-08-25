@@ -50,7 +50,6 @@ class SignUpScreen extends StatelessWidget {
                     OnlyliveTextFormField(
                       label: "電話番号",
                       onChanged: (val) => vm.phoneNumber = val,
-                      validator: vm.validatePhoneNumber,
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 24),

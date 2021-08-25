@@ -41,7 +41,7 @@ class CallScreen extends StatelessWidget {
               selector: (context, model) => model.isLoading,
               builder: (context, isLoading, child) {
                 return isLoading
-                    ? const Loading()
+                    ? const Loading(false)
                     : Stack(
                         children: <Widget>[
                           TRTCCloudVideoView(

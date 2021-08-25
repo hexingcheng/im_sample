@@ -1,13 +1,18 @@
 import 'dart:async';
 
-import 'package:onlylive/services/call_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefrencesService {
-  Future<SharedPrefrencesService> init() async {
-    _prefs = await SharedPreferences.getInstance();
-    return this;
+  SharedPrefrencesService() {
+    Future(() async => {_instance = await SharedPreferences.getInstance()});
+  }
+  static late SharedPreferences _instance;
+
+  static Future<void> setApiToken(String apiToken) async {
+    _instance.setString("apiToken", apiToken);
   }
 
-  late SharedPreferences _prefs;
+  static Future<void> setUUID(String uuid) async {
+    await _instance.setString("uuid", uuid);
+  }
 }

@@ -11,6 +11,9 @@ class OnlyliveTextFormField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.hintText,
     this.passwordMode = false,
+    this.maxLength,
+    this.noteColor,
+    this.noteText,
   });
   final String label;
   final String? Function(String?)? validator;
@@ -19,6 +22,9 @@ class OnlyliveTextFormField extends StatefulWidget {
   final TextInputType keyboardType;
   final String? hintText;
   final bool passwordMode;
+  final int? maxLength;
+  final Color? noteColor;
+  final String? noteText;
 
   @override
   _OnlyliveTextFormFieldState createState() => _OnlyliveTextFormFieldState();
@@ -55,6 +61,7 @@ class _OnlyliveTextFormFieldState extends State<OnlyliveTextFormField> {
           cursorColor: OnlyliveColor.purple,
           cursorHeight: 24,
           cursorWidth: 3,
+          maxLength: widget.maxLength,
           obscureText: !widget.passwordMode ? false : chageObscureText(),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(top: 12, bottom: 13),
@@ -89,7 +96,21 @@ class _OnlyliveTextFormFieldState extends State<OnlyliveTextFormField> {
                   )
                 : null,
           ),
-        )
+        ),
+        widget.noteText != null
+            ? Column(
+                children: [
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.noteText!,
+                    style: TextStyle(
+                      color: widget.noteColor,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

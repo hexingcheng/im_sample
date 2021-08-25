@@ -8,36 +8,41 @@ class Validator {
     }
   }
 
-  String? isNumber(String? val) {
+  static bool _isNumber(String? val) {
     if (val == null) {
-      return null;
+      return false;
     }
     try {
       int.parse(val);
+      return true;
     } catch (e) {
-      return "半角数字を入力してください";
+      return false;
     }
   }
 
-  String? range(String? val, {int? min, int? max}) {
+  static bool _range(String? val, {int? min, int? max}) {
     if (val == null) {
-      return null;
+      return false;
     }
     if (min != null && val.length < min) {
-      return "$min文字以上で入力してください";
+      return false;
     } else if (max != null && val.length > max) {
-      return "$max文字以下で入力してください";
+      return false;
     }
+    return true;
   }
 
-  bool password(String? val) {
+  static bool phoneNumber(String? val) {
+    final result1 = _range(val, min: 11, max: 11);
+    final result2 = _isNumber(val);
+    return result1 && result2;
+  }
+
+  static bool password(String? val) {
     if (val == null) {
       return false;
     }
-    final result = range(val, min: 6, max: 20);
-    if (result != null) {
-      return false;
-    }
+    final range = _range(val, min: 6, max: 20);
     final str = val.split("");
     var existNumber = false;
     var existFullWidth = false;
@@ -56,7 +61,7 @@ class Validator {
     if (existFullWidth) {
       return false;
     }
-    return existNumber && existAlphabet;
+    return existNumber && existAlphabet && range;
   }
 
   bool match(String? val, String? target) {
