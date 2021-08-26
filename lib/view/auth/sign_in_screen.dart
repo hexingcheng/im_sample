@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlylive/snippets/mail.dart';
 import 'package:onlylive/snippets/platform_dialog.dart';
 import 'package:onlylive/theme/theme.dart';
 import 'package:onlylive/view/auth/vm/sign_in_vm.dart';
@@ -112,7 +113,7 @@ class SignInScreen extends StatelessWidget {
                         Center(
                           child: HyperLinkText(
                             "お問い合わせ",
-                            onTap: () => {},
+                            onTap: () => openMailApp(),
                           ),
                         ),
                       ],
