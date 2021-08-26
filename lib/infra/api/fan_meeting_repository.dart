@@ -1,59 +1,49 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
+import 'package:onlylive/domain/entities/fan_meeting_and_reserved.dart';
 import 'package:onlylive/domain/entities/topic.dart';
 import 'package:onlylive/domain/repository/fan_meeting_repository.dart';
-import 'package:onlylive/infra/api/client.dart';
-import 'package:onlylive/infra/mapper/fan_meeting/fan_meeting_dto.dart';
+import 'package:onlylive/infra/mapper/fan_meeting/fan_meeting_mapper.dart';
+import 'package:onlylive/infra/mapper/fan_meeting_and_reserved_mapper.dart';
+import 'package:openapi/api.dart';
 
 class APIFanmeetingRepository implements FanMeetingRepository {
-  APIFanmeetingRepository(this._client);
-  final APIClient _client;
+  APIFanmeetingRepository(this._service);
+  final FanMeetingServiceApi _service;
 
   @override
   Future<FanMeeting> getFanMeeting(int id) async {
-    final res = _client.get("v1/fan-meetings/id/$id",
-        fromJson: FanMeetingMapper.fromJSON);
-    return res;
+    final response = await _service.fanMeetingServiceGetFanMeeting(id);
+
+    return FanMeetingMapper.decode(response.fanMeeting);
   }
 
   @override
-  Future<Map<String, List<FanMeeting>>> listFanMeetingByState(
+  Future<Map<String, List<FanMeetingAndReserved>>> listFanMeetingByState(
       FanMeetingState state, String pageToken) async {
-    final res = await _client.get(
-      "v1/fan-meetings?state=${state.string()}&page_token=$pageToken",
-    ) as Map<String, dynamic>;
+    final response =
+        await _service.fanMeetingServiceListFanMeetings(state: state.string());
 
-    final fanMeetingAndReservedList =
-        res["fan_meeting_and_reserved"] as List<dynamic>? ?? [];
+    final _nextPageToken = response.nextPageToken;
 
-    final _fanMeetings = <FanMeeting>[];
+    final _fanMeetings = response.fanMeetingAndReserved
+        .map(FanMeetingAndReservedMapper.decode)
+        .toList();
 
-    final _nextPageToken = res["next_page_token"] as String? ?? "";
-
-    for (final fanMeeting in fanMeetingAndReservedList) {
-      _fanMeetings
-          .add(FanMeetingMapper.fromJSON(fanMeeting as Map<String, dynamic>));
-    }
     return {_nextPageToken: _fanMeetings};
   }
 
   @override
-  Future<Map<String, List<FanMeeting>>> listFanMeetingByTopic(
+  Future<Map<String, List<FanMeetingAndReserved>>> listFanMeetingByTopic(
       Topic topic, String pageToken) async {
-    final res = await _client.get(
-      "v1/fan-meetings/topic/${topic.string()}?page_token=$pageToken",
-    ) as Map<String, dynamic>;
+    final response =
+        await _service.fanMeetingServiceListFanMeetingsByTopic(topic.string());
 
-    final fanMeetingAndReservedList =
-        res["fan_meeting_and_reserved"] as List<dynamic>? ?? [];
+    final _nextPageToken = response.nextPageToken;
 
-    final _fanMeetings = <FanMeeting>[];
+    final _fanMeetings = response.fanMeetingAndReserved
+        .map(FanMeetingAndReservedMapper.decode)
+        .toList();
 
-    final _nextPageToken = res["next_page_token"] as String? ?? "";
-
-    for (final fanMeeting in fanMeetingAndReservedList) {
-      _fanMeetings
-          .add(FanMeetingMapper.fromJSON(fanMeeting as Map<String, dynamic>));
-    }
     return {_nextPageToken: _fanMeetings};
   }
 }

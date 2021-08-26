@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:onlylive/services/navigator_service.dart';
 import 'package:onlylive/domain/repository/repository.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
-import 'package:onlylive/domain/use_case/admin_usecase.dart';
-import 'package:onlylive/domain/use_case/call_transaction.dart';
+import 'package:onlylive/domain/use_case/admin/get_app_config_use_case.dart.dart';
+import 'package:onlylive/domain/use_case/call_transaction/get_call_transaction_use_case.dart';
 import 'package:onlylive/view/alert/force_update_screen.dart';
 import 'package:onlylive/view/call/call_screen.dart';
 import 'package:onlylive/view/alert/maintenance_screen.dart';
@@ -56,7 +56,7 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
     }
 
     final appConfig =
-        await AppConfigUseCase(Repositories.adminRepository).get();
+        await GetAppConfigUseCase(Repositories.adminRepository).execute();
 
     final packageInfo = await PackageInfo.fromPlatform();
 
@@ -78,7 +78,8 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
 
   Future<CallTransaction?> getCallTransaction() async {
     try {
-      return CallTransactionUseCase(Repositories.fanRepository).get("fanUUID");
+      return GetCallTransactionUseCase(Repositories.fanRepository)
+          .execute("fanUUID");
     } catch (e) {
       return null;
     }

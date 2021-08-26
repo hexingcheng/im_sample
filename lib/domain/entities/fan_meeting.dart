@@ -9,12 +9,10 @@ class FanMeeting {
     required this.state,
     required this.isExtension,
     required this.eventDate,
-    required this.startTime,
-    required this.finishTime,
     required this.secondsPerReservation,
     required this.style,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.thumbnailMovieUri,
+    required this.flvUri,
   });
 
   int id;
@@ -24,12 +22,10 @@ class FanMeeting {
   FanMeetingState state;
   IsExtension isExtension;
   DateTime eventDate;
-  DateTime startTime;
-  DateTime finishTime;
   int secondsPerReservation;
   FanMeetingStyle style;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String thumbnailMovieUri;
+  String flvUri;
 }
 
 typedef ItemCode = String;

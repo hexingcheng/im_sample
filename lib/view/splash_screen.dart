@@ -79,9 +79,6 @@ class SplashScreen extends StatelessWidget {
                         talentUUID: "callerId",
                         fanMeetingID: 0,
                         reservationID: 0,
-                        itemCode: "",
-                        fanUUID: "",
-                        balance: 0,
                         updatedAt: DateTime(0),
                       )));
                 } else {

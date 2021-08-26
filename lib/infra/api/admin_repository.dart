@@ -1,12 +1,10 @@
 import 'package:onlylive/config.dart';
 import 'package:onlylive/domain/entities/app_config.dart';
 import 'package:onlylive/domain/repository/admin_repository.dart';
-import 'package:onlylive/infra/api/client.dart';
 import 'package:onlylive/infra/mapper/app_config_mapper.dart';
 
 class APIAdminRepository implements AdminRepository {
-  APIAdminRepository(this._client);
-  final APIClient _client;
+  APIAdminRepository();
 
   @override
   Future<AppConfig> getAppConfig() async {

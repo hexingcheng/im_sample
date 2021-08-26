@@ -9,9 +9,10 @@ import 'package:onlylive/infra/api/ranking_repository.dart';
 import 'package:onlylive/infra/api/reservation_repository..dart';
 import 'package:onlylive/infra/api/feature_repository.dart';
 import 'package:onlylive/infra/api/wallet_repository.dart';
+import 'package:openapi/api.dart';
 
 void di() {
-  final _service = APIClient(Config.app.host);
+  final _client = ApiClient(basePath: Config.app.host);
 
   Repositories(
       reservationRepository: APIReservationRepository(_service),

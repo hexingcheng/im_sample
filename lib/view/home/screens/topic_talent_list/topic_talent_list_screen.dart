@@ -4,6 +4,7 @@ import 'package:onlylive/view/home/screens/topic_talent_list/vm/topic_talent_lis
 import 'package:onlylive/widgets/atoms/back.dart';
 import 'package:onlylive/widgets/atoms/simple_app_bar.dart';
 import 'package:onlylive/widgets/molecules/talent_card.dart';
+import 'package:onlylive/widgets/molecules/simple_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class TopicTalentListScreen extends StatelessWidget {
@@ -31,7 +32,10 @@ class TopicTalentListScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ListFanMeetingGridView(
-                  fanMeetings: vm.fanMeetings, update: vm.listTopicFanMeeting),
+                  fanMeetings: vm.fanMeetingAndReserved
+                      .map((e) => e.fanMeeting)
+                      .toList(),
+                  update: vm.listTopicFanMeeting),
             ),
           ),
         );

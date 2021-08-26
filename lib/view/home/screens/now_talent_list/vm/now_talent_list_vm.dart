@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onlylive/domain/entities/fan_meeting.dart';
+import 'package:onlylive/domain/entities/fan_meeting_and_reserved.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/list_fanmmeting_by_state_use_case.dart';
+import 'package:onlylive/domain/use_case/fan_meeting/list_fan_meeting_by_state_use_case.dart';
 
 class NowTalentListVM with ChangeNotifier {
   NowTalentListVM() {
@@ -15,20 +16,22 @@ class NowTalentListVM with ChangeNotifier {
   }
 
   // private
-  final List<FanMeeting> _fanMeetings = [];
+  final List<FanMeetingAndReserved> _fanMeetingAndReserved = [];
   String _pageToken = "";
   bool _isNeedUpdate = true;
 
   // getter
-  List<FanMeeting> get fanMeetings => _fanMeetings;
+  List<FanMeetingAndReserved> get fanMeetingAndReserved =>
+      _fanMeetingAndReserved;
 
   Future<void> listNowFanMeeting() async {
     if (!_isNeedUpdate) {
       return;
     }
 
-    final res = await ListFanMeetingUseCase(Repositories.fanMeetingRepository)
-        .state(FanMeetingState.now, pageToken: _pageToken);
+    final res =
+        await ListFanMeetingByStateUseCase(Repositories.fanMeetingRepository)
+            .execute(FanMeetingState.now, pageToken: _pageToken);
 
     final newFanMeetings = res.values.first;
     if (newFanMeetings.isEmpty) {
@@ -37,7 +40,7 @@ class NowTalentListVM with ChangeNotifier {
 
     _pageToken = res.keys.first;
 
-    _fanMeetings.addAll(newFanMeetings);
+    fanMeetingAndReserved.addAll(newFanMeetings);
     notifyListeners();
   }
 }

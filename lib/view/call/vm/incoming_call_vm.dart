@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onlylive/config.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/reservation_use_case.dart';
+import 'package:onlylive/domain/use_case/reservation/get_reservation_use_case.dart';
 import 'package:onlylive/services/call_service.dart';
 import 'package:onlylive/services/fcm_service.dart';
 import 'package:onlylive/services/tencent.dart';

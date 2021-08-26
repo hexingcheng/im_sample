@@ -40,13 +40,13 @@ class FutureTalentListView extends StatelessWidget {
                     name: fanMeetings[index].talent.displayName,
                     genre: fanMeetings[index].talent.genre[0],
                     filterColor: const Color.fromRGBO(196, 196, 196, 0.4),
-                    label: !fanMeetings[index].startTime.isZero
+                    label: !fanMeetings[index].eventDate.isZero
                         ? Positioned(
                             bottom: 0,
                             child: SizedBox(
                               width: 120,
                               child:
-                                  ScheduleLabel(fanMeetings[index].startTime),
+                                  ScheduleLabel(fanMeetings[index].eventDate),
                             ),
                           )
                         : const SizedBox.shrink(),

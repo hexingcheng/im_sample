@@ -25,3 +25,4 @@ class UseCaseError extends Error {
   String message;
   String code;
 }
+

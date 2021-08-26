@@ -75,6 +75,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
+<<<<<<< HEAD
                       GestureDetector(
                         onTap: () => showDialog(
                           context: context,
@@ -117,19 +118,30 @@ class HomeScreen extends StatelessWidget {
                             homeVM.fanMeetings[HomeListType.now] ?? [],
                           ),
                         ),
+=======
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: NowTalentListView(homeVM
+                            .fanMeetingAndReserved[HomeListType.now]!
+                            .map((e) => e.fanMeeting)
+                            .toList()),
+>>>>>>> intorduction open api
                       ),
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
-                        child: FutureTalentListView(
-                          homeVM.fanMeetings[HomeListType.future] ?? [],
-                        ),
+                        child: FutureTalentListView(homeVM
+                            .fanMeetingAndReserved[HomeListType.future]!
+                            .map((e) => e.fanMeeting)
+                            .toList()),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Center(
-                            child: TopicTalentGridView(
-                                homeVM.fanMeetings[HomeListType.popular]!)),
+                            child: TopicTalentGridView(homeVM
+                                .fanMeetingAndReserved[HomeListType.popular]!
+                                .map((e) => e.fanMeeting)
+                                .toList())),
                       ),
                       const SizedBox(height: 80),
                       RankingView(

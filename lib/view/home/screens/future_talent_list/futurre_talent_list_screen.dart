@@ -34,10 +34,12 @@ class FutureTalentListScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                 child: ListFanMeetingGridView(
-                  fanMeetings: vm.fanMeetings,
+                  fanMeetings: vm.fanMeetingAndReserved
+                      .map((e) => e.fanMeeting)
+                      .toList(),
                   layer: (fanMeeting) =>
                       fanMeeting.state == FanMeetingState.future
-                          ? ScheduleLabel(fanMeeting.startTime)
+                          ? ScheduleLabel(fanMeeting.eventDate)
                           : const SizedBox.shrink(),
                   update: vm.listFutureFanMeeting,
                 ),

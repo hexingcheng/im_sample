@@ -1,19 +1,12 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
-import 'package:onlylive/domain/entities/talent.dart';
+import 'package:openapi/api.dart';
+import 'package:recase/recase.dart';
 
 class FanMeetingStateMapper {
-  static Map<FanMeetingState, int> fanMeetingStateMap = {
-    FanMeetingState.unknown: 0,
-    FanMeetingState.finish: 1,
-    FanMeetingState.now: 3,
-    FanMeetingState.future: 4,
-    FanMeetingState.cancel: 5,
-    FanMeetingState.notHeld: 6,
-  };
+  static final states = FanMeetingState.values.toList();
 
-  static FanMeetingState decode(int state) {
-    return fanMeetingStateMap.keys.firstWhere(
-        (k) => fanMeetingStateMap[k] == state,
-        orElse: () => FanMeetingState.unknown);
+  static FanMeetingState decode(GrpcFanMeetingState grpc) {
+    return states.firstWhere((state) =>
+        ReCase(state.toString().split('.')[1]).snakeCase == grpc.value);
   }
 }

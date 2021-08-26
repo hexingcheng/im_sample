@@ -1,15 +1,12 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
+import 'package:openapi/api.dart';
+import 'package:recase/recase.dart';
 
 class FanMeetingStyleMapper {
-  static Map<FanMeetingStyle, int> fanMeetingStyleMap = {
-    FanMeetingStyle.unknown: 0,
-    FanMeetingStyle.regular: 1,
-    FanMeetingStyle.serial: 2,
-  };
+  static final styles = FanMeetingStyle.values.toList();
 
-  static FanMeetingStyle decode(int isExtension) {
-    return fanMeetingStyleMap.keys.firstWhere(
-        (k) => fanMeetingStyleMap[k] == isExtension,
-        orElse: () => FanMeetingStyle.unknown);
+  static FanMeetingStyle decode(GrpcFanmeetingStyle grpc) {
+    return styles.firstWhere((style) =>
+        ReCase(style.toString().split('.')[1]).snakeCase == grpc.value);
   }
 }

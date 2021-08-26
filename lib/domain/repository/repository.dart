@@ -1,11 +1,9 @@
 import 'package:onlylive/domain/repository/admin_repository.dart';
-import 'package:onlylive/domain/repository/auth_repository.dart';
 import 'package:onlylive/domain/repository/feature_repository.dart';
 import 'package:onlylive/domain/repository/ranking_repository.dart';
 import 'package:onlylive/domain/repository/reservation_repository.dart';
 import 'package:onlylive/domain/repository/fan_repository.dart';
 import 'package:onlylive/domain/repository/fan_meeting_repository.dart';
-import 'package:onlylive/domain/repository/wallet_repository.dart';
 
 class Repositories {
   Repositories({
@@ -15,8 +13,6 @@ class Repositories {
     required AdminRepository adminRepository,
     required FeatureRepository featureRepository,
     required RankingRepository rankingRepository,
-    required WalletRepository walletRepository,
-    required AuthRepository authRepository,
   }) {
     _reservationRepository = reservationRepository;
     _fanRepository = fanRepository;
@@ -24,8 +20,6 @@ class Repositories {
     _adminRepository = adminRepository;
     _featureRepository = featureRepository;
     _rankingRepository = rankingRepository;
-    _walletRepository = walletRepository;
-    _authRepository = authRepository;
   }
 
   static ReservationRepository? _reservationRepository;
@@ -34,8 +28,6 @@ class Repositories {
   static AdminRepository? _adminRepository;
   static FeatureRepository? _featureRepository;
   static RankingRepository? _rankingRepository;
-  static WalletRepository? _walletRepository;
-  static AuthRepository? _authRepository;
 
   static ReservationRepository get reservationRepo =>
       provider(_reservationRepository);
@@ -47,8 +39,6 @@ class Repositories {
       provider(_featureRepository);
   static RankingRepository get rankingRepository =>
       provider(_rankingRepository);
-  static WalletRepository get walletRepository => provider(_walletRepository);
-  static AuthRepository get authRepository => provider(_authRepository);
 
   static T provider<T>(T? repository) {
     if (repository == null) throw Error();
