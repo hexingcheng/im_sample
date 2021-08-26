@@ -6,7 +6,6 @@ class GetAppConfigUseCase extends UseCase {
   GetAppConfigUseCase(this._adminRepository);
   final AdminRepository _adminRepository;
 
-  @override
   Future<AppConfig> execute() async {
     return _adminRepository.getAppConfig();
   }

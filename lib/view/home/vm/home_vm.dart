@@ -5,13 +5,7 @@ import 'package:onlylive/domain/entities/feature.dart';
 import 'package:onlylive/domain/entities/ranking.dart';
 import 'package:onlylive/domain/entities/talent.dart';
 import 'package:onlylive/domain/entities/topic.dart';
-import 'package:onlylive/domain/entities/wallet.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/feature_use_case.dart';
-import 'package:onlylive/domain/use_case/list_fanmmeting_by_state_use_case.dart';
-import 'package:onlylive/domain/use_case/ranking_usecase.dart';
-import 'package:onlylive/domain/use_case/reservation_use_case.dart';
-import 'package:onlylive/domain/use_case/wallte_usecase.dart';
 import 'package:onlylive/domain/use_case/fan_meeting/list_fan_meeting_by_topic_use_case.dart';
 import 'package:onlylive/domain/use_case/feature/list_feature_use_case.dart';
 import 'package:onlylive/domain/use_case/fan_meeting/list_fan_meeting_by_state_use_case.dart';
@@ -61,7 +55,6 @@ class HomeVM with ChangeNotifier {
       setFeature(),
       periodicUpdateTalentList(),
       setRanking(),
-      getWallet(),
     ]);
   }
 
@@ -111,17 +104,5 @@ class HomeVM with ChangeNotifier {
     await updatesHomeList();
     // await Future.delayed(const Duration(seconds: 30));
     // periodicUpdateTalentList();
-  }
-
-  // 後で移行
-  Future<void> createReservation(int fanMeetingID) async {
-    // await ReservationUseCase(Repositories.reservationRepo).create(fanMeetingID);
-    return;
-  }
-
-  late final Wallet wallet;
-
-  Future<void> getWallet() async {
-    wallet = await WalletUseCase(Repositories.walletRepository).get("fanUUID");
   }
 }

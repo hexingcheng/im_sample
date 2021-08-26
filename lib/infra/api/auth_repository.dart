@@ -1,11 +1,11 @@
 import 'package:onlylive/domain/entities/auth.dart';
 import 'package:onlylive/domain/repository/auth_repository.dart';
-import 'package:onlylive/infra/api/client.dart';
 import 'package:onlylive/infra/api/repository.dart';
+import 'package:openapi/api.dart';
 
 class APIAuthRepository extends Repository implements AuthRepository {
   APIAuthRepository(this._client);
-  final APIClient _client;
+  final AuthServiceApi _client;
 
   @override
   Future<Auth> signIn({
@@ -14,18 +14,16 @@ class APIAuthRepository extends Repository implements AuthRepository {
     String? fcmToken,
   }) async {
     try {
-      final res = await _client.post("v1/fans/signin", body: {
-        "phone_number": phoneNumber,
-        "password": password,
-        "fcm_token": fcmToken,
-      }, headers: {
-        xPlatformHeader: getXPlatformValue,
-      }) as Map<String, dynamic>;
-      print(fcmToken);
-
-      final apiToken = res["api_token"] as String;
-      final fanUuid = res["uuid"] as String;
-      return Auth(apiToken: apiToken, uuid: fanUuid);
+      _client.apiClient.addDefaultHeader(
+        xPlatformHeader,
+        getXPlatformValue,
+      );
+      final res = await _client.authServiceFanSignIn(GrpcFanSignInRequest(
+        phoneNumber: phoneNumber,
+        password: password,
+        fcmToken: fcmToken,
+      ));
+      return Auth(apiToken: res.apiToken, uuid: res.uuid);
     } catch (e) {
       rethrow;
     }

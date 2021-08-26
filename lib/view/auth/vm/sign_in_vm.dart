@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/auth_use_case.dart';
+import 'package:onlylive/domain/use_case/auth/auth_use_case.dart';
 import 'package:onlylive/domain/use_case/errors.dart';
 import 'package:onlylive/snippets/validator.dart';
 
@@ -49,8 +49,8 @@ class SignInVM with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      await AuthUseCase(Repositories.authRepository)
-          .signIn(phoneNumber: _phoneNumber, password: _password);
+      await SignInUseCase(Repositories.authRepository)
+          .execute(phoneNumber: _phoneNumber, password: _password);
     } on UNAUTHENTICATED {
       return SignInResult.invalidPassword;
     } on NOTFOUND {

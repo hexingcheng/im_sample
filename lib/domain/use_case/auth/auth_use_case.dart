@@ -4,15 +4,15 @@ import 'package:onlylive/domain/use_case/use_case.dart';
 import 'package:onlylive/services/fcm_service.dart';
 import 'package:onlylive/services/shared_prefrences_service.dart';
 
-class AuthUseCase extends UseCase {
-  AuthUseCase(this._authRepository);
+class SignInUseCase extends UseCase {
+  SignInUseCase(this._authRepository);
   final AuthRepository _authRepository;
 
   static String _convertPhoneNumber(String number) {
     return "+81${number.replaceRange(0, 1, "")}";
   }
 
-  Future<void> signIn(
+  Future<void> execute(
       {required String phoneNumber, required String password}) async {
     try {
       final fcmToken = await FCMService.getToken();
