@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:onlylive/widgets/atoms/imgix.dart';
 
 class TalentView extends StatefulWidget {
   const TalentView({required this.imgList, this.height = 500, this.decoration});
@@ -65,10 +66,11 @@ class _TalentViewState extends State<TalentView> {
                     children: [
                       SizedBox(
                         width: double.infinity,
-                        child: Image.asset(
-                          item,
-                          fit: BoxFit.fitWidth,
+                        child: Imgix(
+                          width: 375,
                           height: 500,
+                          context: context,
+                          imageUrl: item,
                         ),
                       ),
                       Container(
@@ -90,10 +92,13 @@ class _TalentViewState extends State<TalentView> {
                 (index) => Container(
                   width: 8,
                   height: 8,
-                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _current == index ? Colors.white : Colors.white.withOpacity(0.6),
+                    color: _current == index
+                        ? Colors.white
+                        : Colors.white.withOpacity(0.6),
                   ),
                 ),
               ).toList(),

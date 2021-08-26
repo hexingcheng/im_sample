@@ -1,5 +1,6 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/domain/entities/fan_meeting_and_reserved.dart';
+import 'package:onlylive/domain/entities/now_fanmeeting.dart';
 import 'package:onlylive/domain/entities/topic.dart';
 import 'package:onlylive/domain/repository/fan_meeting_repository.dart';
 import 'package:onlylive/infra/mapper/fan_meeting/fan_meeting_mapper.dart';
@@ -50,5 +51,23 @@ class APIFanmeetingRepository implements FanMeetingRepository {
         .toList();
 
     return {_nextPageToken: _fanMeetings};
+  }
+
+  @override
+  Future<List<NowFanMeeting>> getNowFanmeetingByTalentID(
+      FanMeetingState state, String talentID) async {
+    final res = await _client.get(
+            "v1/fan-meetings/influencers/$talentID?state=${state.string()}")
+        as Map<String, dynamic>;
+    final fanmeetings = res["fan_meeting"] as List<dynamic>? ?? [];
+    ;
+
+    final _fanMeetings = <NowFanMeeting>[];
+
+    for (final fanmeeting in fanmeetings) {
+      _fanMeetings.add(
+          NowFanMeetingMapper.fromJSON(fanmeeting as Map<String, dynamic>));
+    }
+    return _fanMeetings;
   }
 }

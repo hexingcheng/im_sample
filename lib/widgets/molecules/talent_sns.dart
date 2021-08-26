@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:onlylive/widgets/atoms/url_launcher.dart';
+import 'package:onlylive/snippets/url_launcher.dart';
 // import 'package:onlylive/theme/theme.dart';
 
 // class TalentSns extends StatelessWidget {
@@ -15,8 +15,12 @@ import 'package:onlylive/widgets/atoms/url_launcher.dart';
 // }
 
 class TalentSns extends StatelessWidget {
-  const TalentSns({required this.url, Key? kye}) : super(key: kye);
+  const TalentSns(
+      {required this.url, required this.icon, required this.color, Key? kye})
+      : super(key: kye);
   final String url;
+  final IconData icon;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +28,8 @@ class TalentSns extends StatelessWidget {
       children: <Widget>[
         GestureDetector(
           onTap: () => openUrl(url: url),
-          child: const Icon(FontAwesomeIcons.instagram),
-        )
+          child: Icon(icon, color: color),
+        ),
       ],
     );
   }
