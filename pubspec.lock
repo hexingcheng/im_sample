@@ -364,7 +364,7 @@ packages:
   openapi:
     dependency: "direct main"
     description:
-      path: "lib/client"
+      path: "lib/openapi"
       relative: true
     source: path
     version: "1.0.0"
