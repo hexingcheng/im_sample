@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **secondsPerReservation** | **int** |  | [optional] 
 **thumbnailMovieUri** | **String** |  | [optional] 
 **flvUri** | **String** |  | [optional] 
+**style** | [**GrpcFanmeetingStyle**](GrpcFanmeetingStyle.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

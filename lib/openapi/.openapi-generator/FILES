@@ -297,7 +297,3 @@ lib/model/list_by_fan_meeting_id_response_result.dart
 lib/model/list_joined_room_by_fan_response_room.dart
 lib/model/protobuf_any.dart
 pubspec.yaml
-test/grpc_call_transaction_test.dart
-test/grpc_get_call_transaction_response_test.dart
-test/grpc_timestamp_test.dart
-test/grpc_update_call_transaction_request_test.dart

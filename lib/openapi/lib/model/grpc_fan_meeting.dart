@@ -22,6 +22,7 @@ class GrpcFanMeeting {
     this.secondsPerReservation,
     this.thumbnailMovieUri,
     this.flvUri,
+    this.style,
   });
 
   int id;
@@ -44,6 +45,8 @@ class GrpcFanMeeting {
 
   String flvUri;
 
+  GrpcFanmeetingStyle style;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is GrpcFanMeeting &&
      other.id == id &&
@@ -55,7 +58,8 @@ class GrpcFanMeeting {
      other.itemCode == itemCode &&
      other.secondsPerReservation == secondsPerReservation &&
      other.thumbnailMovieUri == thumbnailMovieUri &&
-     other.flvUri == flvUri;
+     other.flvUri == flvUri &&
+     other.style == style;
 
   @override
   int get hashCode =>
@@ -68,10 +72,11 @@ class GrpcFanMeeting {
     (itemCode == null ? 0 : itemCode.hashCode) +
     (secondsPerReservation == null ? 0 : secondsPerReservation.hashCode) +
     (thumbnailMovieUri == null ? 0 : thumbnailMovieUri.hashCode) +
-    (flvUri == null ? 0 : flvUri.hashCode);
+    (flvUri == null ? 0 : flvUri.hashCode) +
+    (style == null ? 0 : style.hashCode);
 
   @override
-  String toString() => 'GrpcFanMeeting[id=$id, influencer=$influencer, limitedPeople=$limitedPeople, state=$state, isExtension=$isExtension, eventDate=$eventDate, itemCode=$itemCode, secondsPerReservation=$secondsPerReservation, thumbnailMovieUri=$thumbnailMovieUri, flvUri=$flvUri]';
+  String toString() => 'GrpcFanMeeting[id=$id, influencer=$influencer, limitedPeople=$limitedPeople, state=$state, isExtension=$isExtension, eventDate=$eventDate, itemCode=$itemCode, secondsPerReservation=$secondsPerReservation, thumbnailMovieUri=$thumbnailMovieUri, flvUri=$flvUri, style=$style]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -105,6 +110,9 @@ class GrpcFanMeeting {
     if (flvUri != null) {
       json[r'flv_uri'] = flvUri;
     }
+    if (style != null) {
+      json[r'style'] = style;
+    }
     return json;
   }
 
@@ -123,6 +131,7 @@ class GrpcFanMeeting {
         secondsPerReservation: json[r'seconds_per_reservation'],
         thumbnailMovieUri: json[r'thumbnail_movie_uri'],
         flvUri: json[r'flv_uri'],
+        style: GrpcFanmeetingStyle.fromJson(json[r'style']),
     );
 
   static List<GrpcFanMeeting> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
