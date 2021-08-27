@@ -53,7 +53,6 @@ dependencies:
   intl: ^0.17.0
   flutter_email_sender: ^5.0.2
   country_codes: ^2.0.1
-  recase: ^4.0.0
   openapi:
     path: lib/client/
 

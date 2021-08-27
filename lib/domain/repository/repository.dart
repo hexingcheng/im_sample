@@ -1,4 +1,3 @@
-import 'package:onlylive/domain/entities/wallet.dart';
 import 'package:onlylive/domain/repository/admin_repository.dart';
 import 'package:onlylive/domain/repository/auth_repository.dart';
 import 'package:onlylive/domain/repository/feature_repository.dart';

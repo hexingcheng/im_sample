@@ -1,12 +1,22 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:openapi/api.dart';
-import 'package:recase/recase.dart';
 
 class IsExtensionMapper {
-  static final isExtensions = IsExtension.values.toList();
+  static const isExtensionMap = {
+    IsExtension.unknown: GrpcIsExtension.extensionUnknown,
+    IsExtension.ok: GrpcIsExtension.true_,
+    IsExtension.ng: GrpcIsExtension.false_,
+  };
 
   static IsExtension decode(GrpcIsExtension grpc) {
-    return isExtensions.firstWhere((state) =>
-        ReCase(isExtensions.toString().split('.')[1]).snakeCase == grpc.value);
+    return isExtensionMap.entries
+        .firstWhere((element) => element.value == grpc)
+        .key;
+  }
+
+  static GrpcIsExtension encode(IsExtension isExtension) {
+    return isExtensionMap.entries
+        .firstWhere((element) => element.key == isExtension)
+        .value;
   }
 }

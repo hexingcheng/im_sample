@@ -3,7 +3,7 @@ import 'package:openapi/api.dart';
 
 class TimeStampMapper {
   static DateTime decode(GrpcTimestamp grpc) {
-    return DateTime(grpc.seconds);
+    return DateTime.fromMillisecondsSinceEpoch(grpc.seconds * 1000);
   }
 
   static GrpcTimestamp encode(DateTime dateTime) {

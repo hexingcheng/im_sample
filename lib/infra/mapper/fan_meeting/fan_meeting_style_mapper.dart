@@ -1,12 +1,22 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:openapi/api.dart';
-import 'package:recase/recase.dart';
 
 class FanMeetingStyleMapper {
-  static final styles = FanMeetingStyle.values.toList();
+  static const fanMeetingStyleMap = {
+    FanMeetingStyle.unknown: GrpcFanmeetingStyle.unknown,
+    FanMeetingStyle.regular: GrpcFanmeetingStyle.regular,
+    FanMeetingStyle.serial: GrpcFanmeetingStyle.serial,
+  };
 
   static FanMeetingStyle decode(GrpcFanmeetingStyle grpc) {
-    return styles.firstWhere((style) =>
-        ReCase(style.toString().split('.')[1]).snakeCase == grpc.value);
+    return fanMeetingStyleMap.entries
+        .firstWhere((element) => element.value == grpc)
+        .key;
+  }
+
+  static GrpcFanmeetingStyle encode(FanMeetingStyle style) {
+    return fanMeetingStyleMap.entries
+        .firstWhere((element) => element.key == style)
+        .value;
   }
 }

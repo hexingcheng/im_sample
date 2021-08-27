@@ -13,9 +13,12 @@ class FanMeetingMapper {
       itemCode: grpc.itemCode,
       talent: TalentMapper.decode(grpc.influencer),
       limitedPeople: grpc.limitedPeople,
-      state: FanMeetingStateMapper.decode(grpc.state),
-      isExtension: IsExtensionMapper.decode(grpc.isExtension),
-      eventDate: TimeStampMapper.decode(grpc.eventDate),
+      state: FanMeetingStateMapper.decode(
+          grpc.state ?? GrpcFanMeetingState.stateUnknown),
+      isExtension: IsExtensionMapper.decode(
+          grpc.isExtension ?? GrpcIsExtension.extensionUnknown),
+      eventDate: TimeStampMapper.decode(
+          grpc.eventDate ?? GrpcTimestamp(seconds: 0, nanos: 0)),
       secondsPerReservation: grpc.secondsPerReservation,
       thumbnailMovieUri: grpc.thumbnailMovieUri,
       flvUri: grpc.flvUri,

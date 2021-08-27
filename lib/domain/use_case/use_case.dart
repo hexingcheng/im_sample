@@ -3,7 +3,7 @@ import 'package:onlylive/domain/repository/error.dart';
 import 'package:onlylive/domain/use_case/errors.dart';
 
 class UseCase {
-  void useCaseErr(ClientError e) {
+  void useCaseErr(ApiError e) {
     switch (e.code) {
       case ErrorCode.unAuthenticated:
         throw UNAUTHENTICATED();
@@ -25,4 +25,3 @@ class UseCaseError extends Error {
   String message;
   String code;
 }
-

@@ -70,13 +70,6 @@ class HomeScreen extends StatelessWidget {
                             .map((e) => e.fanMeeting)
                             .toList()),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: NowTalentListView(homeVM
-                            .fanMeetingAndReserved[HomeListType.now]!
-                            .map((e) => e.fanMeeting)
-                            .toList()),
-                      ),
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.only(left: 20),

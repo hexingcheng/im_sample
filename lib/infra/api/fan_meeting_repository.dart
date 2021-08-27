@@ -20,8 +20,8 @@ class APIFanmeetingRepository implements FanMeetingRepository {
   @override
   Future<Map<String, List<FanMeetingAndReserved>>> listFanMeetingByState(
       FanMeetingState state, String pageToken) async {
-    final response =
-        await _service.fanMeetingServiceListFanMeetings(state: state.string());
+    final response = await _service.fanMeetingServiceListFanMeetings(
+        state: state.string(), pageToken: pageToken);
 
     final _nextPageToken = response.nextPageToken;
 

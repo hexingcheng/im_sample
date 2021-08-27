@@ -1,12 +1,25 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:openapi/api.dart';
-import 'package:recase/recase.dart';
 
 class FanMeetingStateMapper {
-  static final states = FanMeetingState.values.toList();
+  static const fanMeetingStateMap = {
+    FanMeetingState.unknown: GrpcFanMeetingState.stateUnknown,
+    FanMeetingState.cancel: GrpcFanMeetingState.cancel,
+    FanMeetingState.finish: GrpcFanMeetingState.finish,
+    FanMeetingState.now: GrpcFanMeetingState.now,
+    FanMeetingState.notHeld: GrpcFanMeetingState.notHeld,
+    FanMeetingState.future: GrpcFanMeetingState.future,
+  };
 
   static FanMeetingState decode(GrpcFanMeetingState grpc) {
-    return states.firstWhere((state) =>
-        ReCase(state.toString().split('.')[1]).snakeCase == grpc.value);
+    return fanMeetingStateMap.entries
+        .firstWhere((element) => element.value == grpc)
+        .key;
+  }
+
+  static GrpcFanMeetingState encode(FanMeetingState state) {
+    return fanMeetingStateMap.entries
+        .firstWhere((element) => element.key == state)
+        .value;
   }
 }

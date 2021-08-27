@@ -26,8 +26,8 @@ class SignInUseCase extends UseCase {
         SharedPrefrencesService.setApiToken(auth.apiToken),
         SharedPrefrencesService.setUUID(auth.uuid),
       ]);
-    } catch (e) {
-      useCaseErr(e as ClientError);
+    } on ApiError catch (e) {
+      useCaseErr(e);
     }
   }
 }

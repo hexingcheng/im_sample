@@ -24,8 +24,8 @@ class APIAuthRepository extends Repository implements AuthRepository {
         fcmToken: fcmToken,
       ));
       return Auth(apiToken: res.apiToken, uuid: res.uuid);
-    } catch (e) {
-      rethrow;
+    } on ApiException catch (e) {
+      throw apiException(e);
     }
   }
 }

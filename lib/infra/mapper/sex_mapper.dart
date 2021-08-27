@@ -1,12 +1,19 @@
 import 'package:onlylive/domain/entities/sex.dart';
 import 'package:openapi/api.dart';
-import 'package:recase/recase.dart';
 
 class SexMapper {
-  static final sexes = Sex.values.toList();
+  static const sexMap = {
+    Sex.undfiend: GrpcFanSex.undefined,
+    Sex.unknown: GrpcFanSex.unknown,
+    Sex.man: GrpcFanSex.man,
+    Sex.woman: GrpcFanSex.woman,
+  };
 
   static Sex decode(GrpcFanSex grpc) {
-    return sexes.firstWhere(
-        (sex) => ReCase(sex.toString().split('.')[1]).snakeCase == grpc.value);
+    return sexMap.entries.firstWhere((element) => element.value == grpc).key;
+  }
+
+  static GrpcFanSex encode(Sex sex) {
+    return sexMap.entries.firstWhere((element) => element.key == sex).value;
   }
 }
