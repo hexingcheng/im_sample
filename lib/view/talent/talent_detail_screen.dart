@@ -16,21 +16,24 @@ import 'package:onlylive/widgets/organisms/reservation_notes_dialog.dart';
 import 'package:onlylive/widgets/molecules/talent_sns.dart';
 
 class TalentDetailScreen extends StatelessWidget {
-  const TalentDetailScreen({Key? key}) : super(key: key);
+  const TalentDetailScreen({required this.talentID, Key? key})
+      : super(key: key);
+  final String talentID;
 
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(
-      builder: (_) => const TalentDetailScreen(),
+      builder: (_) => const TalentDetailScreen(talentID: ""),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TalentDetailVM>(
-        create: (context) => TalentDetailVM(),
+        create: (context) => TalentDetailVM(talentID: talentID),
         builder: (context, child) {
           final vm = context.watch<TalentDetailVM>();
           final homeVM = HomeVM();
+          final schedules = vm.fanMeetings[MeetingType.future] ?? [];
           return Scaffold(
               body: Container(
             child: Column(
@@ -39,9 +42,7 @@ class TalentDetailScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        TalentView(
-                          imgList: vm.talent.imageUrls,
-                        ),
+                        TalentView(imgList: vm.talent.imageUrls),
                         const SizedBox(height: 24),
                         Text(vm.talent.displayName,
                             style: const TextStyle(
@@ -152,14 +153,14 @@ class TalentDetailScreen extends StatelessWidget {
                                   .subtitle1!
                                   .copyWith(color: OnlyliveColor.darkPurple)),
                         ),
-                        const SizedBox(height: 23),
-                        const NextSchedule(),
+                        // const SizedBox(height: 23),
+                        NextSchedule(schedules),
                         const SizedBox(height: 100)
                       ],
                     ),
                   ),
                 ),
-                if (vm.meetingState == "now")
+                if (vm.meetingState == "now" && vm.reservation.state.index != 1)
                   GestureDetector(
                     child: Container(
                       width: 215,
@@ -209,7 +210,18 @@ class TalentDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                const SizedBox(height: 100)
+                if (vm.meetingState == "now" && vm.reservation.state.index == 1)
+                  Container(
+                    width: 215,
+                    height: 52,
+                    child: RoundRectButton(
+                      text: "通話予約済み",
+                      textColor: OnlyliveColor.white,
+                      backgroundColor: OnlyliveColor.purple.withOpacity(0.5),
+                      onPressed: () => null,
+                    ),
+                  ),
+                const SizedBox(height: 60)
               ],
             ),
           ));

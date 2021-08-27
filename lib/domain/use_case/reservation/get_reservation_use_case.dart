@@ -1,3 +1,4 @@
+import 'package:onlylive/domain/entities/reservation.dart';
 import 'package:onlylive/domain/repository/reservation_repository.dart';
 import 'package:onlylive/domain/use_case/use_case.dart';
 
@@ -9,5 +10,11 @@ class ReservationUseCase extends UseCase {
     const accessToken = "";
     await _reservationRepository.createReservation(
         accessToken, fanmeetingID, "01cb1b7f-9878-4b59-bf25-36a9afa698ac");
+  }
+
+  Future<Reservation> get(int fanmeetingID, String fanUUID) async {
+    const accessToken = "";
+    return _reservationRepository.getReservation(
+        accessToken, fanmeetingID, fanUUID);
   }
 }

@@ -1,5 +1,5 @@
-class NowFanMeeting {
-  NowFanMeeting({
+class FanMeetingOfInfluencer {
+  FanMeetingOfInfluencer({
     required this.id,
     required this.itemCode,
     required this.limitedPeople,

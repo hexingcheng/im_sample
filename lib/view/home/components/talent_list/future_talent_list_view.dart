@@ -29,8 +29,13 @@ class FutureTalentListView extends StatelessWidget {
             children: List.generate(
               fanMeetings.length,
               (index) => GestureDetector(
-                onTap: () =>
-                    Navigator.push(context, TalentDetailScreen.route()),
+                onTap: () => Navigator.push(
+                    context,
+                    // TalentDetailScreen.route()
+                    MaterialPageRoute(
+                        builder: (context) => TalentDetailScreen(
+                              talentID: fanMeetings[index].talent.uuid,
+                            ))),
                 child: Container(
                   height: 204,
                   width: 120,

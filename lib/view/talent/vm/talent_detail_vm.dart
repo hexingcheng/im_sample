@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:onlylive/domain/repository/repository.dart';
 import 'package:onlylive/domain/use_case/talent_usecase.dart';
 import 'package:onlylive/domain/entities/talent.dart';
+import 'package:onlylive/domain/entities/reservation.dart';
 import 'package:onlylive/domain/entities/fan_meeting.dart';
+import 'package:onlylive/domain/entities/fanmeeting_of_influencer.dart';
 import 'package:onlylive/domain/use_case/list_fanmmeting_by_state_use_case.dart';
+import 'package:onlylive/domain/use_case/reservation_use_case.dart';
 
 enum MeetingType {
   now,
@@ -11,24 +14,30 @@ enum MeetingType {
   popular,
 }
 
+enum ReservationType {
+  unknown,
+  wait,
+  done,
+}
+
 class TalentDetailVM with ChangeNotifier {
-  TalentDetailVM() {
+  TalentDetailVM({required this.talentID}) {
     Future(() async {
       await initState();
     });
   }
+  late String talentID = "";
 
-  final String talentID = "aa8ba146-d7b4-4c29-9d8c-928def63e49f";
-  final String eventDate = "12/18(月)";
-  final String startTime = "19:00 -";
-  final num secondsPerReservation = 5;
+  final String fanUUID = "23aa61af-6f52-47f9-b489-f5285c16d228";
+
   late String meetingState = "";
 
   // private
-  final Map<MeetingType, List<FanMeeting>> _fanMeetings =
+  final Map<MeetingType, List<FanMeetingOfInfluencer>> _fanMeetings =
       Map.fromIterables(MeetingType.values, MeetingType.values.map((e) => []));
 // getter
-  Map<MeetingType, List<FanMeeting>> get fanMeetings => _fanMeetings;
+  Map<MeetingType, List<FanMeetingOfInfluencer>> get fanMeetings =>
+      _fanMeetings;
 
   late Talent talent = Talent(
       uuid: "",
@@ -37,10 +46,7 @@ class TalentDetailVM with ChangeNotifier {
       annotationID: "",
       mainSquareImageUrl: "",
       mainRectangleImageUrl: "",
-      imageUrls: [
-        "https://storage.googleapis.com/dev-barry-image/DebugTest/LA0009_01_%E3%81%99%E3%81%99%E3%82%99%E3%81%82%E3%81%8B%E3%81%AD.jpeg",
-        "https://storage.googleapis.com/dev-barry-image/DebugTest/LA0009_01_%E3%81%99%E3%81%99%E3%82%99%E3%81%82%E3%81%8B%E3%81%AD.jpeg",
-      ],
+      imageUrls: [],
       twitterUrl: "",
       instagramUrl: "",
       tiktokUrl: "",
@@ -49,10 +55,20 @@ class TalentDetailVM with ChangeNotifier {
       customLinkUrl: "",
       genre: []);
 
-  // Talent get talent => _talent;
+  late Reservation reservation = Reservation(
+      id: 0,
+      fanUUID: "",
+      state: ReservationState.wait,
+      fanmeetingID: 0,
+      influecnerUUID: "",
+      startTime: DateTime.now(),
+      finishTime: DateTime.now(),
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now());
 
   Future<void> initState() async {
     talent = await TalentUseCase(Repositories.talentRepository).get(talentID);
+    print(talent.displayName);
     periodicUpdateNowFanmeeting();
   }
 
@@ -69,15 +85,34 @@ class TalentDetailVM with ChangeNotifier {
       }
     }
 
+    Future<void> initFutureFanmeetings() async {
+      final _fanMeetings =
+          await ListFanMeetingUseCase(Repositories.fanMeetingRepository)
+              .talentID(FanMeetingState.future, talentID);
+      fanMeetings[MeetingType.future] = _fanMeetings;
+    }
+
     await Future.wait([
       initNowFanmeeting(),
+      initFutureFanmeetings(),
     ]);
     notifyListeners();
   }
 
   Future<void> periodicUpdateNowFanmeeting() async {
     await updatesTalentDetail();
+    // 後で消す
+    reservation =
+        await ReservationUseCase(Repositories.reservationRepo).get(1, fanUUID);
+    print(reservation.state.index);
     await Future.delayed(const Duration(seconds: 30));
     periodicUpdateNowFanmeeting();
+  }
+
+  Future<void> createReservation(int fanMeetingID) async {
+    await ReservationUseCase(Repositories.reservationRepo).create(fanMeetingID);
+    reservation = await ReservationUseCase(Repositories.reservationRepo)
+        .get(fanMeetingID, fanUUID);
+    return;
   }
 }
