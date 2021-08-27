@@ -53,6 +53,8 @@ dependencies:
   intl: ^0.17.0
   flutter_email_sender: ^5.0.2
   country_codes: ^2.0.1
+  openapi:
+    path: lib/openapi/
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

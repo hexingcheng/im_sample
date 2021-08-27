@@ -8,7 +8,7 @@ import 'package:onlylive/domain/entities/fan.dart';
 import 'package:onlylive/domain/entities/reservation.dart';
 import 'package:onlylive/domain/entities/talent.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/reservation_use_case.dart';
+import 'package:onlylive/domain/use_case/reservation/get_reservation_use_case.dart';
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/services/tencent.dart';
 import 'package:tencent_im_sdk_plugin/enum/V2TimAdvancedMsgListener.dart';
@@ -167,36 +167,37 @@ class CallVM with ChangeNotifier {
     //     .get(callTransaction.fanUUID);
     // fan = await FanUseCase(Repositories().fanRepository)
     //     .get(callTransaction.fanUUID);
-    fanMeeting = FanMeeting(
-        id: 511,
-        talent: Talent(
-          uuid: "uuid",
-          introduction: "introduction",
-          displayName: "displayName",
-          annotationID: "annotationID",
-          mainSquareImageUrl:
-              "https://ichef.bbci.co.uk/news/800/cpsprodpb/509D/production/_112873602_whatsappimage2020-06-12at11.23.53-2.jpg",
-          mainRectangleImageUrl: "mainRectangleImageUrl",
-          twitterUrl: "twitterUrl",
-          instagramUrl: "instagramUrl",
-          tiktokUrl: "tiktokUrl",
-          youtubeUrl: "youtubeUrl",
-          customLinkName: "customLinkName",
-          customLinkUrl: "customLinkUrl",
-          genre: [],
-          imageUrls: [],
-        ),
-        itemCode: "itemCode",
-        limitedPeople: 10,
-        state: FanMeetingState.now,
-        isExtension: IsExtension.ok,
-        eventDate: DateTime(0),
-        startTime: DateTime(0),
-        finishTime: DateTime(0),
-        secondsPerReservation: 5,
-        style: FanMeetingStyle.regular,
-        createdAt: DateTime(0),
-        updatedAt: DateTime(0));
+    // fanMeeting = FanMeeting(
+    //     id: 511,
+    //     talent: Talent(
+    //       uuid: "uuid",
+    //       introduction: "introduction",
+    //       displayName: "displayName",
+    //       annotationID: "annotationID",
+    //       mainSquareImageUrl:
+    //           "https://ichef.bbci.co.uk/news/800/cpsprodpb/509D/production/_112873602_whatsappimage2020-06-12at11.23.53-2.jpg",
+    //       mainRectangleImageUrl: "mainRectangleImageUrl",
+    //       twitterUrl: "twitterUrl",
+    //       instagramUrl: "instagramUrl",
+    //       tiktokUrl: "tiktokUrl",
+    //       youtubeUrl: "youtubeUrl",
+    //       customLinkName: "customLinkName",
+    //       customLinkUrl: "customLinkUrl",
+    //       genre: [],
+    //       imageUrls: [],
+    //       thu
+    //     ),
+    //     itemCode: "itemCode",
+    //     limitedPeople: 10,
+    //     state: FanMeetingState.now,
+    //     isExtension: IsExtension.ok,
+    //     eventDate: DateTime(0),
+    //     startTime: DateTime(0),
+    //     finishTime: DateTime(0),
+    //     secondsPerReservation: 5,
+    //     style: FanMeetingStyle.regular,
+    //     createdAt: DateTime(0),
+    //     updatedAt: DateTime(0));
     fan = Fan(
         uuid: "uuid",
         introduction: "introduction",

@@ -15,8 +15,8 @@ class Repositories {
     required AdminRepository adminRepository,
     required FeatureRepository featureRepository,
     required RankingRepository rankingRepository,
-    required WalletRepository walletRepository,
     required AuthRepository authRepository,
+    required WalletRepository walletRepository,
   }) {
     _reservationRepository = reservationRepository;
     _fanRepository = fanRepository;
@@ -24,8 +24,8 @@ class Repositories {
     _adminRepository = adminRepository;
     _featureRepository = featureRepository;
     _rankingRepository = rankingRepository;
-    _walletRepository = walletRepository;
     _authRepository = authRepository;
+    _walletRepository = walletRepository;
   }
 
   static ReservationRepository? _reservationRepository;
@@ -34,8 +34,8 @@ class Repositories {
   static AdminRepository? _adminRepository;
   static FeatureRepository? _featureRepository;
   static RankingRepository? _rankingRepository;
-  static WalletRepository? _walletRepository;
   static AuthRepository? _authRepository;
+  static WalletRepository? _walletRepository;
 
   static ReservationRepository get reservationRepo =>
       provider(_reservationRepository);
@@ -47,8 +47,8 @@ class Repositories {
       provider(_featureRepository);
   static RankingRepository get rankingRepository =>
       provider(_rankingRepository);
-  static WalletRepository get walletRepository => provider(_walletRepository);
   static AuthRepository get authRepository => provider(_authRepository);
+  static WalletRepository get walletRepository => provider(_walletRepository);
 
   static T provider<T>(T? repository) {
     if (repository == null) throw Error();

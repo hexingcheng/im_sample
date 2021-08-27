@@ -1,5 +1,5 @@
-class ClientError extends Error {
-  ClientError({
+class ApiError implements Exception {
+  ApiError({
     required this.message,
     required this.code,
   });

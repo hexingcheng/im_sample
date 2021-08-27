@@ -1,33 +1,26 @@
 import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/domain/entities/fan.dart';
 import 'package:onlylive/domain/entities/sex.dart';
+import 'package:onlylive/infra/mapper/sex_mapper.dart';
 import 'package:onlylive/infra/mapper/time_stamp_mapper.dart';
+import 'package:openapi/api.dart';
 
 class FanMapper {
-  static Fan fromJSON(Map<String, dynamic> json) {
-    final fan = json["call_transaction"] as Map<String, dynamic>? ??
-        {
-          "call_trancation": "",
-          "call_uuid": "",
-          "caller_uuid": "",
-          "updated_at": {"seconds": 0000000000},
-        };
-
+  static Fan decode(GrpcFan grpc) {
     return Fan(
-      uuid: fan["uuid"] as String,
-      introduction: fan["introduction"] as String,
-      displayName: fan["display_name"] as String,
-      birth: TimeStampMapper.fromJSON(fan["updated_at"] as Map<String, dynamic>)
-          .toDateTime,
-      annotationID: fan["annotation_id"] as String,
-      voipToken: fan["voip_token"] as String? ?? "",
-      fcmToken: fan["fcm_token"] as String? ?? "",
-      apsToken: fan["aps_token"] as String,
-      imageUrl: fan["image_uri"] as String,
-      phoneNumber: fan["phone_number"] as String,
-      email: fan["email"] as String,
-      sex: fan["sex"] as Sex? ?? Sex.unknown,
-      prefecture: fan["prefecture"] as String,
+      uuid: grpc.uuid,
+      introduction: grpc.introduction,
+      displayName: grpc.displayName,
+      birth: TimeStampMapper.decode(grpc.birth),
+      annotationID: grpc.annotationId,
+      voipToken: grpc.voipToken,
+      fcmToken: grpc.fcmToken,
+      apsToken: grpc.apsToken,
+      imageUrl: grpc.imageUri,
+      phoneNumber: grpc.phoneNumber,
+      email: grpc.email,
+      sex: SexMapper.decode(grpc.sex),
+      prefecture: grpc.prefecture,
     );
   }
 }

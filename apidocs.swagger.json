@@ -1,0 +1,5467 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "onlylive",
+    "description": "onlylive backend service の Web API 仕様書です。",
+    "version": "1.0"
+  },
+  "host": "dev-api.only-live.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/billing/fans/{fan_uuid}": {
+      "get": {
+        "operationId": "WalletService_GetBillingByMonth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetBillingByMonthRes"
+            }
+          },
+          "400": {
+            "description": "not found(code = INVALID_SIMPLY_WALLET)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = API_ERROR_SIMPLY_WALLET or INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "WalletService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/blocks": {
+      "post": {
+        "operationId": "BlockService_CreateBlock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcCreateBlockRequest"
+            }
+          }
+        ],
+        "tags": [
+          "BlockService"
+        ]
+      }
+    },
+    "/v1/contacts/reports": {
+      "post": {
+        "operationId": "ContactService_CreateContactReport",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcCreateContactReportRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ContactService"
+        ]
+      }
+    },
+    "/v1/fan-meetings": {
+      "get": {
+        "operationId": "FanMeetingService_ListFanMeetings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListFanMeetingsResponse"
+            }
+          },
+          "400": {
+            "description": "存在しないstate(code = INVALID_ARGUMENT).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "state_unknown",
+              "finish",
+              "now",
+              "future",
+              "cancel",
+              "not_held"
+            ],
+            "default": "state_unknown"
+          },
+          {
+            "name": "fan_uuid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      },
+      "post": {
+        "operationId": "FanMeetingService_CreateFanMeeting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcCreateFanMeetingResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcCreateFanMeetingRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ]
+      },
+      "put": {
+        "operationId": "FanMeetingService_UpdateFanMeeting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "存在しないitemcode(code = INVALID_ITEM_CODE).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "state=2でリクエストきた時，すでにファンミーティングが開始されていた場合(code = ALREADY_START_FAN_MEETING)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateFanMeetingRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fan-meetings/genre/{genre}": {
+      "get": {
+        "operationId": "FanMeetingService_ListFanMeetingsByGenre",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListFanMeetingsByGenreResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "genre",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "non_genre",
+              "model",
+              "actor",
+              "actress",
+              "youtuber",
+              "liver",
+              "instagrammer",
+              "tiktoker",
+              "idol",
+              "cosplayer",
+              "voice_actor",
+              "talent",
+              "artist",
+              "comedian",
+              "fortune_teller",
+              "other",
+              "influencer"
+            ]
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "fan_uuid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ]
+      }
+    },
+    "/v1/fan-meetings/health/{fan_meeting_id}": {
+      "get": {
+        "operationId": "FanMeetingHealthService_FanMeetingHealth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_meeting_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "FanMeetingHealthService"
+        ]
+      }
+    },
+    "/v1/fan-meetings/id/{id}": {
+      "get": {
+        "operationId": "FanMeetingService_GetFanMeeting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetFanMeetingResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "fan_uuid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fan-meetings/id/{id}/nozoki": {
+      "get": {
+        "operationId": "FanMeetingService_GetTotalNozokiNumByFanMeeting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetTotalNozokiNumByFanMeetingResponse"
+            }
+          },
+          "400": {
+            "description": "開始されてないfan meetingを指定した時(code = NOT_START_FAN_MEETING_MESSAGE)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fan-meetings/id/{id}/remove/fan": {
+      "post": {
+        "operationId": "FanMeetingService_RemoveFanByFanMeeting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fan-meetings/influencers/{influencer_uuid}": {
+      "get": {
+        "operationId": "FanMeetingService_ListFanMeetingsByInfluencerUUID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListFanMeetingsByInfluencerUUIDResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "influencer_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fan_uuid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "state_unknown",
+              "finish",
+              "now",
+              "future",
+              "cancel",
+              "not_held"
+            ],
+            "default": "state_unknown"
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fan-meetings/reserved/influencers/{influencer_uuid}": {
+      "get": {
+        "operationId": "FanMeetingService_ListFanMeetingsWithReservationOnlyByInfluencerUUID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListFanMeetingsWithReservationOnlyByInfluencerUUIDResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "influencer_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "next_seek_date",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fan-meetings/topic/{topic}": {
+      "get": {
+        "operationId": "FanMeetingService_ListFanMeetingsByTopic",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListFanMeetingsByTopicResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "topic",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "non_topic",
+              "popular"
+            ]
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "fan_uuid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ]
+      }
+    },
+    "/v1/fan-meetings/upload/tencent-log/im": {
+      "put": {
+        "operationId": "FanMeetingService_UploadTencentInstantMessageLogByFanMeeting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUploadTencentInstantMessageLogByFanMeetingRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fan-meetings/upload/tencent-log/lite-av": {
+      "put": {
+        "operationId": "FanMeetingService_UploadTencentLiteAVLogByFanMeeting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUploadTencentLiteAVLogByFanMeetingRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanMeetingService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fan-meetings/{id}/call_history": {
+      "get": {
+        "operationId": "ReservationService_ListCallHistoryByFanMeetingID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListCallHistoryByFanMeetingIDResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/fans": {
+      "put": {
+        "operationId": "FanService_UpdateFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcFan"
+            }
+          },
+          "400": {
+            "description": "annotation idがorion filterに引っかかった時(code = ORION_FILTER_ANNOTATION_ID).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "fan uuidが存在しない時(code = NOT_FOUND).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "annotation idが重複した場合(code = ALREADY_EXIST_ANNOTATION_ID).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/delete": {
+      "put": {
+        "operationId": "FanService_DeleteFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "fan uuidが存在しない時(code = NOT_FOUND).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcDeleteFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/display_name": {
+      "put": {
+        "operationId": "FanService_UpdateDisplayNameFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateDisplayNameFanResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateDisplayNameFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ]
+      }
+    },
+    "/v1/fans/email": {
+      "put": {
+        "operationId": "FanService_UpdateEmailFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateEmailFanResponse"
+            }
+          },
+          "400": {
+            "description": "introductionがvalidationに引っかかった時(code = VALIDATION_EMAIL).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateEmailFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/fan-meeting-id/{fan_meeting_id}": {
+      "get": {
+        "operationId": "FanService_ListByFanMeetingID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListByFanMeetingIDResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "fan uuidが存在しない時(code = NOT_FOUND).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_meeting_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "FanService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/image_uri": {
+      "put": {
+        "operationId": "FanService_UpdateImageURIFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateImageURIFanResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateImageURIFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ]
+      }
+    },
+    "/v1/fans/introduction": {
+      "put": {
+        "operationId": "FanService_UpdateIntroductionFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateIntroductionFanResponse"
+            }
+          },
+          "400": {
+            "description": "introductionがvalidationに引っかかった時(code = VALIDATION_INTRODUCTION).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateIntroductionFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/password": {
+      "put": {
+        "operationId": "FanService_UpdatePasswordFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "introductionがvalidationに引っかかった時(code = VALIDATION_PASSWORD).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdatePasswordFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/refresh/token": {
+      "post": {
+        "operationId": "AuthService_FanRefreshToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcFanRefreshTokenResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcFanRefreshTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/signin": {
+      "post": {
+        "operationId": "AuthService_FanSignIn",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcFanSignInResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "電話番号が存在している(code = ALREADY_EXIST_PHONE_NUMBER).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcFanSignInRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthService"
+        ],
+        "security": [
+          {
+            "x-platform": []
+          }
+        ]
+      }
+    },
+    "/v1/fans/signup": {
+      "post": {
+        "operationId": "AuthService_FanSignUp",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcFanSignUpResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "電話番号が存在している(code = ALREADY_EXIST_PHONE_NUMBER).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcFanSignUpRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthService"
+        ]
+      }
+    },
+    "/v1/fans/upload": {
+      "post": {
+        "operationId": "FanService_UploadFanImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcUploadFanImageResponse"
+            }
+          },
+          "400": {
+            "description": "2MB以上のdataを送った時(code = IMAGE_SIZE_OVER_1MB).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUploadFanImageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/voip_token": {
+      "put": {
+        "operationId": "FanService_UpdateVoipTokenFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateVoipTokenFanResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateVoipTokenFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ]
+      }
+    },
+    "/v1/fans/{fan_uuid}/call_transaction": {
+      "get": {
+        "operationId": "FanService_GetCallTransaction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetCallTransactionResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FanService"
+        ]
+      },
+      "put": {
+        "operationId": "FanService_UpdateCallTransaction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateCallTransactionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FanService"
+        ]
+      }
+    },
+    "/v1/fans/{fan_uuid}/campaigns": {
+      "get": {
+        "operationId": "CampaignService_ListCampaignByFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListCampaignByFanResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "fan uuidが存在しない時(code = NOT_FOUND).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CampaignService"
+        ]
+      }
+    },
+    "/v1/fans/{fan_uuid}/joined_rooms": {
+      "get": {
+        "operationId": "MessageService_ListJoinedRoomByFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListJoinedRoomByFanResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = API_ERROR_SIMPLY_WALLET or INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MessageService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/{fan_uuid}/talk_rooms/{talk_room_uuid}/messages": {
+      "get": {
+        "operationId": "MessageService_ListMessageByFanUUID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListMessageByFanUUIDResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "talk_room_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "next_seek_date",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "MessageService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/fans/{uuid}": {
+      "get": {
+        "description": "Get user's id and name",
+        "operationId": "FanService_GetFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetFanResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "fan uuidが存在しない時(code = NOT_FOUND).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FanService"
+        ],
+        "security": [],
+        "x-hoge": "integer"
+      }
+    },
+    "/v1/features": {
+      "get": {
+        "operationId": "FeatureService_ListFeatures",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListFeaturesResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FeatureService"
+        ]
+      }
+    },
+    "/v1/follows": {
+      "get": {
+        "operationId": "FollowService_ListFollowsByFanUUID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListFollowsByFanUUIDResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "fan_uuid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FollowService"
+        ]
+      },
+      "post": {
+        "operationId": "FollowService_CreateFollow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "すでにフォローしている時(code = ALREADY_EXIST).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcCreateFollowRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FollowService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/follows/fan/{fan_uuid}/influencer/{influencer_uuid}": {
+      "delete": {
+        "operationId": "FollowService_DeleteFollow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "influencer_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FollowService"
+        ]
+      }
+    },
+    "/v1/follows/influencer/{influencer_uuid}/follower_num": {
+      "get": {
+        "operationId": "FollowService_GetFollowerNumByInfluencerUUID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetFollowerNumByInfluencerUUIDResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "influencer_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FollowService"
+        ]
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "operationId": "HealthService_HealthCheck",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcHealthResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "health_unknown",
+              "ok",
+              "not_found",
+              "internal",
+              "version"
+            ],
+            "default": "health_unknown"
+          }
+        ],
+        "tags": [
+          "HealthService"
+        ]
+      }
+    },
+    "/v1/influencers": {
+      "put": {
+        "operationId": "InfluencerService_UpdateInfluencer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcInfluencer"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateInfluencerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InfluencerService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/influencers/call": {
+      "post": {
+        "operationId": "InfluencerService_CallToFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcCallToFanRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InfluencerService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/influencers/links": {
+      "put": {
+        "operationId": "InfluencerService_UpdateInfluencerLinks",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcInfluencer"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUpdateInfluencerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InfluencerService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/influencers/refresh/token": {
+      "post": {
+        "operationId": "AuthService_InfluencerRefreshToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcInfluencerRefreshTokenResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcInfluencerRefreshTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthService"
+        ]
+      }
+    },
+    "/v1/influencers/signin": {
+      "post": {
+        "operationId": "AuthService_InfluencerSignIn",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcInfluencerSignInResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcInfluencerSignInRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthService"
+        ]
+      }
+    },
+    "/v1/influencers/upload/image": {
+      "put": {
+        "operationId": "InfluencerService_UploadInfluencerImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcUploadInfluencerImageResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUploadInfluencerImageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InfluencerService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/influencers/uuid/{uuid}": {
+      "get": {
+        "operationId": "InfluencerService_GetInfluencer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetInfluencerResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fan_uuid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InfluencerService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/influencers/{influencer_uuid}/campaigns": {
+      "get": {
+        "operationId": "CampaignService_ListCampaignByInfluencer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListCampaignByInfluencerResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "fan uuidが存在しない時(code = NOT_FOUND).",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "influencer_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CampaignService"
+        ]
+      }
+    },
+    "/v1/influencers/{influencer_uuid}/image": {
+      "delete": {
+        "operationId": "InfluencerService_DeleteInfluencerImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "402": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "influencer_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "image_uri",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InfluencerService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/influencers/{uuid}": {
+      "delete": {
+        "operationId": "InfluencerService_DeleteInfluencer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InfluencerService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/messages/influencers/{influencer_uuid}": {
+      "post": {
+        "operationId": "MessageService_CreateMessageByInfluencer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcCreateMessageByInfluencerResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = API_ERROR_SIMPLY_WALLET or INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "influencer_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcCreateMessageByInfluencerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MessageService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/points": {
+      "post": {
+        "operationId": "PointService_AddPoints",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcAddPointsResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcAddPointsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PointService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/ranking": {
+      "get": {
+        "operationId": "PointService_GetRanking",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetRankingResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "tags": [
+          "PointService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/reservations": {
+      "post": {
+        "operationId": "ReservationService_CreateReservation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcCreateReservationResponse"
+            }
+          },
+          "400": {
+            "description": "予約がいっぱいだった(code = FULL_OF_RESERVATION)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "408": {
+            "description": "同時予約が多発してることによるtransaction timeout(code = TRANSACTION_TIMEOUT)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "他の予約をしていた場合(code = ALREADY_EXISTS)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcCreateReservationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/reservations/fans/{fan_uuid}/fan-meeting/{fan_meeting_id}": {
+      "get": {
+        "operationId": "ReservationService_CountNumReservedFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcCountNumReservedFanResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fan_meeting_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/reservations/fans/{fan_uuid}/influencers/{influencer_uuid}": {
+      "get": {
+        "operationId": "ReservationService_GetNumCalls",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetNumCallsResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "influencer_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/reservations/id/{id}/remove/fan": {
+      "post": {
+        "operationId": "ReservationService_RemoveFanByReservation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/reservations/upload/cheki": {
+      "put": {
+        "operationId": "ReservationService_UploadCheki",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUploadChekiRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/reservations/upload/tencent-log/im": {
+      "put": {
+        "operationId": "ReservationService_UploadTencentInstantMessageLogByReservation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUploadTencentInstantMessageLogByReservationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/reservations/upload/tencent-log/lite-av": {
+      "put": {
+        "operationId": "ReservationService_UploadTencentLiteAVLogByReservation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcUploadTencentLiteAVLogByReservationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/reservations/wait/fans/{fan_uuid}": {
+      "get": {
+        "operationId": "ReservationService_GetUnfinishedReservationByFan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcGetUnfinishedReservationByFanResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/reservations/{id}": {
+      "get": {
+        "operationId": "ReservationService_GetReservation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcReservation"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ],
+        "security": []
+      },
+      "delete": {
+        "operationId": "ReservationService_DeleteReservation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/serial_codes/{serial_code}": {
+      "put": {
+        "operationId": "CampaignService_ConsumeSerialCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serial_code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcConsumeSerialCodeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CampaignService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/unfollows": {
+      "get": {
+        "operationId": "FollowService_ListUnFollowsByFanUUID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcListUnFollowsByFanUUIDResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "fan_uuid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "FollowService"
+        ]
+      }
+    },
+    "/v1/verification/refill": {
+      "post": {
+        "operationId": "WalletService_AppleIapVerification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcWallet"
+            }
+          },
+          "400": {
+            "description": "not found(code = CLIENT_ERROR_SIMPLY_FACADE)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = API_ERROR_SIMPLY_FACADE or INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "502": {
+            "description": "server error(code = GATEWAY_ERROR_SIMPLY_FACADE)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "server error(code = UNAVAILABLE_SIMPLY_FACADE)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcAppleIapVerificationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "WalletService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/wallet/consume": {
+      "put": {
+        "operationId": "WalletService_ConsumeBalance",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcConsumeBalanceResponse"
+            }
+          },
+          "400": {
+            "description": "not found(code = INVALID_SIMPLY_WALLET)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = API_ERROR_SIMPLY_WALLET or INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/grpcConsumeBalanceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "WalletService"
+        ],
+        "security": []
+      }
+    },
+    "/v1/wallet/fans/{fan_uuid}": {
+      "get": {
+        "operationId": "WalletService_GetBalanceByFanUUID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/grpcWallet"
+            }
+          },
+          "401": {
+            "description": "unauthenticated(code = UNAUTHENTICATED)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "not found(code = NOT_FOUND)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "server error(code = API_ERROR_SIMPLY_WALLET or INTERNAL)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fan_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "WalletService"
+        ],
+        "security": []
+      }
+    }
+  },
+  "definitions": {
+    "CallToFanRequestAction": {
+      "type": "string",
+      "enum": [
+        "call",
+        "hang_out"
+      ],
+      "default": "call"
+    },
+    "CampaignCampaignCodeState": {
+      "type": "string",
+      "enum": [
+        "state_unknown",
+        "not_used",
+        "used"
+      ],
+      "default": "state_unknown"
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "description": "CodeはErrorCodeに従ってエラーの内容を表します。",
+      "title": "エラーレスポンスオブジェクト"
+    },
+    "FanNotificationRequestSegment": {
+      "type": "string",
+      "enum": [
+        "all",
+        "designate"
+      ],
+      "default": "all"
+    },
+    "ListByFanMeetingIDResponseResult": {
+      "type": "object",
+      "properties": {
+        "fan": {
+          "$ref": "#/definitions/grpcFan"
+        },
+        "state": {
+          "$ref": "#/definitions/grpcReservationState"
+        },
+        "reservation_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "ListJoinedRoomByFanResponseRoom": {
+      "type": "object",
+      "properties": {
+        "joined_room": {
+          "$ref": "#/definitions/grpcJoinedRoom"
+        },
+        "influencer": {
+          "$ref": "#/definitions/grpcInfluencer"
+        },
+        "latest_message": {
+          "type": "string"
+        },
+        "latest_message_updated_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        }
+      }
+    },
+    "gatewayruntimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "grpcAddPointsRequest": {
+      "type": "object",
+      "properties": {
+        "reservation_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "num_extension_times": {
+          "$ref": "#/definitions/grpcAddPointsRequestNumExtension"
+        }
+      }
+    },
+    "grpcAddPointsRequestNumExtension": {
+      "type": "string",
+      "enum": [
+        "first",
+        "one",
+        "two",
+        "three"
+      ],
+      "default": "first"
+    },
+    "grpcAddPointsResponse": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcAppleIapVerificationRequest": {
+      "type": "object",
+      "properties": {
+        "fan_uuid": {
+          "type": "string"
+        },
+        "productCode": {
+          "type": "string"
+        },
+        "receiptToken": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcBreakDown": {
+      "type": "object",
+      "properties": {
+        "point": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "expire_date": {
+          "$ref": "#/definitions/grpcTimestamp"
+        }
+      }
+    },
+    "grpcCallToFanRequest": {
+      "type": "object",
+      "properties": {
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "fan_meeting_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fan_uuid": {
+          "type": "string"
+        },
+        "action": {
+          "$ref": "#/definitions/CallToFanRequestAction"
+        }
+      }
+    },
+    "grpcCallTransaction": {
+      "type": "object",
+      "properties": {
+        "call_uuid": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "influencer_display_name": {
+          "type": "string"
+        },
+        "fan_meeting_id": {
+          "type": "string"
+        },
+        "reservation_id": {
+          "type": "string"
+        },
+        "updated_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        }
+      }
+    },
+    "grpcCampaign": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "limited_people": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "state": {
+          "$ref": "#/definitions/CampaignCampaignCodeState"
+        },
+        "is_extension": {
+          "$ref": "#/definitions/grpcIsExtension"
+        },
+        "start_time": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "finish_time": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "item_code": {
+          "type": "string"
+        },
+        "seconds_per_reservation": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcConsumeBalanceRequest": {
+      "type": "object",
+      "properties": {
+        "fan_uuid": {
+          "type": "string"
+        },
+        "fan_meeting_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "num_extension_times": {
+          "$ref": "#/definitions/grpcNumExtension"
+        }
+      }
+    },
+    "grpcConsumeBalanceResponse": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcConsumeSerialCodeRequest": {
+      "type": "object",
+      "properties": {
+        "serial_code": {
+          "type": "string"
+        },
+        "fan_uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcCountNumReservedFanResponse": {
+      "type": "object",
+      "properties": {
+        "is_reserved": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "num_reserved_fan": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcCreateBlockRequest": {
+      "type": "object",
+      "properties": {
+        "fan_uuid": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcCreateCampaignResponse": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcCreateContactReportRequest": {
+      "type": "object",
+      "properties": {
+        "reservation_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "$ref": "#/definitions/grpcReportType"
+        },
+        "body": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcCreateFanMeetingRequest": {
+      "type": "object",
+      "properties": {
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "item_code": {
+          "type": "string"
+        },
+        "is_extension": {
+          "$ref": "#/definitions/grpcIsExtension"
+        },
+        "limited_people": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "event_date": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "seconds_per_reservation": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "state": {
+          "$ref": "#/definitions/grpcFanMeetingState"
+        },
+        "style": {
+          "$ref": "#/definitions/grpcFanmeetingStyle"
+        }
+      }
+    },
+    "grpcCreateFanMeetingResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcCreateFollowRequest": {
+      "type": "object",
+      "properties": {
+        "fan_uuid": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcCreateIncentiveResponse": {
+      "type": "object",
+      "properties": {
+        "incentive_code": {
+          "type": "string"
+        },
+        "incentive_name": {
+          "type": "string"
+        },
+        "incentive_point": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "start_at": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "end_at": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "point_expire_days": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "grpcCreateMessageByInfluencerRequest": {
+      "type": "object",
+      "properties": {
+        "reservation_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "text": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "fan_uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcCreateMessageByInfluencerResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcCreateReservationRequest": {
+      "type": "object",
+      "properties": {
+        "fan_meeting_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fan_uuid": {
+          "type": "string"
+        },
+        "serial_code_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcCreateReservationResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcCreateSerialCodeResponse": {
+      "type": "object",
+      "properties": {
+        "serial_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "grpcDeleteFanRequest": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "reason_cancel_membership": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcReasonCancelMembership"
+          }
+        },
+        "body": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcFan": {
+      "type": "object",
+      "properties": {
+        "birth": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "annotation_id": {
+          "type": "string"
+        },
+        "introduction": {
+          "type": "string"
+        },
+        "voip_token": {
+          "type": "string"
+        },
+        "aps_token": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "image_uri": {
+          "type": "string"
+        },
+        "sex": {
+          "$ref": "#/definitions/grpcFanSex"
+        },
+        "uuid": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "created_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "updated_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "email": {
+          "type": "string"
+        },
+        "prefecture": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "fcm_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcFanMeeting": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "influencer": {
+          "$ref": "#/definitions/grpcInfluencer"
+        },
+        "limited_people": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "state": {
+          "$ref": "#/definitions/grpcFanMeetingState"
+        },
+        "is_extension": {
+          "$ref": "#/definitions/grpcIsExtension"
+        },
+        "event_date": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "item_code": {
+          "type": "string"
+        },
+        "seconds_per_reservation": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "thumbnail_movie_uri": {
+          "type": "string"
+        },
+        "flv_uri": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcFanMeetingAndNumberOfReservation": {
+      "type": "object",
+      "properties": {
+        "fanmeeting": {
+          "$ref": "#/definitions/grpcFanMeeting"
+        },
+        "reservation_num": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcFanMeetingAndReserved": {
+      "type": "object",
+      "properties": {
+        "fan_meeting": {
+          "$ref": "#/definitions/grpcFanMeeting"
+        },
+        "wait_seconds": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_soldout": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "grpcFanMeetingState": {
+      "type": "string",
+      "enum": [
+        "state_unknown",
+        "finish",
+        "now",
+        "future",
+        "cancel",
+        "not_held"
+      ],
+      "default": "state_unknown"
+    },
+    "grpcFanNotificationResponse": {
+      "type": "object",
+      "properties": {
+        "invalid_fan_uuids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "grpcFanRefreshTokenRequest": {
+      "type": "object",
+      "properties": {
+        "old_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcFanRefreshTokenResponse": {
+      "type": "object",
+      "properties": {
+        "new_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcFanSex": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "man",
+        "woman",
+        "undefined"
+      ],
+      "default": "unknown"
+    },
+    "grpcFanSignInRequest": {
+      "type": "object",
+      "properties": {
+        "phone_number": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "aps_token": {
+          "type": "string"
+        },
+        "fcm_token": {
+          "type": "string"
+        }
+      },
+      "title": "firebase-access-tokenはheaderに付与"
+    },
+    "grpcFanSignInResponse": {
+      "type": "object",
+      "properties": {
+        "api_token": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcFanSignUpRequest": {
+      "type": "object",
+      "properties": {
+        "phone_number": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "aps_token": {
+          "type": "string"
+        },
+        "fcm_token": {
+          "type": "string"
+        }
+      },
+      "title": "firebase-access-tokenはheaderに付与"
+    },
+    "grpcFanSignUpResponse": {
+      "type": "object",
+      "properties": {
+        "api_token": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcFanmeetingStyle": {
+      "type": "string",
+      "enum": [
+        "style_unknown",
+        "style_regular",
+        "style_serial"
+      ],
+      "default": "style_unknown"
+    },
+    "grpcFeature": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string"
+        },
+        "image_uri": {
+          "type": "string"
+        },
+        "webview_uri": {
+          "type": "string"
+        },
+        "created_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "updated_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        }
+      }
+    },
+    "grpcGenre": {
+      "type": "string",
+      "enum": [
+        "non_genre",
+        "model",
+        "actor",
+        "actress",
+        "youtuber",
+        "liver",
+        "instagrammer",
+        "tiktoker",
+        "idol",
+        "cosplayer",
+        "voice_actor",
+        "talent",
+        "artist",
+        "comedian",
+        "fortune_teller",
+        "other",
+        "influencer"
+      ],
+      "default": "non_genre",
+      "title": "ジャンル"
+    },
+    "grpcGetBillingByMonthRes": {
+      "type": "object",
+      "properties": {
+        "billing_amount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "grpcGetCallTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "fan_uuid": {
+          "type": "string"
+        },
+        "call_transaction": {
+          "$ref": "#/definitions/grpcCallTransaction"
+        }
+      }
+    },
+    "grpcGetFanMeetingResponse": {
+      "type": "object",
+      "properties": {
+        "fan_meeting": {
+          "$ref": "#/definitions/grpcFanMeeting"
+        },
+        "wait_seconds": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_soldout": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "is_reservation": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "grpcGetFanResponse": {
+      "type": "object",
+      "properties": {
+        "fan": {
+          "$ref": "#/definitions/grpcFan"
+        },
+        "follow_num": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcGetFollowerNumByInfluencerUUIDResponse": {
+      "type": "object",
+      "properties": {
+        "follower_num": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcGetHavePaidBalanceFanNumResponse": {
+      "type": "object",
+      "properties": {
+        "num": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "total_paid_num": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcGetInfluencerResponse": {
+      "type": "object",
+      "properties": {
+        "influencer": {
+          "$ref": "#/definitions/grpcInfluencer"
+        },
+        "is_follow": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "follower_num": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcGetNumCallsResponse": {
+      "type": "object",
+      "properties": {
+        "numCalls": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcGetRankingResponse": {
+      "type": "object",
+      "properties": {
+        "weekly_ranking": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcRankingInfluencer"
+          }
+        },
+        "monthly_ranking": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcRankingInfluencer"
+          }
+        }
+      }
+    },
+    "grpcGetTotalNozokiNumByFanMeetingResponse": {
+      "type": "object",
+      "properties": {
+        "nozoki_num": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcGetUnfinishedReservationByFanResponse": {
+      "type": "object",
+      "properties": {
+        "fan_meeting": {
+          "$ref": "#/definitions/grpcFanMeeting"
+        },
+        "wait_num": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcHealthResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcHealthStatus": {
+      "type": "string",
+      "enum": [
+        "health_unknown",
+        "ok",
+        "not_found",
+        "internal",
+        "version"
+      ],
+      "default": "health_unknown"
+    },
+    "grpcIncentiveCode": {
+      "type": "string",
+      "enum": [
+        "none",
+        "point",
+        "apologize",
+        "campaign"
+      ],
+      "default": "none"
+    },
+    "grpcInfluencer": {
+      "type": "object",
+      "properties": {
+        "annotation_id": {
+          "type": "string"
+        },
+        "aps_token": {
+          "type": "string"
+        },
+        "introduction": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "main_square_image_uri": {
+          "type": "string"
+        },
+        "main_rectangle_image_uri": {
+          "type": "string"
+        },
+        "image_uri": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sex": {
+          "$ref": "#/definitions/grpcInfluencerSex"
+        },
+        "uuid": {
+          "type": "string"
+        },
+        "birth": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "prefecture": {
+          "type": "string"
+        },
+        "influencerCredential": {
+          "$ref": "#/definitions/grpcInfluencerCredential"
+        },
+        "genre": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcGenre"
+          }
+        },
+        "dynamic_link": {
+          "type": "string"
+        },
+        "twitter_url": {
+          "type": "string"
+        },
+        "instagram_url": {
+          "type": "string"
+        },
+        "tiktok_url": {
+          "type": "string"
+        },
+        "youtube_url": {
+          "type": "string"
+        },
+        "custom_link_name": {
+          "type": "string"
+        },
+        "custom_link_url": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcInfluencerCredential": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcInfluencerRefreshTokenRequest": {
+      "type": "object",
+      "properties": {
+        "old_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcInfluencerRefreshTokenResponse": {
+      "type": "object",
+      "properties": {
+        "new_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcInfluencerSex": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "man",
+        "woman",
+        "undefined"
+      ],
+      "default": "unknown"
+    },
+    "grpcInfluencerSignInRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "aps_token": {
+          "type": "string"
+        }
+      },
+      "title": "firebase-access-tokenはheaderに付与"
+    },
+    "grpcInfluencerSignInResponse": {
+      "type": "object",
+      "properties": {
+        "api_token": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcInfluencerSignUpRequestSex": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "man",
+        "woman",
+        "undefined"
+      ],
+      "default": "unknown"
+    },
+    "grpcInfluencerSignUpResponse": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcIsExtension": {
+      "type": "string",
+      "enum": [
+        "extension_unknown",
+        "false",
+        "true"
+      ],
+      "default": "extension_unknown"
+    },
+    "grpcJoinedRoom": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "talk_room_uuid": {
+          "type": "string"
+        },
+        "fan_uuid": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "user_type": {
+          "$ref": "#/definitions/grpcUserType"
+        },
+        "read_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "created_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "updated_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        }
+      }
+    },
+    "grpcListByFanMeetingIDResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ListByFanMeetingIDResponseResult"
+          }
+        }
+      }
+    },
+    "grpcListCallHistoryByFanMeetingIDResponse": {
+      "type": "object",
+      "properties": {
+        "call_history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcReservationAndFan"
+          }
+        }
+      }
+    },
+    "grpcListCampaignByFanResponse": {
+      "type": "object",
+      "properties": {
+        "campaigns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcListCampaignByFanResponseMessage"
+          }
+        }
+      }
+    },
+    "grpcListCampaignByFanResponseMessage": {
+      "type": "object",
+      "properties": {
+        "campaign": {
+          "$ref": "#/definitions/grpcCampaign"
+        },
+        "display_name": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcListCampaignByInfluencerResponse": {
+      "type": "object",
+      "properties": {
+        "campaigns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcCampaign"
+          }
+        }
+      }
+    },
+    "grpcListFanMeetingsByGenreResponse": {
+      "type": "object",
+      "properties": {
+        "fan_meeting_and_reserved": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcFanMeetingAndReserved"
+          }
+        },
+        "next_page_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcListFanMeetingsByInfluencerUUIDResponse": {
+      "type": "object",
+      "properties": {
+        "fan_meeting": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcFanMeeting"
+          }
+        }
+      }
+    },
+    "grpcListFanMeetingsByTopicResponse": {
+      "type": "object",
+      "properties": {
+        "fan_meeting_and_reserved": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcFanMeetingAndReserved"
+          }
+        },
+        "next_page_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcListFanMeetingsResponse": {
+      "type": "object",
+      "properties": {
+        "fan_meeting_and_reserved": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcFanMeetingAndReserved"
+          }
+        },
+        "next_page_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcListFanMeetingsWithReservationOnlyByInfluencerUUIDResponse": {
+      "type": "object",
+      "properties": {
+        "fan_meetings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcFanMeetingAndNumberOfReservation"
+          }
+        },
+        "next_seek_date": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "grpcListFeaturesResponse": {
+      "type": "object",
+      "properties": {
+        "feature": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcFeature"
+          }
+        },
+        "next_page_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcListFollowsByFanUUIDResponse": {
+      "type": "object",
+      "properties": {
+        "influencer": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcInfluencer"
+          }
+        },
+        "next_page_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcListJoinedRoomByFanResponse": {
+      "type": "object",
+      "properties": {
+        "joined_rooms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ListJoinedRoomByFanResponseRoom"
+          }
+        }
+      }
+    },
+    "grpcListMessageByFanUUIDResponse": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcMessage"
+          }
+        },
+        "next_seek_date": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "grpcListUnFollowsByFanUUIDResponse": {
+      "type": "object",
+      "properties": {
+        "influencer": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcInfluencer"
+          }
+        },
+        "next_page_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcMessage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "talk_room_uuid": {
+          "type": "string"
+        },
+        "reservation_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "text": {
+          "type": "string"
+        },
+        "message_type": {
+          "$ref": "#/definitions/grpcMessageType"
+        },
+        "fan_uuid": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "sender_type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "updated_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        }
+      }
+    },
+    "grpcMessageType": {
+      "type": "string",
+      "enum": [
+        "message_type_unknown",
+        "message_type_text",
+        "message_type_image",
+        "message_type_video"
+      ],
+      "default": "message_type_unknown"
+    },
+    "grpcNumExtension": {
+      "type": "string",
+      "enum": [
+        "first",
+        "one",
+        "two",
+        "three"
+      ],
+      "default": "first"
+    },
+    "grpcOption": {
+      "type": "string",
+      "enum": [
+        "nomarl",
+        "pre"
+      ],
+      "default": "nomarl"
+    },
+    "grpcRankingInfluencer": {
+      "type": "object",
+      "properties": {
+        "influencer": {
+          "$ref": "#/definitions/grpcInfluencer"
+        },
+        "points": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "diff_rank": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "diff_type": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "grpcReasonCancelMembership": {
+      "type": "string",
+      "enum": [
+        "unknownReason",
+        "notExistLikeInfluencer",
+        "manyBugs",
+        "chargeDissatisfaction",
+        "supportDissatisfaction",
+        "slanderFromInfluencer",
+        "otherReason"
+      ],
+      "default": "unknownReason",
+      "title": "退会理由"
+    },
+    "grpcReportType": {
+      "type": "string",
+      "enum": [
+        "slander",
+        "adult",
+        "encounter",
+        "contravention",
+        "otherReport"
+      ],
+      "default": "slander"
+    },
+    "grpcReservation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "state": {
+          "$ref": "#/definitions/grpcReservationState"
+        },
+        "fan_uuid": {
+          "type": "string"
+        },
+        "fan_meeting_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "cheki_image_uri": {
+          "type": "string"
+        },
+        "start_time": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "finish_time": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "created_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "updated_at": {
+          "$ref": "#/definitions/grpcTimestamp"
+        }
+      }
+    },
+    "grpcReservationAndFan": {
+      "type": "object",
+      "properties": {
+        "reservation": {
+          "$ref": "#/definitions/grpcReservation"
+        },
+        "fan": {
+          "$ref": "#/definitions/grpcFan"
+        }
+      }
+    },
+    "grpcReservationState": {
+      "type": "string",
+      "enum": [
+        "non_reservation_state",
+        "wait",
+        "done",
+        "abort"
+      ],
+      "default": "non_reservation_state",
+      "title": "予約の状態"
+    },
+    "grpcTimestamp": {
+      "type": "object",
+      "properties": {
+        "seconds": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nanos": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "grpcTopic": {
+      "type": "string",
+      "enum": [
+        "non_topic",
+        "popular"
+      ],
+      "default": "non_topic",
+      "title": "トピック"
+    },
+    "grpcUpdateCallTransactionRequest": {
+      "type": "object",
+      "properties": {
+        "fan_uuid": {
+          "type": "string"
+        },
+        "call_uuid": {
+          "type": "string"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "influencer_display_name": {
+          "type": "string"
+        },
+        "fan_meeting_id": {
+          "type": "string"
+        },
+        "reservation_id": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdateDisplayNameFanRequest": {
+      "type": "object",
+      "properties": {
+        "display_name": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        },
+        "option": {
+          "$ref": "#/definitions/grpcOption"
+        }
+      }
+    },
+    "grpcUpdateDisplayNameFanResponse": {
+      "type": "object",
+      "properties": {
+        "display_name": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdateEmailFanRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdateEmailFanResponse": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdateFanMeetingRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "item_code": {
+          "type": "string"
+        },
+        "is_extension": {
+          "$ref": "#/definitions/grpcIsExtension"
+        },
+        "limited_people": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "event_date": {
+          "$ref": "#/definitions/grpcTimestamp"
+        },
+        "seconds_per_reservation": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "state": {
+          "$ref": "#/definitions/grpcFanMeetingState"
+        },
+        "influencer_uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdateFanRequest": {
+      "type": "object",
+      "properties": {
+        "fan": {
+          "$ref": "#/definitions/grpcFan"
+        },
+        "option": {
+          "$ref": "#/definitions/grpcOption"
+        }
+      }
+    },
+    "grpcUpdateImageURIFanRequest": {
+      "type": "object",
+      "properties": {
+        "image_uri": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdateImageURIFanResponse": {
+      "type": "object",
+      "properties": {
+        "image_uri": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdateInfluencerRequest": {
+      "type": "object",
+      "properties": {
+        "influencer": {
+          "$ref": "#/definitions/grpcInfluencer"
+        }
+      }
+    },
+    "grpcUpdateIntroductionFanRequest": {
+      "type": "object",
+      "properties": {
+        "introduction": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        },
+        "option": {
+          "$ref": "#/definitions/grpcOption"
+        }
+      }
+    },
+    "grpcUpdateIntroductionFanResponse": {
+      "type": "object",
+      "properties": {
+        "introduction": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdatePasswordFanRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "firebase-access-tokenはheaderに付与"
+    },
+    "grpcUpdateVoipTokenFanRequest": {
+      "type": "object",
+      "properties": {
+        "voip_token": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUpdateVoipTokenFanResponse": {
+      "type": "object",
+      "properties": {
+        "voip_token": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUploadChekiRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "image_byte": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "grpcUploadFanImageRequest": {
+      "type": "object",
+      "properties": {
+        "image_byte": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "grpcUploadFanImageResponse": {
+      "type": "object",
+      "properties": {
+        "image_uri": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUploadInfluencerImageRequest": {
+      "type": "object",
+      "properties": {
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "image_byte": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "grpcUploadInfluencerImageResponse": {
+      "type": "object",
+      "properties": {
+        "image_uri": {
+          "type": "string"
+        }
+      }
+    },
+    "grpcUploadTencentInstantMessageLogByFanMeetingRequest": {
+      "type": "object",
+      "properties": {
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "log_file_byte": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "grpcUploadTencentInstantMessageLogByReservationRequest": {
+      "type": "object",
+      "properties": {
+        "fan_uuid": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "log_file_byte": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "grpcUploadTencentLiteAVLogByFanMeetingRequest": {
+      "type": "object",
+      "properties": {
+        "influencer_uuid": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "log_file_byte": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "grpcUploadTencentLiteAVLogByReservationRequest": {
+      "type": "object",
+      "properties": {
+        "fan_uuid": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "log_file_byte": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "grpcUserType": {
+      "type": "string",
+      "enum": [
+        "user_type_unknown",
+        "user_type_fan",
+        "user_type_influencer"
+      ],
+      "default": "user_type_unknown"
+    },
+    "grpcWallet": {
+      "type": "object",
+      "properties": {
+        "wallet_id": {
+          "type": "string"
+        },
+        "service_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "currency_id": {
+          "type": "string"
+        },
+        "balance": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "paid_balance": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "earned_balance": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "point_balance": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "break_down": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grpcBreakDown"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        },
+        "value": {
+          "type": "string",
+          "format": "byte",
+          "description": "Must be a valid serialized protocol buffer of the above specified type."
+        }
+      },
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := ptypes.MarshalAny(foo)\n     ...\n     foo := \u0026pb.Foo{}\n     if err := ptypes.UnmarshalAny(any, foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    }
+  },
+  "securityDefinitions": {
+    "x-api-jwt": {
+      "type": "apiKey",
+      "description": "user specific token",
+      "name": "x-api-jwt",
+      "in": "header"
+    },
+    "x-platform": {
+      "type": "basic",
+      "description": "os identification",
+      "name": "x-platform",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "x-api-jwt": []
+    }
+  ]
+}

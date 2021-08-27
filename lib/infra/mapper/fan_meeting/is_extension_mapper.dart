@@ -1,16 +1,22 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
-import 'package:onlylive/domain/entities/talent.dart';
+import 'package:openapi/api.dart';
 
 class IsExtensionMapper {
-  static Map<IsExtension, int> isExtensionMap = {
-    IsExtension.unknown: 0,
-    IsExtension.ng: 1,
-    IsExtension.ok: 2,
+  static const isExtensionMap = {
+    IsExtension.unknown: GrpcIsExtension.extensionUnknown,
+    IsExtension.ok: GrpcIsExtension.true_,
+    IsExtension.ng: GrpcIsExtension.false_,
   };
 
-  static IsExtension decode(int isExtension) {
-    return isExtensionMap.keys.firstWhere(
-        (k) => isExtensionMap[k] == isExtension,
-        orElse: () => IsExtension.unknown);
+  static IsExtension decode(GrpcIsExtension grpc) {
+    return isExtensionMap.entries
+        .firstWhere((element) => element.value == grpc)
+        .key;
+  }
+
+  static GrpcIsExtension encode(IsExtension isExtension) {
+    return isExtensionMap.entries
+        .firstWhere((element) => element.key == isExtension)
+        .value;
   }
 }

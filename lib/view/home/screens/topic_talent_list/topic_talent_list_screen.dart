@@ -31,7 +31,10 @@ class TopicTalentListScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ListFanMeetingGridView(
-                  fanMeetings: vm.fanMeetings, update: vm.listTopicFanMeeting),
+                  fanMeetings: vm.fanMeetingAndReserved
+                      .map((e) => e.fanMeeting)
+                      .toList(),
+                  update: vm.listTopicFanMeeting),
             ),
           ),
         );

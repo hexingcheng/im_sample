@@ -1,23 +1,16 @@
 import 'package:onlylive/domain/entities/wallet.dart';
 import 'package:onlylive/domain/repository/wallet_repository.dart';
-import 'package:onlylive/infra/api/client.dart';
 import 'package:http/http.dart' as http;
+import 'package:onlylive/infra/mapper/wallet/wallet_mapper.dart';
+import 'package:openapi/api.dart';
 
 class APIWalletRepository implements WalletRepository {
   APIWalletRepository(this._client);
-  final APIClient _client;
+  final WalletServiceApi _client;
 
   @override
   Future<Wallet> getWallet(String accessToken, String fanUUID) async {
-    return Wallet(
-        id: "id",
-        serviceId: "serviceId",
-        userId: "userId",
-        currencyId: "currencyId",
-        balance: 900,
-        paidBalance: 90,
-        earnedBalance: 90,
-        pointBalance: 90,
-        breakDown: []);
+    final res = await _client.walletServiceGetBalanceByFanUUID(fanUUID);
+    return WalletMapper.decode(res);
   }
 }

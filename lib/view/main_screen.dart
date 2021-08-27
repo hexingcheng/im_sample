@@ -43,7 +43,7 @@ class MainScreen extends StatelessWidget {
         switch (index) {
           case 0: // 1番左のタブが選ばれた時の画面
             return CupertinoTabView(builder: (context) {
-              return const CupertinoPageScaffold(child: HomeScreen());
+              return const CupertinoPageScaffold(child: SignInScreen());
             });
           case 1: // 1番左のタブが選ばれた時の画面
             return CupertinoTabView(builder: (context) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/view/home/components/talent_list/talent_list_header_view.dart';
-import 'package:onlylive/view/home/screens/now_talent_list/now_talent_list_screen%20copy.dart';
+import 'package:onlylive/view/home/screens/now_talent_list/now_talent_list_screen.dart';
 import 'package:onlylive/widgets/atoms/now_label.dart';
 import 'package:onlylive/widgets/molecules/talent_card.dart';
 

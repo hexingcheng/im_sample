@@ -1,22 +1,17 @@
 import 'package:onlylive/domain/repository/reservation_repository.dart';
-import 'package:onlylive/infra/api/client.dart';
-import 'package:http/http.dart' as http;
+import 'package:openapi/api.dart';
 
 class APIReservationRepository implements ReservationRepository {
   APIReservationRepository(this._client);
-  final APIClient _client;
+  final ReservationServiceApi _client;
 
   @override
   Future<void> createReservation(
       String accessToken, int fanmeetingID, String fanUUID) async {
     try {
-      await _client.post(
-        "v1/reservations",
-        body: {
-          "fan_meeting_id": fanmeetingID,
-          "fan_uuid": fanUUID,
-        },
-      );
+      await _client.reservationServiceCreateReservation(
+          GrpcCreateReservationRequest(
+              fanMeetingId: fanmeetingID, fanUuid: fanUUID));
     } catch (e) {
       print(e);
     }

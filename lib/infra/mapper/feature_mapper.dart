@@ -1,11 +1,12 @@
 import 'package:onlylive/domain/entities/feature.dart';
+import 'package:openapi/api.dart';
 
 class FeatureMapper {
-  static Feature fromJSON(Map<String, dynamic> json) {
+  static Feature decode(GrpcFeature grpc) {
     return Feature(
-      title: json["title"] as String,
-      imageUrl: json["image_uri"] as String,
-      webViewUrl: json["webview_uri"] as String,
+      title: grpc.title,
+      imageUrl: grpc.imageUri,
+      webViewUrl: grpc.webviewUri,
     );
   }
 }

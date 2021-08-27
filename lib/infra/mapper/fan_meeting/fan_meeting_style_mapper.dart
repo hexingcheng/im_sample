@@ -1,15 +1,22 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
+import 'package:openapi/api.dart';
 
 class FanMeetingStyleMapper {
-  static Map<FanMeetingStyle, int> fanMeetingStyleMap = {
-    FanMeetingStyle.unknown: 0,
-    FanMeetingStyle.regular: 1,
-    FanMeetingStyle.serial: 2,
+  static const fanMeetingStyleMap = {
+    FanMeetingStyle.unknown: GrpcFanmeetingStyle.unknown,
+    FanMeetingStyle.regular: GrpcFanmeetingStyle.regular,
+    FanMeetingStyle.serial: GrpcFanmeetingStyle.serial,
   };
 
-  static FanMeetingStyle decode(int isExtension) {
-    return fanMeetingStyleMap.keys.firstWhere(
-        (k) => fanMeetingStyleMap[k] == isExtension,
-        orElse: () => FanMeetingStyle.unknown);
+  static FanMeetingStyle decode(GrpcFanmeetingStyle grpc) {
+    return fanMeetingStyleMap.entries
+        .firstWhere((element) => element.value == grpc)
+        .key;
+  }
+
+  static GrpcFanmeetingStyle encode(FanMeetingStyle style) {
+    return fanMeetingStyleMap.entries
+        .firstWhere((element) => element.key == style)
+        .value;
   }
 }

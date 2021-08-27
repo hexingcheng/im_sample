@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:callkeep/callkeep.dart';
 import 'package:onlylive/config.dart';
-import 'package:onlylive/domain/repository/repository.dart';
+import 'package:onlylive/domain/repository/fan_repository.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/flavor.dart';
-import 'package:onlylive/infra/api/client.dart';
 import 'package:onlylive/infra/api/fan_repository.dart';
+import 'package:openapi/api.dart';
 
 class CallService {
   CallService(this.callTransaction) {
@@ -58,19 +58,17 @@ class CallService {
       ..on(CallKeepPushKitToken(), (CallKeepPushKitToken event) {});
   }
 
-  Future<void> answerCallAction(Object event) async {
+  Future<void> answerCallAction(CallKeepPerformAnswerCallAction event) async {
     event as CallKeepPerformAnswerCallAction;
     try {
       final startCall = _callKeep.startCall(
           event.callUUID!, _number, callTransaction.talentDisplayName);
       final fanRepo = await initFanRepository();
-      final updateCallTransaction =
-          fanRepo.updateCallTransaction("fanUUID", callTransaction);
-      final futures = <Future>[
+
+      await Future.wait([
         startCall,
-        updateCallTransaction,
-      ];
-      await Future.wait(futures);
+        fanRepo.updateCallTransaction(event.callUUID!, callTransaction),
+      ]);
 
       Timer(const Duration(seconds: 1), () {
         _callKeep
@@ -83,14 +81,14 @@ class CallService {
     }
   }
 
-  Future<APIFanRepository> initFanRepository() async {
+  Future<FanRepository> initFanRepository() async {
     const hasEnv = bool.hasEnvironment("FLAVOR");
     if (!hasEnv) exit(0);
     const flavor = String.fromEnvironment("FLAVOR");
     print(flavor);
     await initConfig(Flavor(flavor));
-    final _service = APIClient(Config.app.host);
-    return APIFanRepository(_service);
+    final _client = ApiClient(basePath: Config.app.host);
+    return APIFanRepository(FanServiceApi(_client));
   }
 }
 
