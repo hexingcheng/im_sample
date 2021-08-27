@@ -4143,6 +4143,9 @@
         },
         "flv_uri": {
           "type": "string"
+        },
+        "style": {
+          "$ref": "#/definitions/grpcFanmeetingStyle"
         }
       }
     },

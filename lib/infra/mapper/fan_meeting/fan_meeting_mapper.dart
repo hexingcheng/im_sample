@@ -22,7 +22,8 @@ class FanMeetingMapper {
       secondsPerReservation: grpc.secondsPerReservation,
       thumbnailMovieUri: grpc.thumbnailMovieUri,
       flvUri: grpc.flvUri,
-      style: FanMeetingStyleMapper.decode(GrpcFanmeetingStyle.regular),
+      style: FanMeetingStyleMapper.decode(
+          grpc.style ?? GrpcFanmeetingStyle.regular),
     );
   }
 }
