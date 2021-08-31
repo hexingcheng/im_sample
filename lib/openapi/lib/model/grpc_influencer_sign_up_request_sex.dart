@@ -15,24 +15,24 @@ class GrpcInfluencerSignUpRequestSex {
   const GrpcInfluencerSignUpRequestSex._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const unknown = GrpcInfluencerSignUpRequestSex._(r'unknown');
-  static const man = GrpcInfluencerSignUpRequestSex._(r'man');
-  static const woman = GrpcInfluencerSignUpRequestSex._(r'woman');
-  static const undefined = GrpcInfluencerSignUpRequestSex._(r'undefined');
+  static const number0 = GrpcInfluencerSignUpRequestSex._(0);
+  static const number1 = GrpcInfluencerSignUpRequestSex._(1);
+  static const number2 = GrpcInfluencerSignUpRequestSex._(2);
+  static const number3 = GrpcInfluencerSignUpRequestSex._(3);
 
   /// List of all possible values in this [enum][GrpcInfluencerSignUpRequestSex].
   static const values = <GrpcInfluencerSignUpRequestSex>[
-    unknown,
-    man,
-    woman,
-    undefined,
+    number0,
+    number1,
+    number2,
+    number3,
   ];
 
   static GrpcInfluencerSignUpRequestSex fromJson(dynamic value) =>
@@ -46,14 +46,14 @@ class GrpcInfluencerSignUpRequestSex {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcInfluencerSignUpRequestSex] to String,
+/// Transformation class that can [encode] an instance of [GrpcInfluencerSignUpRequestSex] to int,
 /// and [decode] dynamic data back to [GrpcInfluencerSignUpRequestSex].
 class GrpcInfluencerSignUpRequestSexTypeTransformer {
   const GrpcInfluencerSignUpRequestSexTypeTransformer._();
 
   factory GrpcInfluencerSignUpRequestSexTypeTransformer() => _instance ??= GrpcInfluencerSignUpRequestSexTypeTransformer._();
 
-  String encode(GrpcInfluencerSignUpRequestSex data) => data.value;
+  int encode(GrpcInfluencerSignUpRequestSex data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcInfluencerSignUpRequestSex.
   ///
@@ -65,10 +65,10 @@ class GrpcInfluencerSignUpRequestSexTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcInfluencerSignUpRequestSex decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'unknown': return GrpcInfluencerSignUpRequestSex.unknown;
-      case r'man': return GrpcInfluencerSignUpRequestSex.man;
-      case r'woman': return GrpcInfluencerSignUpRequestSex.woman;
-      case r'undefined': return GrpcInfluencerSignUpRequestSex.undefined;
+      case 0: return GrpcInfluencerSignUpRequestSex.number0;
+      case 1: return GrpcInfluencerSignUpRequestSex.number1;
+      case 2: return GrpcInfluencerSignUpRequestSex.number2;
+      case 3: return GrpcInfluencerSignUpRequestSex.number3;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

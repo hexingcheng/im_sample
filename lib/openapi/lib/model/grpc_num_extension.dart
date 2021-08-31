@@ -15,24 +15,24 @@ class GrpcNumExtension {
   const GrpcNumExtension._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const first = GrpcNumExtension._(r'first');
-  static const one = GrpcNumExtension._(r'one');
-  static const two = GrpcNumExtension._(r'two');
-  static const three = GrpcNumExtension._(r'three');
+  static const number0 = GrpcNumExtension._(0);
+  static const number1 = GrpcNumExtension._(1);
+  static const number2 = GrpcNumExtension._(2);
+  static const number3 = GrpcNumExtension._(3);
 
   /// List of all possible values in this [enum][GrpcNumExtension].
   static const values = <GrpcNumExtension>[
-    first,
-    one,
-    two,
-    three,
+    number0,
+    number1,
+    number2,
+    number3,
   ];
 
   static GrpcNumExtension fromJson(dynamic value) =>
@@ -46,14 +46,14 @@ class GrpcNumExtension {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcNumExtension] to String,
+/// Transformation class that can [encode] an instance of [GrpcNumExtension] to int,
 /// and [decode] dynamic data back to [GrpcNumExtension].
 class GrpcNumExtensionTypeTransformer {
   const GrpcNumExtensionTypeTransformer._();
 
   factory GrpcNumExtensionTypeTransformer() => _instance ??= GrpcNumExtensionTypeTransformer._();
 
-  String encode(GrpcNumExtension data) => data.value;
+  int encode(GrpcNumExtension data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcNumExtension.
   ///
@@ -65,10 +65,10 @@ class GrpcNumExtensionTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcNumExtension decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'first': return GrpcNumExtension.first;
-      case r'one': return GrpcNumExtension.one;
-      case r'two': return GrpcNumExtension.two;
-      case r'three': return GrpcNumExtension.three;
+      case 0: return GrpcNumExtension.number0;
+      case 1: return GrpcNumExtension.number1;
+      case 2: return GrpcNumExtension.number2;
+      case 3: return GrpcNumExtension.number3;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

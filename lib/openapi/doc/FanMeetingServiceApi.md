@@ -191,7 +191,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pageToken** | **String**|  | [optional] 
- **state** | **String**|  | [optional] [default to 'state_unknown']
+ **state** | **String**|  | [optional] 
  **fanUuid** | **String**|  | [optional] 
 
 ### Return type
@@ -223,7 +223,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('x-api-jwt').apiKeyPrefix = 'Bearer';
 
 final api_instance = FanMeetingServiceApi();
-final genre = genre_example; // String | 
+final genre = 56; // int | 
 final pageToken = pageToken_example; // String | 
 final fanUuid = fanUuid_example; // String | 
 
@@ -239,7 +239,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **genre** | **String**|  | 
+ **genre** | **int**|  | 
  **pageToken** | **String**|  | [optional] 
  **fanUuid** | **String**|  | [optional] 
 
@@ -274,7 +274,7 @@ import 'package:openapi/api.dart';
 final api_instance = FanMeetingServiceApi();
 final influencerUuid = influencerUuid_example; // String | 
 final fanUuid = fanUuid_example; // String | 
-final state = state_example; // String | 
+final state = 56; // int | 
 
 try { 
     final result = api_instance.fanMeetingServiceListFanMeetingsByInfluencerUUID(influencerUuid, fanUuid, state);
@@ -290,7 +290,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **influencerUuid** | **String**|  | 
  **fanUuid** | **String**|  | [optional] 
- **state** | **String**|  | [optional] [default to 'state_unknown']
+ **state** | **int**|  | [optional] [default to 0]
 
 ### Return type
 

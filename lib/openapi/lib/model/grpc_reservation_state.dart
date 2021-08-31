@@ -15,24 +15,24 @@ class GrpcReservationState {
   const GrpcReservationState._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const nonReservationState = GrpcReservationState._(r'non_reservation_state');
-  static const wait = GrpcReservationState._(r'wait');
-  static const done = GrpcReservationState._(r'done');
-  static const abort = GrpcReservationState._(r'abort');
+  static const number0 = GrpcReservationState._(0);
+  static const number1 = GrpcReservationState._(1);
+  static const number2 = GrpcReservationState._(2);
+  static const number3 = GrpcReservationState._(3);
 
   /// List of all possible values in this [enum][GrpcReservationState].
   static const values = <GrpcReservationState>[
-    nonReservationState,
-    wait,
-    done,
-    abort,
+    number0,
+    number1,
+    number2,
+    number3,
   ];
 
   static GrpcReservationState fromJson(dynamic value) =>
@@ -46,14 +46,14 @@ class GrpcReservationState {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcReservationState] to String,
+/// Transformation class that can [encode] an instance of [GrpcReservationState] to int,
 /// and [decode] dynamic data back to [GrpcReservationState].
 class GrpcReservationStateTypeTransformer {
   const GrpcReservationStateTypeTransformer._();
 
   factory GrpcReservationStateTypeTransformer() => _instance ??= GrpcReservationStateTypeTransformer._();
 
-  String encode(GrpcReservationState data) => data.value;
+  int encode(GrpcReservationState data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcReservationState.
   ///
@@ -65,10 +65,10 @@ class GrpcReservationStateTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcReservationState decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'non_reservation_state': return GrpcReservationState.nonReservationState;
-      case r'wait': return GrpcReservationState.wait;
-      case r'done': return GrpcReservationState.done;
-      case r'abort': return GrpcReservationState.abort;
+      case 0: return GrpcReservationState.number0;
+      case 1: return GrpcReservationState.number1;
+      case 2: return GrpcReservationState.number2;
+      case 3: return GrpcReservationState.number3;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

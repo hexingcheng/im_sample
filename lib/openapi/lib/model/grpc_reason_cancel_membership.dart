@@ -15,30 +15,30 @@ class GrpcReasonCancelMembership {
   const GrpcReasonCancelMembership._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const unknownReason = GrpcReasonCancelMembership._(r'unknownReason');
-  static const notExistLikeInfluencer = GrpcReasonCancelMembership._(r'notExistLikeInfluencer');
-  static const manyBugs = GrpcReasonCancelMembership._(r'manyBugs');
-  static const chargeDissatisfaction = GrpcReasonCancelMembership._(r'chargeDissatisfaction');
-  static const supportDissatisfaction = GrpcReasonCancelMembership._(r'supportDissatisfaction');
-  static const slanderFromInfluencer = GrpcReasonCancelMembership._(r'slanderFromInfluencer');
-  static const otherReason = GrpcReasonCancelMembership._(r'otherReason');
+  static const number0 = GrpcReasonCancelMembership._(0);
+  static const number1 = GrpcReasonCancelMembership._(1);
+  static const number2 = GrpcReasonCancelMembership._(2);
+  static const number3 = GrpcReasonCancelMembership._(3);
+  static const number4 = GrpcReasonCancelMembership._(4);
+  static const number5 = GrpcReasonCancelMembership._(5);
+  static const number6 = GrpcReasonCancelMembership._(6);
 
   /// List of all possible values in this [enum][GrpcReasonCancelMembership].
   static const values = <GrpcReasonCancelMembership>[
-    unknownReason,
-    notExistLikeInfluencer,
-    manyBugs,
-    chargeDissatisfaction,
-    supportDissatisfaction,
-    slanderFromInfluencer,
-    otherReason,
+    number0,
+    number1,
+    number2,
+    number3,
+    number4,
+    number5,
+    number6,
   ];
 
   static GrpcReasonCancelMembership fromJson(dynamic value) =>
@@ -52,14 +52,14 @@ class GrpcReasonCancelMembership {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcReasonCancelMembership] to String,
+/// Transformation class that can [encode] an instance of [GrpcReasonCancelMembership] to int,
 /// and [decode] dynamic data back to [GrpcReasonCancelMembership].
 class GrpcReasonCancelMembershipTypeTransformer {
   const GrpcReasonCancelMembershipTypeTransformer._();
 
   factory GrpcReasonCancelMembershipTypeTransformer() => _instance ??= GrpcReasonCancelMembershipTypeTransformer._();
 
-  String encode(GrpcReasonCancelMembership data) => data.value;
+  int encode(GrpcReasonCancelMembership data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcReasonCancelMembership.
   ///
@@ -71,13 +71,13 @@ class GrpcReasonCancelMembershipTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcReasonCancelMembership decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'unknownReason': return GrpcReasonCancelMembership.unknownReason;
-      case r'notExistLikeInfluencer': return GrpcReasonCancelMembership.notExistLikeInfluencer;
-      case r'manyBugs': return GrpcReasonCancelMembership.manyBugs;
-      case r'chargeDissatisfaction': return GrpcReasonCancelMembership.chargeDissatisfaction;
-      case r'supportDissatisfaction': return GrpcReasonCancelMembership.supportDissatisfaction;
-      case r'slanderFromInfluencer': return GrpcReasonCancelMembership.slanderFromInfluencer;
-      case r'otherReason': return GrpcReasonCancelMembership.otherReason;
+      case 0: return GrpcReasonCancelMembership.number0;
+      case 1: return GrpcReasonCancelMembership.number1;
+      case 2: return GrpcReasonCancelMembership.number2;
+      case 3: return GrpcReasonCancelMembership.number3;
+      case 4: return GrpcReasonCancelMembership.number4;
+      case 5: return GrpcReasonCancelMembership.number5;
+      case 6: return GrpcReasonCancelMembership.number6;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

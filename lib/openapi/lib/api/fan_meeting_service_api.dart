@@ -251,12 +251,12 @@ class FanMeetingServiceApi {
   /// Performs an HTTP 'GET /v1/fan-meetings/genre/{genre}' operation and returns the [Response].
   /// Parameters:
   ///
-  /// * [String] genre (required):
+  /// * [int] genre (required):
   ///
   /// * [String] pageToken:
   ///
   /// * [String] fanUuid:
-  Future<Response> fanMeetingServiceListFanMeetingsByGenreWithHttpInfo(String genre, { String pageToken, String fanUuid }) async {
+  Future<Response> fanMeetingServiceListFanMeetingsByGenreWithHttpInfo(int genre, { String pageToken, String fanUuid }) async {
     // Verify required params are set.
     if (genre == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: genre');
@@ -297,12 +297,12 @@ class FanMeetingServiceApi {
 
   /// Parameters:
   ///
-  /// * [String] genre (required):
+  /// * [int] genre (required):
   ///
   /// * [String] pageToken:
   ///
   /// * [String] fanUuid:
-  Future<GrpcListFanMeetingsByGenreResponse> fanMeetingServiceListFanMeetingsByGenre(String genre, { String pageToken, String fanUuid }) async {
+  Future<GrpcListFanMeetingsByGenreResponse> fanMeetingServiceListFanMeetingsByGenre(int genre, { String pageToken, String fanUuid }) async {
     final response = await fanMeetingServiceListFanMeetingsByGenreWithHttpInfo(genre,  pageToken: pageToken, fanUuid: fanUuid );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -323,8 +323,8 @@ class FanMeetingServiceApi {
   ///
   /// * [String] fanUuid:
   ///
-  /// * [String] state:
-  Future<Response> fanMeetingServiceListFanMeetingsByInfluencerUUIDWithHttpInfo(String influencerUuid, { String fanUuid, String state }) async {
+  /// * [int] state:
+  Future<Response> fanMeetingServiceListFanMeetingsByInfluencerUUIDWithHttpInfo(String influencerUuid, { String fanUuid, int state }) async {
     // Verify required params are set.
     if (influencerUuid == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: influencerUuid');
@@ -369,8 +369,8 @@ class FanMeetingServiceApi {
   ///
   /// * [String] fanUuid:
   ///
-  /// * [String] state:
-  Future<GrpcListFanMeetingsByInfluencerUUIDResponse> fanMeetingServiceListFanMeetingsByInfluencerUUID(String influencerUuid, { String fanUuid, String state }) async {
+  /// * [int] state:
+  Future<GrpcListFanMeetingsByInfluencerUUIDResponse> fanMeetingServiceListFanMeetingsByInfluencerUUID(String influencerUuid, { String fanUuid, int state }) async {
     final response = await fanMeetingServiceListFanMeetingsByInfluencerUUIDWithHttpInfo(influencerUuid,  fanUuid: fanUuid, state: state );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

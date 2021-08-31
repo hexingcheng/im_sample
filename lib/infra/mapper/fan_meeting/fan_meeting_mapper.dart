@@ -14,16 +14,16 @@ class FanMeetingMapper {
       talent: TalentMapper.decode(grpc.influencer),
       limitedPeople: grpc.limitedPeople,
       state: FanMeetingStateMapper.decode(
-          grpc.state ?? GrpcFanMeetingState.stateUnknown),
-      isExtension: IsExtensionMapper.decode(
-          grpc.isExtension ?? GrpcIsExtension.extensionUnknown),
+          grpc.state ?? GrpcFanMeetingState.number0),
+      isExtension:
+          IsExtensionMapper.decode(grpc.isExtension ?? GrpcIsExtension.number0),
       eventDate: TimeStampMapper.decode(
           grpc.eventDate ?? GrpcTimestamp(seconds: 0, nanos: 0)),
       secondsPerReservation: grpc.secondsPerReservation,
       thumbnailMovieUri: grpc.thumbnailMovieUri,
       flvUri: grpc.flvUri,
       style: FanMeetingStyleMapper.decode(
-          grpc.style ?? GrpcFanmeetingStyle.regular),
+          grpc.style ?? GrpcFanmeetingStyle.number1),
     );
   }
 }

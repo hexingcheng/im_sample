@@ -15,22 +15,22 @@ class GrpcUserType {
   const GrpcUserType._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const unknown = GrpcUserType._(r'user_type_unknown');
-  static const fan = GrpcUserType._(r'user_type_fan');
-  static const influencer = GrpcUserType._(r'user_type_influencer');
+  static const number0 = GrpcUserType._(0);
+  static const number1 = GrpcUserType._(1);
+  static const number2 = GrpcUserType._(2);
 
   /// List of all possible values in this [enum][GrpcUserType].
   static const values = <GrpcUserType>[
-    unknown,
-    fan,
-    influencer,
+    number0,
+    number1,
+    number2,
   ];
 
   static GrpcUserType fromJson(dynamic value) =>
@@ -44,14 +44,14 @@ class GrpcUserType {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcUserType] to String,
+/// Transformation class that can [encode] an instance of [GrpcUserType] to int,
 /// and [decode] dynamic data back to [GrpcUserType].
 class GrpcUserTypeTypeTransformer {
   const GrpcUserTypeTypeTransformer._();
 
   factory GrpcUserTypeTypeTransformer() => _instance ??= GrpcUserTypeTypeTransformer._();
 
-  String encode(GrpcUserType data) => data.value;
+  int encode(GrpcUserType data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcUserType.
   ///
@@ -63,9 +63,9 @@ class GrpcUserTypeTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcUserType decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'user_type_unknown': return GrpcUserType.unknown;
-      case r'user_type_fan': return GrpcUserType.fan;
-      case r'user_type_influencer': return GrpcUserType.influencer;
+      case 0: return GrpcUserType.number0;
+      case 1: return GrpcUserType.number1;
+      case 2: return GrpcUserType.number2;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

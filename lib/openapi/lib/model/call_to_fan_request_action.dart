@@ -15,20 +15,20 @@ class CallToFanRequestAction {
   const CallToFanRequestAction._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const call = CallToFanRequestAction._(r'call');
-  static const hangOut = CallToFanRequestAction._(r'hang_out');
+  static const number0 = CallToFanRequestAction._(0);
+  static const number1 = CallToFanRequestAction._(1);
 
   /// List of all possible values in this [enum][CallToFanRequestAction].
   static const values = <CallToFanRequestAction>[
-    call,
-    hangOut,
+    number0,
+    number1,
   ];
 
   static CallToFanRequestAction fromJson(dynamic value) =>
@@ -42,14 +42,14 @@ class CallToFanRequestAction {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [CallToFanRequestAction] to String,
+/// Transformation class that can [encode] an instance of [CallToFanRequestAction] to int,
 /// and [decode] dynamic data back to [CallToFanRequestAction].
 class CallToFanRequestActionTypeTransformer {
   const CallToFanRequestActionTypeTransformer._();
 
   factory CallToFanRequestActionTypeTransformer() => _instance ??= CallToFanRequestActionTypeTransformer._();
 
-  String encode(CallToFanRequestAction data) => data.value;
+  int encode(CallToFanRequestAction data) => data.value;
 
   /// Decodes a [dynamic value][data] to a CallToFanRequestAction.
   ///
@@ -61,8 +61,8 @@ class CallToFanRequestActionTypeTransformer {
   /// and users are still using an old app with the old code.
   CallToFanRequestAction decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'call': return CallToFanRequestAction.call;
-      case r'hang_out': return CallToFanRequestAction.hangOut;
+      case 0: return CallToFanRequestAction.number0;
+      case 1: return CallToFanRequestAction.number1;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

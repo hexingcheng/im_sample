@@ -15,26 +15,26 @@ class GrpcReportType {
   const GrpcReportType._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const slander = GrpcReportType._(r'slander');
-  static const adult = GrpcReportType._(r'adult');
-  static const encounter = GrpcReportType._(r'encounter');
-  static const contravention = GrpcReportType._(r'contravention');
-  static const otherReport = GrpcReportType._(r'otherReport');
+  static const number0 = GrpcReportType._(0);
+  static const number1 = GrpcReportType._(1);
+  static const number2 = GrpcReportType._(2);
+  static const number3 = GrpcReportType._(3);
+  static const number4 = GrpcReportType._(4);
 
   /// List of all possible values in this [enum][GrpcReportType].
   static const values = <GrpcReportType>[
-    slander,
-    adult,
-    encounter,
-    contravention,
-    otherReport,
+    number0,
+    number1,
+    number2,
+    number3,
+    number4,
   ];
 
   static GrpcReportType fromJson(dynamic value) =>
@@ -48,14 +48,14 @@ class GrpcReportType {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcReportType] to String,
+/// Transformation class that can [encode] an instance of [GrpcReportType] to int,
 /// and [decode] dynamic data back to [GrpcReportType].
 class GrpcReportTypeTypeTransformer {
   const GrpcReportTypeTypeTransformer._();
 
   factory GrpcReportTypeTypeTransformer() => _instance ??= GrpcReportTypeTypeTransformer._();
 
-  String encode(GrpcReportType data) => data.value;
+  int encode(GrpcReportType data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcReportType.
   ///
@@ -67,11 +67,11 @@ class GrpcReportTypeTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcReportType decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'slander': return GrpcReportType.slander;
-      case r'adult': return GrpcReportType.adult;
-      case r'encounter': return GrpcReportType.encounter;
-      case r'contravention': return GrpcReportType.contravention;
-      case r'otherReport': return GrpcReportType.otherReport;
+      case 0: return GrpcReportType.number0;
+      case 1: return GrpcReportType.number1;
+      case 2: return GrpcReportType.number2;
+      case 3: return GrpcReportType.number3;
+      case 4: return GrpcReportType.number4;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

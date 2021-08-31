@@ -15,28 +15,28 @@ class GrpcFanMeetingState {
   const GrpcFanMeetingState._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const stateUnknown = GrpcFanMeetingState._(r'state_unknown');
-  static const finish = GrpcFanMeetingState._(r'finish');
-  static const now = GrpcFanMeetingState._(r'now');
-  static const future = GrpcFanMeetingState._(r'future');
-  static const cancel = GrpcFanMeetingState._(r'cancel');
-  static const notHeld = GrpcFanMeetingState._(r'not_held');
+  static const number0 = GrpcFanMeetingState._(0);
+  static const number1 = GrpcFanMeetingState._(1);
+  static const number2 = GrpcFanMeetingState._(2);
+  static const number3 = GrpcFanMeetingState._(3);
+  static const number4 = GrpcFanMeetingState._(4);
+  static const number5 = GrpcFanMeetingState._(5);
 
   /// List of all possible values in this [enum][GrpcFanMeetingState].
   static const values = <GrpcFanMeetingState>[
-    stateUnknown,
-    finish,
-    now,
-    future,
-    cancel,
-    notHeld,
+    number0,
+    number1,
+    number2,
+    number3,
+    number4,
+    number5,
   ];
 
   static GrpcFanMeetingState fromJson(dynamic value) =>
@@ -50,14 +50,14 @@ class GrpcFanMeetingState {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcFanMeetingState] to String,
+/// Transformation class that can [encode] an instance of [GrpcFanMeetingState] to int,
 /// and [decode] dynamic data back to [GrpcFanMeetingState].
 class GrpcFanMeetingStateTypeTransformer {
   const GrpcFanMeetingStateTypeTransformer._();
 
   factory GrpcFanMeetingStateTypeTransformer() => _instance ??= GrpcFanMeetingStateTypeTransformer._();
 
-  String encode(GrpcFanMeetingState data) => data.value;
+  int encode(GrpcFanMeetingState data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcFanMeetingState.
   ///
@@ -69,12 +69,12 @@ class GrpcFanMeetingStateTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcFanMeetingState decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'state_unknown': return GrpcFanMeetingState.stateUnknown;
-      case r'finish': return GrpcFanMeetingState.finish;
-      case r'now': return GrpcFanMeetingState.now;
-      case r'future': return GrpcFanMeetingState.future;
-      case r'cancel': return GrpcFanMeetingState.cancel;
-      case r'not_held': return GrpcFanMeetingState.notHeld;
+      case 0: return GrpcFanMeetingState.number0;
+      case 1: return GrpcFanMeetingState.number1;
+      case 2: return GrpcFanMeetingState.number2;
+      case 3: return GrpcFanMeetingState.number3;
+      case 4: return GrpcFanMeetingState.number4;
+      case 5: return GrpcFanMeetingState.number5;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

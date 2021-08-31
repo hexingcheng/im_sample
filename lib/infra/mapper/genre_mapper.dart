@@ -3,30 +3,30 @@ import 'package:openapi/api.dart';
 
 class GenreMapper {
   static const genreMap = {
-    Genre.nonGenre: GrpcGenre.nonGenre,
-    Genre.model: GrpcGenre.model,
-    Genre.actor: GrpcGenre.actor,
-    Genre.actress: GrpcGenre.actress,
-    Genre.youtuber: GrpcGenre.youtuber,
-    Genre.liver: GrpcGenre.liver,
-    Genre.instagrammer: GrpcGenre.instagrammer,
-    Genre.tiktoker: GrpcGenre.tiktoker,
-    Genre.idol: GrpcGenre.idol,
-    Genre.cosplayer: GrpcGenre.cosplayer,
-    Genre.voiceActor: GrpcGenre.voiceActor,
-    Genre.talent: GrpcGenre.talent,
-    Genre.artist: GrpcGenre.artist,
-    Genre.comedian: GrpcGenre.comedian,
-    Genre.fortuneTeller: GrpcGenre.fortuneTeller,
-    Genre.other: GrpcGenre.other,
-    Genre.influencer: GrpcGenre.influencer,
+    Genre.nonGenre: GrpcGenre.number0,
+    Genre.model: GrpcGenre.number1,
+    Genre.actor: GrpcGenre.number2,
+    Genre.actress: GrpcGenre.number3,
+    Genre.youtuber: GrpcGenre.number4,
+    Genre.liver: GrpcGenre.number5,
+    Genre.instagrammer: GrpcGenre.number6,
+    Genre.tiktoker: GrpcGenre.number7,
+    Genre.idol: GrpcGenre.number8,
+    Genre.cosplayer: GrpcGenre.number9,
+    Genre.voiceActor: GrpcGenre.number10,
+    Genre.talent: GrpcGenre.number11,
+    Genre.artist: GrpcGenre.number12,
+    Genre.comedian: GrpcGenre.number13,
+    Genre.fortuneTeller: GrpcGenre.number14,
+    Genre.other: GrpcGenre.number15,
+    Genre.influencer: GrpcGenre.number16,
   };
 
   static Genre decode(GrpcGenre grpc) {
     return genreMap.entries
         .firstWhere((element) => element.value == grpc,
             orElse: () => const MapEntry<Genre, GrpcGenre>(
-                Genre.nonGenre, GrpcGenre.nonGenre))
+                Genre.nonGenre, GrpcGenre.number0))
         .key;
   }
 

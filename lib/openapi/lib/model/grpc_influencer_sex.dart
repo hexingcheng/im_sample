@@ -15,24 +15,24 @@ class GrpcInfluencerSex {
   const GrpcInfluencerSex._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const unknown = GrpcInfluencerSex._(r'unknown');
-  static const man = GrpcInfluencerSex._(r'man');
-  static const woman = GrpcInfluencerSex._(r'woman');
-  static const undefined = GrpcInfluencerSex._(r'undefined');
+  static const number0 = GrpcInfluencerSex._(0);
+  static const number1 = GrpcInfluencerSex._(1);
+  static const number2 = GrpcInfluencerSex._(2);
+  static const number3 = GrpcInfluencerSex._(3);
 
   /// List of all possible values in this [enum][GrpcInfluencerSex].
   static const values = <GrpcInfluencerSex>[
-    unknown,
-    man,
-    woman,
-    undefined,
+    number0,
+    number1,
+    number2,
+    number3,
   ];
 
   static GrpcInfluencerSex fromJson(dynamic value) =>
@@ -46,14 +46,14 @@ class GrpcInfluencerSex {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcInfluencerSex] to String,
+/// Transformation class that can [encode] an instance of [GrpcInfluencerSex] to int,
 /// and [decode] dynamic data back to [GrpcInfluencerSex].
 class GrpcInfluencerSexTypeTransformer {
   const GrpcInfluencerSexTypeTransformer._();
 
   factory GrpcInfluencerSexTypeTransformer() => _instance ??= GrpcInfluencerSexTypeTransformer._();
 
-  String encode(GrpcInfluencerSex data) => data.value;
+  int encode(GrpcInfluencerSex data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcInfluencerSex.
   ///
@@ -65,10 +65,10 @@ class GrpcInfluencerSexTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcInfluencerSex decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'unknown': return GrpcInfluencerSex.unknown;
-      case r'man': return GrpcInfluencerSex.man;
-      case r'woman': return GrpcInfluencerSex.woman;
-      case r'undefined': return GrpcInfluencerSex.undefined;
+      case 0: return GrpcInfluencerSex.number0;
+      case 1: return GrpcInfluencerSex.number1;
+      case 2: return GrpcInfluencerSex.number2;
+      case 3: return GrpcInfluencerSex.number3;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

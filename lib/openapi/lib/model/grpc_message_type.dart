@@ -15,24 +15,24 @@ class GrpcMessageType {
   const GrpcMessageType._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const unknown = GrpcMessageType._(r'message_type_unknown');
-  static const text = GrpcMessageType._(r'message_type_text');
-  static const image = GrpcMessageType._(r'message_type_image');
-  static const video = GrpcMessageType._(r'message_type_video');
+  static const number0 = GrpcMessageType._(0);
+  static const number1 = GrpcMessageType._(1);
+  static const number2 = GrpcMessageType._(2);
+  static const number3 = GrpcMessageType._(3);
 
   /// List of all possible values in this [enum][GrpcMessageType].
   static const values = <GrpcMessageType>[
-    unknown,
-    text,
-    image,
-    video,
+    number0,
+    number1,
+    number2,
+    number3,
   ];
 
   static GrpcMessageType fromJson(dynamic value) =>
@@ -46,14 +46,14 @@ class GrpcMessageType {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcMessageType] to String,
+/// Transformation class that can [encode] an instance of [GrpcMessageType] to int,
 /// and [decode] dynamic data back to [GrpcMessageType].
 class GrpcMessageTypeTypeTransformer {
   const GrpcMessageTypeTypeTransformer._();
 
   factory GrpcMessageTypeTypeTransformer() => _instance ??= GrpcMessageTypeTypeTransformer._();
 
-  String encode(GrpcMessageType data) => data.value;
+  int encode(GrpcMessageType data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcMessageType.
   ///
@@ -65,10 +65,10 @@ class GrpcMessageTypeTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcMessageType decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'message_type_unknown': return GrpcMessageType.unknown;
-      case r'message_type_text': return GrpcMessageType.text;
-      case r'message_type_image': return GrpcMessageType.image;
-      case r'message_type_video': return GrpcMessageType.video;
+      case 0: return GrpcMessageType.number0;
+      case 1: return GrpcMessageType.number1;
+      case 2: return GrpcMessageType.number2;
+      case 3: return GrpcMessageType.number3;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

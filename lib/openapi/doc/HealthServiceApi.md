@@ -26,7 +26,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('x-api-jwt').apiKeyPrefix = 'Bearer';
 
 final api_instance = HealthServiceApi();
-final status = status_example; // String | 
+final status = 56; // int | 
 
 try { 
     final result = api_instance.healthServiceHealthCheck(status);
@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | **String**|  | [optional] [default to 'health_unknown']
+ **status** | **int**|  | [optional] [default to 0]
 
 ### Return type
 

@@ -15,22 +15,22 @@ class GrpcFanmeetingStyle {
   const GrpcFanmeetingStyle._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const unknown = GrpcFanmeetingStyle._(r'style_unknown');
-  static const regular = GrpcFanmeetingStyle._(r'style_regular');
-  static const serial = GrpcFanmeetingStyle._(r'style_serial');
+  static const number0 = GrpcFanmeetingStyle._(0);
+  static const number1 = GrpcFanmeetingStyle._(1);
+  static const number2 = GrpcFanmeetingStyle._(2);
 
   /// List of all possible values in this [enum][GrpcFanmeetingStyle].
   static const values = <GrpcFanmeetingStyle>[
-    unknown,
-    regular,
-    serial,
+    number0,
+    number1,
+    number2,
   ];
 
   static GrpcFanmeetingStyle fromJson(dynamic value) =>
@@ -44,14 +44,14 @@ class GrpcFanmeetingStyle {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcFanmeetingStyle] to String,
+/// Transformation class that can [encode] an instance of [GrpcFanmeetingStyle] to int,
 /// and [decode] dynamic data back to [GrpcFanmeetingStyle].
 class GrpcFanmeetingStyleTypeTransformer {
   const GrpcFanmeetingStyleTypeTransformer._();
 
   factory GrpcFanmeetingStyleTypeTransformer() => _instance ??= GrpcFanmeetingStyleTypeTransformer._();
 
-  String encode(GrpcFanmeetingStyle data) => data.value;
+  int encode(GrpcFanmeetingStyle data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcFanmeetingStyle.
   ///
@@ -63,9 +63,9 @@ class GrpcFanmeetingStyleTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcFanmeetingStyle decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'style_unknown': return GrpcFanmeetingStyle.unknown;
-      case r'style_regular': return GrpcFanmeetingStyle.regular;
-      case r'style_serial': return GrpcFanmeetingStyle.serial;
+      case 0: return GrpcFanmeetingStyle.number0;
+      case 1: return GrpcFanmeetingStyle.number1;
+      case 2: return GrpcFanmeetingStyle.number2;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

@@ -18,8 +18,8 @@ class HealthServiceApi {
   /// Performs an HTTP 'GET /v1/health' operation and returns the [Response].
   /// Parameters:
   ///
-  /// * [String] status:
-  Future<Response> healthServiceHealthCheckWithHttpInfo({ String status }) async {
+  /// * [int] status:
+  Future<Response> healthServiceHealthCheckWithHttpInfo({ int status }) async {
     // Verify required params are set.
 
     final path = r'/v1/health';
@@ -53,8 +53,8 @@ class HealthServiceApi {
 
   /// Parameters:
   ///
-  /// * [String] status:
-  Future<GrpcHealthResponse> healthServiceHealthCheck({ String status }) async {
+  /// * [int] status:
+  Future<GrpcHealthResponse> healthServiceHealthCheck({ int status }) async {
     final response = await healthServiceHealthCheckWithHttpInfo( status: status );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

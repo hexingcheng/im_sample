@@ -15,22 +15,22 @@ class GrpcIsExtension {
   const GrpcIsExtension._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const extensionUnknown = GrpcIsExtension._(r'extension_unknown');
-  static const false_ = GrpcIsExtension._(r'false');
-  static const true_ = GrpcIsExtension._(r'true');
+  static const number0 = GrpcIsExtension._(0);
+  static const number1 = GrpcIsExtension._(1);
+  static const number2 = GrpcIsExtension._(2);
 
   /// List of all possible values in this [enum][GrpcIsExtension].
   static const values = <GrpcIsExtension>[
-    extensionUnknown,
-    false_,
-    true_,
+    number0,
+    number1,
+    number2,
   ];
 
   static GrpcIsExtension fromJson(dynamic value) =>
@@ -44,14 +44,14 @@ class GrpcIsExtension {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcIsExtension] to String,
+/// Transformation class that can [encode] an instance of [GrpcIsExtension] to int,
 /// and [decode] dynamic data back to [GrpcIsExtension].
 class GrpcIsExtensionTypeTransformer {
   const GrpcIsExtensionTypeTransformer._();
 
   factory GrpcIsExtensionTypeTransformer() => _instance ??= GrpcIsExtensionTypeTransformer._();
 
-  String encode(GrpcIsExtension data) => data.value;
+  int encode(GrpcIsExtension data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcIsExtension.
   ///
@@ -63,9 +63,9 @@ class GrpcIsExtensionTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcIsExtension decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'extension_unknown': return GrpcIsExtension.extensionUnknown;
-      case r'false': return GrpcIsExtension.false_;
-      case r'true': return GrpcIsExtension.true_;
+      case 0: return GrpcIsExtension.number0;
+      case 1: return GrpcIsExtension.number1;
+      case 2: return GrpcIsExtension.number2;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

@@ -15,24 +15,24 @@ class GrpcIncentiveCode {
   const GrpcIncentiveCode._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const none = GrpcIncentiveCode._(r'none');
-  static const point = GrpcIncentiveCode._(r'point');
-  static const apologize = GrpcIncentiveCode._(r'apologize');
-  static const campaign = GrpcIncentiveCode._(r'campaign');
+  static const number0 = GrpcIncentiveCode._(0);
+  static const number1 = GrpcIncentiveCode._(1);
+  static const number2 = GrpcIncentiveCode._(2);
+  static const number3 = GrpcIncentiveCode._(3);
 
   /// List of all possible values in this [enum][GrpcIncentiveCode].
   static const values = <GrpcIncentiveCode>[
-    none,
-    point,
-    apologize,
-    campaign,
+    number0,
+    number1,
+    number2,
+    number3,
   ];
 
   static GrpcIncentiveCode fromJson(dynamic value) =>
@@ -46,14 +46,14 @@ class GrpcIncentiveCode {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcIncentiveCode] to String,
+/// Transformation class that can [encode] an instance of [GrpcIncentiveCode] to int,
 /// and [decode] dynamic data back to [GrpcIncentiveCode].
 class GrpcIncentiveCodeTypeTransformer {
   const GrpcIncentiveCodeTypeTransformer._();
 
   factory GrpcIncentiveCodeTypeTransformer() => _instance ??= GrpcIncentiveCodeTypeTransformer._();
 
-  String encode(GrpcIncentiveCode data) => data.value;
+  int encode(GrpcIncentiveCode data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcIncentiveCode.
   ///
@@ -65,10 +65,10 @@ class GrpcIncentiveCodeTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcIncentiveCode decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'none': return GrpcIncentiveCode.none;
-      case r'point': return GrpcIncentiveCode.point;
-      case r'apologize': return GrpcIncentiveCode.apologize;
-      case r'campaign': return GrpcIncentiveCode.campaign;
+      case 0: return GrpcIncentiveCode.number0;
+      case 1: return GrpcIncentiveCode.number1;
+      case 2: return GrpcIncentiveCode.number2;
+      case 3: return GrpcIncentiveCode.number3;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

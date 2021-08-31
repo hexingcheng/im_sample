@@ -15,20 +15,20 @@ class GrpcTopic {
   const GrpcTopic._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const nonTopic = GrpcTopic._(r'non_topic');
-  static const popular = GrpcTopic._(r'popular');
+  static const number0 = GrpcTopic._(0);
+  static const number1 = GrpcTopic._(1);
 
   /// List of all possible values in this [enum][GrpcTopic].
   static const values = <GrpcTopic>[
-    nonTopic,
-    popular,
+    number0,
+    number1,
   ];
 
   static GrpcTopic fromJson(dynamic value) =>
@@ -42,14 +42,14 @@ class GrpcTopic {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcTopic] to String,
+/// Transformation class that can [encode] an instance of [GrpcTopic] to int,
 /// and [decode] dynamic data back to [GrpcTopic].
 class GrpcTopicTypeTransformer {
   const GrpcTopicTypeTransformer._();
 
   factory GrpcTopicTypeTransformer() => _instance ??= GrpcTopicTypeTransformer._();
 
-  String encode(GrpcTopic data) => data.value;
+  int encode(GrpcTopic data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcTopic.
   ///
@@ -61,8 +61,8 @@ class GrpcTopicTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcTopic decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'non_topic': return GrpcTopic.nonTopic;
-      case r'popular': return GrpcTopic.popular;
+      case 0: return GrpcTopic.number0;
+      case 1: return GrpcTopic.number1;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

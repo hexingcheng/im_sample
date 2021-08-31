@@ -15,20 +15,20 @@ class FanNotificationRequestSegment {
   const FanNotificationRequestSegment._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const all = FanNotificationRequestSegment._(r'all');
-  static const designate = FanNotificationRequestSegment._(r'designate');
+  static const number0 = FanNotificationRequestSegment._(0);
+  static const number1 = FanNotificationRequestSegment._(1);
 
   /// List of all possible values in this [enum][FanNotificationRequestSegment].
   static const values = <FanNotificationRequestSegment>[
-    all,
-    designate,
+    number0,
+    number1,
   ];
 
   static FanNotificationRequestSegment fromJson(dynamic value) =>
@@ -42,14 +42,14 @@ class FanNotificationRequestSegment {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [FanNotificationRequestSegment] to String,
+/// Transformation class that can [encode] an instance of [FanNotificationRequestSegment] to int,
 /// and [decode] dynamic data back to [FanNotificationRequestSegment].
 class FanNotificationRequestSegmentTypeTransformer {
   const FanNotificationRequestSegmentTypeTransformer._();
 
   factory FanNotificationRequestSegmentTypeTransformer() => _instance ??= FanNotificationRequestSegmentTypeTransformer._();
 
-  String encode(FanNotificationRequestSegment data) => data.value;
+  int encode(FanNotificationRequestSegment data) => data.value;
 
   /// Decodes a [dynamic value][data] to a FanNotificationRequestSegment.
   ///
@@ -61,8 +61,8 @@ class FanNotificationRequestSegmentTypeTransformer {
   /// and users are still using an old app with the old code.
   FanNotificationRequestSegment decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'all': return FanNotificationRequestSegment.all;
-      case r'designate': return FanNotificationRequestSegment.designate;
+      case 0: return FanNotificationRequestSegment.number0;
+      case 1: return FanNotificationRequestSegment.number1;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
