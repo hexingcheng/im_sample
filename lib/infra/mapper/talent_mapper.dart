@@ -1,4 +1,4 @@
-git ad import 'package:onlylive/domain/entities/talent.dart';
+import 'package:onlylive/domain/entities/talent.dart';
 import 'package:onlylive/infra/mapper/genre_mapper.dart';
 import 'package:openapi/api.dart';
 

@@ -1,16 +1,23 @@
 import 'package:onlylive/domain/entities/reservation.dart';
+import 'package:openapi/api.dart';
 
 class ReservationStateMapper {
-  static Map<ReservationState, int> fanMeetingStateMap = {
-    ReservationState.unknown: 0,
-    ReservationState.wait: 1,
-    ReservationState.done: 3,
-    ReservationState.abort: 4,
+  static const reservationStateMap = {
+    ReservationState.unknown: GrpcReservationState.nonReservationState,
+    ReservationState.wait: GrpcReservationState.wait,
+    ReservationState.done: GrpcReservationState.done,
+    ReservationState.abort: GrpcReservationState.abort,
   };
 
-  static ReservationState decode(int state) {
-    return fanMeetingStateMap.keys.firstWhere(
-        (k) => fanMeetingStateMap[k] == state,
-        orElse: () => ReservationState.unknown);
+  static ReservationState decode(GrpcReservationState grpc) {
+    return reservationStateMap.entries
+        .firstWhere((element) => element.value == grpc)
+        .key;
+  }
+
+  static GrpcReservationState encode(ReservationState state) {
+    return reservationStateMap.entries
+        .firstWhere((element) => element.key == state)
+        .value;
   }
 }

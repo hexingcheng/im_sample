@@ -105,4 +105,6 @@ class HomeVM with ChangeNotifier {
     // await Future.delayed(const Duration(seconds: 30));
     // periodicUpdateTalentList();
   }
+
+  Future<void> createReservation(int id) async {}
 }

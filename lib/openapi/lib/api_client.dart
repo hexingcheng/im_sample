@@ -39,14 +39,15 @@ class ApiClient {
   final _authentications = <String, Authentication>{};
 
   void addDefaultHeader(String key, String value) {
-     _defaultHeaderMap[key] = value;
+    _defaultHeaderMap[key] = value;
   }
 
-  Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
+  Map<String, String> get defaultHeaderMap => _defaultHeaderMap;
 
   /// Returns an unmodifiable [Map] of the authentications, since none should be added
   /// or deleted.
-  Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
+  Map<String, Authentication> get authentications =>
+      Map.unmodifiable(_authentications);
 
   T getAuthentication<T extends Authentication>(String name) {
     final authentication = _authentications[name];
@@ -70,12 +71,12 @@ class ApiClient {
     headerParams.addAll(_defaultHeaderMap);
 
     final urlEncodedQueryParams = queryParams
-      .where((param) => param.value != null)
-      .map((param) => '$param');
+        .where((param) => param.value != null)
+        .map((param) => '$param');
 
     final queryString = urlEncodedQueryParams.isNotEmpty
-      ? '?${urlEncodedQueryParams.join('&')}'
-      : '';
+        ? '?${urlEncodedQueryParams.join('&')}'
+        : '';
 
     final Uri uri = Uri.parse('$basePath$path$queryString');
 
@@ -85,19 +86,20 @@ class ApiClient {
 
     try {
       // Special case for uploading a single file which isn't a 'multipart/form-data'.
-      if (
-        body is MultipartFile && (nullableContentType == null ||
-        !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
-      ) {
+      if (body is MultipartFile &&
+          (nullableContentType == null ||
+              !nullableContentType
+                  .toLowerCase()
+                  .startsWith('multipart/form-data'))) {
         final request = StreamedRequest(method, uri);
         request.headers.addAll(headerParams);
         request.contentLength = body.length;
         body.finalize().listen(
-          request.sink.add,
-          onDone: request.sink.close,
-          onError: (error, trace) => request.sink.close(),
-          cancelOnError: true,
-        );
+              request.sink.add,
+              onDone: request.sink.close,
+              onError: (error, trace) => request.sink.close(),
+              cancelOnError: true,
+            );
         final response = await _client.send(request);
         return Response.fromStream(response);
       }
@@ -113,52 +115,112 @@ class ApiClient {
       }
 
       final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
-        ? formParams
-        : await serializeAsync(body);
+          ? formParams
+          : await serializeAsync(body);
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
-      switch(method) {
-        case 'POST': return await _client.post(uri, headers: nullableHeaderParams, body: msgBody,);
-        case 'PUT': return await _client.put(uri, headers: nullableHeaderParams, body: msgBody,);
-        case 'DELETE': return await _client.delete(uri, headers: nullableHeaderParams,);
-        case 'PATCH': return await _client.patch(uri, headers: nullableHeaderParams, body: msgBody,);
-        case 'HEAD': return await _client.head(uri, headers: nullableHeaderParams,);
-        case 'GET': return await _client.get(uri, headers: nullableHeaderParams,);
+      switch (method) {
+        case 'POST':
+          return await _client.post(
+            uri,
+            headers: nullableHeaderParams,
+            body: msgBody,
+          );
+        case 'PUT':
+          return await _client.put(
+            uri,
+            headers: nullableHeaderParams,
+            body: msgBody,
+          );
+        case 'DELETE':
+          return await _client.delete(
+            uri,
+            headers: nullableHeaderParams,
+          );
+        case 'PATCH':
+          return await _client.patch(
+            uri,
+            headers: nullableHeaderParams,
+            body: msgBody,
+          );
+        case 'HEAD':
+          return await _client.head(
+            uri,
+            headers: nullableHeaderParams,
+          );
+        case 'GET':
+          return await _client.get(
+            uri,
+            headers: nullableHeaderParams,
+          );
       }
     } on SocketException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace,);
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'Socket operation failed: $method $path',
+        e,
+        trace,
+      );
     } on TlsException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace,);
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'TLS/SSL communication failed: $method $path',
+        e,
+        trace,
+      );
     } on IOException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace,);
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'I/O operation failed: $method $path',
+        e,
+        trace,
+      );
     } on ClientException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'HTTP connection failed: $method $path', e, trace,);
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'HTTP connection failed: $method $path',
+        e,
+        trace,
+      );
     } on Exception catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace,);
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'Exception occurred: $method $path',
+        e,
+        trace,
+      );
     }
 
-    throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
+    throw ApiException(
+      HttpStatus.badRequest,
+      'Invalid HTTP operation: $method $path',
+    );
   }
 
-  Future<dynamic> deserializeAsync(String json, String targetType, {bool growable}) async =>
-    // ignore: deprecated_member_use_from_same_package
-    deserialize(json, targetType, growable: growable);
+  Future<dynamic> deserializeAsync(String json, String targetType,
+          {bool growable}) async =>
+      // ignore: deprecated_member_use_from_same_package
+      deserialize(json, targetType, growable: growable);
 
-  @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use deserializeAsync() instead.')
+  @Deprecated(
+      'Scheduled for removal in OpenAPI Generator 6.x. Use deserializeAsync() instead.')
   dynamic deserialize(String json, String targetType, {bool growable}) {
     // Remove all spaces. Necessary for regular expressions as well.
-    targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
+    targetType =
+        targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
     // If the expected target type is String, nothing to do...
     return targetType == 'String'
-      ? json
-      : _deserialize(jsonDecode(json), targetType, growable: growable == true);
+        ? json
+        : _deserialize(jsonDecode(json), targetType,
+            growable: growable == true);
   }
 
   // ignore: deprecated_member_use_from_same_package
   Future<String> serializeAsync(Object value) async => serialize(value);
 
-  @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
+  @Deprecated(
+      'Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
   String serialize(Object value) => value == null ? '' : json.encode(value);
 
   /// Update query and header parameters based on authentication settings.
@@ -168,7 +230,7 @@ class ApiClient {
     List<QueryParam> queryParams,
     Map<String, String> headerParams,
   ) {
-    for(final authName in authNames) {
+    for (final authName in authNames) {
       final auth = _authentications[authName];
       if (auth == null) {
         throw ArgumentError('Authentication undefined: $authName');
@@ -177,7 +239,8 @@ class ApiClient {
     }
   }
 
-  static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
+  static dynamic _deserialize(dynamic value, String targetType,
+      {bool growable}) {
     try {
       switch (targetType) {
         case 'String':
@@ -195,22 +258,23 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'CallToFanRequestAction':
           return CallToFanRequestActionTypeTransformer().decode(value);
-          
+
         case 'CampaignCampaignCodeState':
           return CampaignCampaignCodeStateTypeTransformer().decode(value);
-          
+
         case 'ErrorResponse':
           return ErrorResponse.fromJson(value);
         case 'FanNotificationRequestSegment':
           return FanNotificationRequestSegmentTypeTransformer().decode(value);
-          
+
         case 'GatewayruntimeError':
           return GatewayruntimeError.fromJson(value);
         case 'GrpcAddPointsRequest':
           return GrpcAddPointsRequest.fromJson(value);
         case 'GrpcAddPointsRequestNumExtension':
-          return GrpcAddPointsRequestNumExtensionTypeTransformer().decode(value);
-          
+          return GrpcAddPointsRequestNumExtensionTypeTransformer()
+              .decode(value);
+
         case 'GrpcAddPointsResponse':
           return GrpcAddPointsResponse.fromJson(value);
         case 'GrpcAppleIapVerificationRequest':
@@ -267,7 +331,7 @@ class ApiClient {
           return GrpcFanMeetingAndReserved.fromJson(value);
         case 'GrpcFanMeetingState':
           return GrpcFanMeetingStateTypeTransformer().decode(value);
-          
+
         case 'GrpcFanNotificationResponse':
           return GrpcFanNotificationResponse.fromJson(value);
         case 'GrpcFanRefreshTokenRequest':
@@ -276,7 +340,7 @@ class ApiClient {
           return GrpcFanRefreshTokenResponse.fromJson(value);
         case 'GrpcFanSex':
           return GrpcFanSexTypeTransformer().decode(value);
-          
+
         case 'GrpcFanSignInRequest':
           return GrpcFanSignInRequest.fromJson(value);
         case 'GrpcFanSignInResponse':
@@ -287,12 +351,12 @@ class ApiClient {
           return GrpcFanSignUpResponse.fromJson(value);
         case 'GrpcFanmeetingStyle':
           return GrpcFanmeetingStyleTypeTransformer().decode(value);
-          
+
         case 'GrpcFeature':
           return GrpcFeature.fromJson(value);
         case 'GrpcGenre':
           return GrpcGenreTypeTransformer().decode(value);
-          
+
         case 'GrpcGetBillingByMonthRes':
           return GrpcGetBillingByMonthRes.fromJson(value);
         case 'GrpcGetCallTransactionResponse':
@@ -319,10 +383,10 @@ class ApiClient {
           return GrpcHealthResponse.fromJson(value);
         case 'GrpcHealthStatus':
           return GrpcHealthStatusTypeTransformer().decode(value);
-          
+
         case 'GrpcIncentiveCode':
           return GrpcIncentiveCodeTypeTransformer().decode(value);
-          
+
         case 'GrpcInfluencer':
           return GrpcInfluencer.fromJson(value);
         case 'GrpcInfluencerCredential':
@@ -333,19 +397,19 @@ class ApiClient {
           return GrpcInfluencerRefreshTokenResponse.fromJson(value);
         case 'GrpcInfluencerSex':
           return GrpcInfluencerSexTypeTransformer().decode(value);
-          
+
         case 'GrpcInfluencerSignInRequest':
           return GrpcInfluencerSignInRequest.fromJson(value);
         case 'GrpcInfluencerSignInResponse':
           return GrpcInfluencerSignInResponse.fromJson(value);
         case 'GrpcInfluencerSignUpRequestSex':
           return GrpcInfluencerSignUpRequestSexTypeTransformer().decode(value);
-          
+
         case 'GrpcInfluencerSignUpResponse':
           return GrpcInfluencerSignUpResponse.fromJson(value);
         case 'GrpcIsExtension':
           return GrpcIsExtensionTypeTransformer().decode(value);
-          
+
         case 'GrpcJoinedRoom':
           return GrpcJoinedRoom.fromJson(value);
         case 'GrpcListByFanMeetingIDResponse':
@@ -367,7 +431,8 @@ class ApiClient {
         case 'GrpcListFanMeetingsResponse':
           return GrpcListFanMeetingsResponse.fromJson(value);
         case 'GrpcListFanMeetingsWithReservationOnlyByInfluencerUUIDResponse':
-          return GrpcListFanMeetingsWithReservationOnlyByInfluencerUUIDResponse.fromJson(value);
+          return GrpcListFanMeetingsWithReservationOnlyByInfluencerUUIDResponse
+              .fromJson(value);
         case 'GrpcListFeaturesResponse':
           return GrpcListFeaturesResponse.fromJson(value);
         case 'GrpcListFollowsByFanUUIDResponse':
@@ -382,33 +447,33 @@ class ApiClient {
           return GrpcMessage.fromJson(value);
         case 'GrpcMessageType':
           return GrpcMessageTypeTypeTransformer().decode(value);
-          
+
         case 'GrpcNumExtension':
           return GrpcNumExtensionTypeTransformer().decode(value);
-          
+
         case 'GrpcOption':
           return GrpcOptionTypeTransformer().decode(value);
-          
+
         case 'GrpcRankingInfluencer':
           return GrpcRankingInfluencer.fromJson(value);
         case 'GrpcReasonCancelMembership':
           return GrpcReasonCancelMembershipTypeTransformer().decode(value);
-          
+
         case 'GrpcReportType':
           return GrpcReportTypeTypeTransformer().decode(value);
-          
+
         case 'GrpcReservation':
           return GrpcReservation.fromJson(value);
         case 'GrpcReservationAndFan':
           return GrpcReservationAndFan.fromJson(value);
         case 'GrpcReservationState':
           return GrpcReservationStateTypeTransformer().decode(value);
-          
+
         case 'GrpcTimestamp':
           return GrpcTimestamp.fromJson(value);
         case 'GrpcTopic':
           return GrpcTopicTypeTransformer().decode(value);
-          
+
         case 'GrpcUpdateCallTransactionRequest':
           return GrpcUpdateCallTransactionRequest.fromJson(value);
         case 'GrpcUpdateDisplayNameFanRequest':
@@ -450,16 +515,18 @@ class ApiClient {
         case 'GrpcUploadInfluencerImageResponse':
           return GrpcUploadInfluencerImageResponse.fromJson(value);
         case 'GrpcUploadTencentInstantMessageLogByFanMeetingRequest':
-          return GrpcUploadTencentInstantMessageLogByFanMeetingRequest.fromJson(value);
+          return GrpcUploadTencentInstantMessageLogByFanMeetingRequest.fromJson(
+              value);
         case 'GrpcUploadTencentInstantMessageLogByReservationRequest':
-          return GrpcUploadTencentInstantMessageLogByReservationRequest.fromJson(value);
+          return GrpcUploadTencentInstantMessageLogByReservationRequest
+              .fromJson(value);
         case 'GrpcUploadTencentLiteAVLogByFanMeetingRequest':
           return GrpcUploadTencentLiteAVLogByFanMeetingRequest.fromJson(value);
         case 'GrpcUploadTencentLiteAVLogByReservationRequest':
           return GrpcUploadTencentLiteAVLogByReservationRequest.fromJson(value);
         case 'GrpcUserType':
           return GrpcUserTypeTypeTransformer().decode(value);
-          
+
         case 'GrpcWallet':
           return GrpcWallet.fromJson(value);
         case 'ListByFanMeetingIDResponseResult':
@@ -470,31 +537,43 @@ class ApiClient {
           return ProtobufAny.fromJson(value);
         default:
           Match match;
-          if (value is List && (match = _regList.firstMatch(targetType)) != null) {
+          if (value is List &&
+              (match = _regList.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return value
-              .map((v) => _deserialize(v, targetType, growable: growable))
-              .toList(growable: growable);
+                .map((v) => _deserialize(v, targetType, growable: growable))
+                .toList(growable: growable);
           }
-          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+          if (value is Set &&
+              (match = _regSet.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return value
-              .map((v) => _deserialize(v, targetType, growable: growable))
-              .toSet();
+                .map((v) => _deserialize(v, targetType, growable: growable))
+                .toSet();
           }
-          if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
+          if (value is Map &&
+              (match = _regMap.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return Map.fromIterables(
               value.keys,
-              value.values.map((v) => _deserialize(v, targetType, growable: growable)),
+              value.values
+                  .map((v) => _deserialize(v, targetType, growable: growable)),
             );
           }
           break;
       }
     } catch (error, trace) {
-      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', error, trace,);
+      throw ApiException.withInner(
+        HttpStatus.internalServerError,
+        'Exception during deserialization.',
+        error,
+        trace,
+      );
     }
-    throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
+    throw ApiException(
+      HttpStatus.internalServerError,
+      'Could not find a suitable class for deserialization',
+    );
   }
 }
 
@@ -523,13 +602,14 @@ Future<dynamic> deserializeAsync(DeserializationMessage message) async {
 
   // If the expected target type is String, nothing to do...
   return targetType == 'String'
-    ? message.json
-    : ApiClient._deserialize(
-        jsonDecode(message.json),
-        targetType,
-        growable: message.growable == true,
-      );
+      ? message.json
+      : ApiClient._deserialize(
+          jsonDecode(message.json),
+          targetType,
+          growable: message.growable == true,
+        );
 }
 
 /// Primarily intended for use in an isolate.
-Future<String> serializeAsync(Object value) async => value == null ? '' : json.encode(value);
+Future<String> serializeAsync(Object value) async =>
+    value == null ? '' : json.encode(value);

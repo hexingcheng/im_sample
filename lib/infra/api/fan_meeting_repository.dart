@@ -1,11 +1,13 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
-import 'package:onlylive/domain/entities/fan_meeting_and_reserved.dart';
-import 'package:onlylive/domain/entities/now_fanmeeting.dart';
 import 'package:onlylive/domain/entities/fanmeeting_of_influencer.dart';
+import 'package:onlylive/domain/entities/schedule.dart';
+import 'package:onlylive/domain/entities/fan_meeting_and_reserved.dart';
 import 'package:onlylive/domain/entities/topic.dart';
 import 'package:onlylive/domain/repository/fan_meeting_repository.dart';
 import 'package:onlylive/infra/mapper/fan_meeting/fan_meeting_mapper.dart';
+import 'package:onlylive/infra/mapper/fan_meeting/now_fanmeeting_mapper.dart';
 import 'package:onlylive/infra/mapper/fan_meeting_and_reserved_mapper.dart';
+import 'package:onlylive/infra/mapper/fan_meeting/schedule_mapper.dart';
 import 'package:openapi/api.dart';
 
 class APIFanmeetingRepository implements FanMeetingRepository {
@@ -33,7 +35,6 @@ class APIFanmeetingRepository implements FanMeetingRepository {
     final _fanMeetings = response.fanMeetingAndReserved
         .map(FanMeetingAndReservedMapper.decode)
         .toList();
-
     return {_nextPageToken: _fanMeetings};
   }
 
@@ -57,17 +58,34 @@ class APIFanmeetingRepository implements FanMeetingRepository {
   @override
   Future<List<FanMeetingOfInfluencer>> getFanmeetingByTalentID(
       FanMeetingState state, String talentID) async {
-    final res = await _client.get(
-            "v1/fan-meetings/influencers/$talentID?state=${state.string()}")
-        as Map<String, dynamic>;
-    final fanmeetings = res["fan_meeting"] as List<dynamic>? ?? [];
+    final response = await _service
+        .fanMeetingServiceListFanMeetingsByInfluencerUUID(talentID,
+            state: state.string());
 
-    final _fanMeetings = <FanMeetingOfInfluencer>[];
+    // final res = await _client.get(
+    //         "v1/fan-meetings/influencers/$talentID?state=${state.string()}")
+    //     as Map<String, dynamic>;
+    // final fanmeetings = res["fan_meeting"] as List<dynamic>? ?? [];
 
-    for (final fanmeeting in fanmeetings) {
-      _fanMeetings.add(FanMeetingOfInfluencerMapper.fromJSON(
-          fanmeeting as Map<String, dynamic>));
-    }
+    final _fanMeetings =
+        response.fanMeeting.map(NowFanMeetingMapper.decode).toList();
+    return _fanMeetings;
+  }
+
+  @override
+  Future<List<Schedule>> getSchedules(
+      FanMeetingState state, String talentID) async {
+    final response = await _service
+        .fanMeetingServiceListFanMeetingsByInfluencerUUID(talentID,
+            state: state.string());
+
+    // final res = await _client.get(
+    //         "v1/fan-meetings/influencers/$talentID?state=${state.string()}")
+    //     as Map<String, dynamic>;
+    // final fanmeetings = res["fan_meeting"] as List<dynamic>? ?? [];
+    final _fanMeetings =
+        response.fanMeeting.map(ScheduleMapper.decode).toList();
+
     return _fanMeetings;
   }
 }

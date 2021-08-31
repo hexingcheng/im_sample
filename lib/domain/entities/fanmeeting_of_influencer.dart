@@ -4,16 +4,12 @@ class FanMeetingOfInfluencer {
     required this.itemCode,
     required this.limitedPeople,
     required this.eventDate,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   int id;
   ItemCode itemCode;
   int limitedPeople;
   DateTime eventDate;
-  DateTime createdAt;
-  DateTime updatedAt;
 }
 
 typedef ItemCode = String;

@@ -33,7 +33,7 @@ class TalentDetailScreen extends StatelessWidget {
         builder: (context, child) {
           final vm = context.watch<TalentDetailVM>();
           final homeVM = HomeVM();
-          final schedules = vm.fanMeetings[MeetingType.future] ?? [];
+          final schedules = vm.schedules;
           return Scaffold(
               body: Container(
             child: Column(
@@ -42,7 +42,7 @@ class TalentDetailScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        TalentView(imgList: vm.talent.imageUrls),
+                        TalentView(imgList: vm.talentImages),
                         const SizedBox(height: 24),
                         Text(vm.talent.displayName,
                             style: const TextStyle(
@@ -50,19 +50,30 @@ class TalentDetailScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                                 color: OnlyliveColor.darkPurple)),
                         const SizedBox(height: 16),
-                        Container(
-                          width: 117,
-                          height: 32,
-                          child: GradientButton(
-                            onPressed: () => {},
-                            text: 'お気に入り',
-                            textColor: Colors.white,
-                            colors: [
-                              Color(0xff8EC5FC),
-                              Color(0xffE0C3FC),
-                            ],
+                        if (vm.isFollow == true)
+                          Container(
+                            width: 117,
+                            height: 32,
+                            child: GradientButton(
+                              onPressed: () => {
+                                vm.isFollowFunc(),
+                              },
+                              text: "登録ずみ",
+                              textColor: Colors.white,
+                              colors: [Color(0xff8EC5FC), Color(0xffE0C3FC)],
+                            ),
                           ),
-                        ),
+                        if (vm.isFollow == null)
+                          Container(
+                            width: 117,
+                            height: 32,
+                            child: RoundRectButton(
+                              onPressed: () => {vm.isFollowFunc()},
+                              text: "お気に入り",
+                              textColor: OnlyliveColor.darkPurple,
+                              backgroundColor: Colors.white,
+                            ),
+                          ),
                         const SizedBox(height: 24),
                         const Divider(),
                         const SizedBox(height: 20),
@@ -94,25 +105,25 @@ class TalentDetailScreen extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    if (vm.talent.twitterUrl != "")
+                                    if (vm.talent.twitterUrl != null)
                                       TalentSns(
                                           url: vm.talent.twitterUrl,
                                           icon: FontAwesomeIcons.twitter,
                                           color: Colors.blueAccent),
                                     const SizedBox(width: 10),
-                                    if (vm.talent.instagramUrl != "")
+                                    if (vm.talent.instagramUrl != null)
                                       TalentSns(
                                           url: vm.talent.instagramUrl,
                                           icon: FontAwesomeIcons.instagram,
                                           color: Colors.red),
                                     const SizedBox(width: 10),
-                                    if (vm.talent.youtubeUrl != "")
+                                    if (vm.talent.youtubeUrl != null)
                                       TalentSns(
                                           url: vm.talent.youtubeUrl,
                                           icon: FontAwesomeIcons.youtube,
                                           color: Colors.red),
                                     const SizedBox(width: 10),
-                                    if (vm.talent.tiktokUrl != "")
+                                    if (vm.talent.tiktokUrl != null)
                                       TalentSns(
                                           url: vm.talent.tiktokUrl,
                                           icon: FontAwesomeIcons.tiktok,
@@ -126,16 +137,20 @@ class TalentDetailScreen extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    GestureDetector(
-                                      onTap: () =>
-                                          openUrl(url: vm.talent.customLinkUrl),
-                                      child: Text(vm.talent.customLinkName,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2!
-                                              .copyWith(
-                                                  color: OnlyliveColor.purple)),
-                                    ),
+                                    if (vm.talent.customLinkUrl != null &&
+                                        vm.talent.customLinkName != null)
+                                      GestureDetector(
+                                        onTap: () => openUrl(
+                                            url: vm.talent.customLinkUrl),
+                                        child: Text(vm.talent.customLinkName,
+                                            // child: Text("vm.talent.customLinkName",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2!
+                                                .copyWith(
+                                                    color:
+                                                        OnlyliveColor.purple)),
+                                      ),
                                   ],
                                 ),
                               ),
@@ -160,7 +175,7 @@ class TalentDetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (vm.meetingState == "now" && vm.reservation.state.index != 1)
+                if (vm.meetingState == "now" && vm.isReserved == null)
                   GestureDetector(
                     child: Container(
                       width: 215,
@@ -174,9 +189,10 @@ class TalentDetailScreen extends StatelessWidget {
                             context: context,
                             builder: (dialogContext) {
                               final fanMeeting = homeVM
-                                  .fanMeetings[HomeListType.future]!.first;
+                                  .fanMeetingAndReserved[HomeListType.future]!
+                                  .first;
                               return ReservationDialog(
-                                fanMeeing: fanMeeting,
+                                fanMeeing: fanMeeting.fanMeeting,
                                 balance: 1000,
                                 onPressedButton: () async {
                                   Navigator.pop(dialogContext);
@@ -185,21 +201,21 @@ class TalentDetailScreen extends StatelessWidget {
                                     builder: (dialogContext2) =>
                                         ReservationNotesDialog(
                                       onPressedButton: () async {
-                                        await homeVM
-                                            .createReservation(fanMeeting.id);
+                                        await vm.createReservation(
+                                            fanMeeting.fanMeeting.id);
                                         Navigator.pop(dialogContext2);
                                         await showDialog(
                                           context: context,
                                           builder: (dialogContext3) =>
                                               CompleteReservationDialog(
-                                            fanMeeting
-                                                .talent.mainSquareImageUrl,
+                                            fanMeeting.fanMeeting.talent
+                                                .mainRectangleImageUrl,
                                           ),
                                         );
                                       },
-                                      talentImageUri:
-                                          fanMeeting.talent.mainSquareImageUrl,
-                                      style: fanMeeting.style,
+                                      talentImageUri: fanMeeting
+                                          .fanMeeting.talent.mainSquareImageUrl,
+                                      style: fanMeeting.fanMeeting.style,
                                     ),
                                   );
                                 },
@@ -210,7 +226,7 @@ class TalentDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (vm.meetingState == "now" && vm.reservation.state.index == 1)
+                if (vm.meetingState == "now" && vm.isReserved == true)
                   Container(
                     width: 215,
                     height: 52,

@@ -1,39 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:onlylive/domain/entities/fanmeeting_of_influencer.dart';
+import 'package:onlylive/domain/entities/schedule.dart';
 import 'package:onlylive/theme/theme.dart';
-import 'package:onlylive/view/talent/vm/talent_detail_vm.dart';
-import 'package:provider/provider.dart';
 import 'package:onlylive/extension/date_time_extension.dart';
 
 class NextSchedule extends StatelessWidget {
-  const NextSchedule(
-
-      // required this.talentID,
-      // required this.length,
-      // required this.eventDate,
-      // required this.limitedPeople,
-      this.fanMeetings,
-      {Key? key})
-      : super(key: key);
-  // final String talentID;
-  // final int length;
-  // final DateTime eventDate;
-  // final int limitedPeople;
-  final List<FanMeetingOfInfluencer> fanMeetings;
+  const NextSchedule(this.schedules, {Key? key}) : super(key: key);
+  final List<Schedule> schedules;
 
   @override
   Widget build(BuildContext context) {
-    // return ChangeNotifierProvider<TalentDetailVM>(
-    //     create: (context) => TalentDetailVM(talentID: talentID),
-    //     builder: (context, child) {
-    //       final vm = context.watch<TalentDetailVM>();
-    //       final fanMeetings = vm.fanMeetings[MeetingType.future] ?? [];
     return Container(
         height: 300,
         child: ListView(
           physics: const NeverScrollableScrollPhysics(),
           children: List.generate(
-            fanMeetings.length,
+            schedules.length,
             (index) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -50,7 +31,7 @@ class NextSchedule extends StatelessWidget {
                         bottomRight: Radius.circular(200)),
                   ),
                   child: Text(
-                    fanMeetings[index].eventDate.date,
+                    schedules[index].eventDate.date,
                     style: const TextStyle(
                       color: OnlyliveColor.white,
                       fontWeight: FontWeight.w700,
@@ -64,7 +45,7 @@ class NextSchedule extends StatelessWidget {
                     const SizedBox(width: 20),
                     Container(
                       child: Text(
-                        fanMeetings[index].eventDate.hm,
+                        schedules[index].eventDate.hm,
                         style: const TextStyle(
                           color: OnlyliveColor.grey,
                           fontWeight: FontWeight.w700,
@@ -75,7 +56,7 @@ class NextSchedule extends StatelessWidget {
                     const SizedBox(width: 23),
                     Container(
                       child: Text(
-                        "${fanMeetings[index].limitedPeople}人限定",
+                        "${schedules[index].limitedPeople}人限定",
                         style: const TextStyle(
                           color: OnlyliveColor.grey,
                           fontWeight: FontWeight.w700,

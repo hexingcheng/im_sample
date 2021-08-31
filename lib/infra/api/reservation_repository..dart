@@ -1,18 +1,35 @@
 import 'package:onlylive/domain/repository/reservation_repository.dart';
 import 'package:openapi/api.dart';
-import 'package:onlylive/domain/entities/reservation.dart';
+import 'package:onlylive/infra/api/repository.dart';
 import 'package:onlylive/infra/mapper/reservation_mapper.dart';
+import 'package:onlylive/services/shared_prefrences_service.dart';
 
+<<<<<<< HEAD
 class APIReservationRepository implements ReservationRepository {
   APIReservationRepository(this._basePath);
   final String _basePath;
+=======
+class APIReservationRepository extends Repository
+    implements ReservationRepository {
+  APIReservationRepository(this._client);
+  final ReservationServiceApi _client;
+>>>>>>> 予約までの流れ接続
 
   @override
-  Future<void> createReservation(
-      String accessToken, int fanmeetingID, String fanUUID) async {
+  Future<void> create(int fanmeetingID) async {
+    final apiToken = await SharedPrefrencesService.getApiToken();
+    final fanUUID = await SharedPrefrencesService.getUUID();
     try {
+<<<<<<< HEAD
       final service = ReservationServiceApi(ApiClient(basePath: _basePath));
       await service.reservationServiceCreateReservation(
+=======
+      _client.apiClient.addDefaultHeader(
+        apiTokenHeader,
+        apiToken,
+      );
+      await _client.reservationServiceCreateReservation(
+>>>>>>> 予約までの流れ接続
           GrpcCreateReservationRequest(
               fanMeetingId: fanmeetingID, fanUuid: fanUUID));
     } catch (e) {
@@ -21,22 +38,15 @@ class APIReservationRepository implements ReservationRepository {
   }
 
   @override
-  Future<Reservation> getReservation(
-      String accessToken, int fanmeetingID, String fanUUID) async {
-    // final res = _client.get(
-    //     "v1/reservations/fans/$fanUUID/fan-meeting/$fanmeetingID",
-    //     fromJson: ReservationMapper.fromJSON);
-    // return res;
-    return Reservation(
-      id: 1,
-      fanUUID: "aaa",
-      state: ReservationState.wait,
-      fanmeetingID: 2,
-      influecnerUUID: "bbb",
-      startTime: DateTime.now(),
-      finishTime: DateTime.now(),
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+  Future<bool?> get(int fanmeetingID) async {
+    final apiToken = await SharedPrefrencesService.getApiToken();
+    final fanUUID = await SharedPrefrencesService.getUUID();
+    _client.apiClient.addDefaultHeader(
+      apiTokenHeader,
+      apiToken,
     );
+    final res = await _client.reservationServiceCountNumReservedFan(
+        fanUUID, fanmeetingID);
+    return res.isReserved;
   }
 }

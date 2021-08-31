@@ -3,6 +3,7 @@ import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/theme/theme.dart';
 import 'package:onlylive/widgets/atoms/gradient_button.dart';
 import 'package:onlylive/widgets/atoms/hyper_link_text.dart';
+import 'package:onlylive/view/talent/vm/talent_detail_vm.dart';
 
 class ReservationNotesDialog extends StatelessWidget {
   ReservationNotesDialog(

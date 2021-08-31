@@ -8,7 +8,7 @@ import 'package:onlylive/domain/entities/fan.dart';
 import 'package:onlylive/domain/entities/reservation.dart';
 import 'package:onlylive/domain/entities/talent.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/reservation/get_reservation_use_case.dart';
+import 'package:onlylive/domain/use_case/reservation/create_reservation_use_case.dart';
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/services/tencent.dart';
 import 'package:tencent_im_sdk_plugin/enum/V2TimAdvancedMsgListener.dart';
@@ -247,8 +247,8 @@ class CallVM with ChangeNotifier {
   }
 
   Future<void> createReservation() async {
-    await ReservationUseCase(Repositories.reservationRepo)
-        .create(fanMeeting.id);
+    await CreateReservationUseCase(Repositories.reservationRepo)
+        .execute(fanMeeting.id);
   }
 
   void _startCall() {

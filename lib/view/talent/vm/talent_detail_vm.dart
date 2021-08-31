@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/talent_usecase.dart';
+import 'package:onlylive/domain/use_case/fan_meeting/get_schedules_use_case.dart';
+import 'package:onlylive/domain/use_case/talent/get_talent_use_case.dart';
+import 'package:onlylive/domain/use_case/follow/create_follow_use_case.dart';
+import 'package:onlylive/domain/use_case/follow/delete_follow_use_case.dart';
 import 'package:onlylive/domain/entities/talent.dart';
 import 'package:onlylive/domain/entities/reservation.dart';
+import 'package:onlylive/domain/entities/schedule.dart';
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/domain/entities/fanmeeting_of_influencer.dart';
-import 'package:onlylive/domain/use_case/list_fanmmeting_by_state_use_case.dart';
-import 'package:onlylive/domain/use_case/reservation_use_case.dart';
+import 'package:onlylive/domain/use_case/fan_meeting/get_now_fan_meeting_by_state_and_talent_id_use_case.dart';
+import 'package:onlylive/domain/use_case/reservation/get_reservation_use_case.dart';
+import 'package:onlylive/domain/use_case/reservation/create_reservation_use_case.dart';
 
 enum MeetingType {
   now,
@@ -32,12 +37,20 @@ class TalentDetailVM with ChangeNotifier {
 
   late String meetingState = "";
 
+  late bool? isFollow = false;
+
+  late int fanMeetingID = 0;
+
+  late bool? isReserved = false;
+
   // private
-  final Map<MeetingType, List<FanMeetingOfInfluencer>> _fanMeetings =
-      Map.fromIterables(MeetingType.values, MeetingType.values.map((e) => []));
-// getter
-  Map<MeetingType, List<FanMeetingOfInfluencer>> get fanMeetings =>
-      _fanMeetings;
+//   final Map<MeetingType, List<FanMeetingOfInfluencer>> _fanMeetings =
+//       Map.fromIterables(MeetingType.values, MeetingType.values.map((e) => []));
+//   final List<Schedule> _schedules = [];
+// // getter
+//   Map<MeetingType, List<FanMeetingOfInfluencer>> get fanMeetings =>
+//       _fanMeetings;
+  // List<Schedule> get schedules => _schedules;
 
   late Talent talent = Talent(
       uuid: "",
@@ -66,53 +79,102 @@ class TalentDetailVM with ChangeNotifier {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now());
 
+  late List<String> talentImages = [];
+
+  late List<Schedule> schedules = [
+    Schedule(id: 0, limitedPeople: 0, eventDate: DateTime.now(), itemCode: "")
+  ];
+
+  late List<FanMeetingOfInfluencer> fanMeetings = [
+    FanMeetingOfInfluencer(
+      id: 0,
+      limitedPeople: 0,
+      eventDate: DateTime.now(),
+      itemCode: '',
+    )
+  ];
+
   Future<void> initState() async {
-    talent = await TalentUseCase(Repositories.talentRepository).get(talentID);
-    print(talent.displayName);
-    periodicUpdateNowFanmeeting();
+    final response =
+        await GetTalentUseCase(Repositories.talentRepository).execute(talentID);
+    talent = response.keys.first;
+    setTalentImages();
+    periodicUpdateFanmeeting();
+  }
+
+  //mainSquareImageUrlとimageUrlsをtalentImagesにセットする
+  void setTalentImages() {
+    talentImages = [
+      talent.mainSquareImageUrl,
+    ];
+    if (talent.imageUrls != null) {
+      talentImages.addAll(talent.imageUrls);
+    }
   }
 
   Future<void> updatesTalentDetail() async {
     Future<void> initNowFanmeeting() async {
-      final fanMeeting =
-          await ListFanMeetingUseCase(Repositories.fanMeetingRepository)
-              .talentID(FanMeetingState.now, talentID);
+      fanMeetings = await NowFanMeetingByStateAndTalentIDUseCase(
+              Repositories.fanMeetingRepository)
+          .execute(talentID, FanMeetingState.now);
       notifyListeners();
-      if (fanMeeting.isEmpty) {
+      if (fanMeetings.isEmpty) {
         meetingState = "other";
       } else {
         meetingState = "now";
       }
+      getReservation();
     }
 
-    Future<void> initFutureFanmeetings() async {
-      final _fanMeetings =
-          await ListFanMeetingUseCase(Repositories.fanMeetingRepository)
-              .talentID(FanMeetingState.future, talentID);
-      fanMeetings[MeetingType.future] = _fanMeetings;
+    Future<void> initSchedules() async {
+      schedules = await GetSchedulesUseCase(Repositories.fanMeetingRepository)
+          .execute(talentID, FanMeetingState.future);
     }
 
     await Future.wait([
       initNowFanmeeting(),
-      initFutureFanmeetings(),
+      initSchedules(),
     ]);
     notifyListeners();
   }
 
-  Future<void> periodicUpdateNowFanmeeting() async {
+  Future<void> periodicUpdateFanmeeting() async {
     await updatesTalentDetail();
-    // 後で消す
-    reservation =
-        await ReservationUseCase(Repositories.reservationRepo).get(1, fanUUID);
-    print(reservation.state.index);
-    await Future.delayed(const Duration(seconds: 30));
-    periodicUpdateNowFanmeeting();
+    await getIsFollowStatus();
+    await Future.delayed(const Duration(seconds: 15));
+    periodicUpdateFanmeeting();
   }
 
-  Future<void> createReservation(int fanMeetingID) async {
-    await ReservationUseCase(Repositories.reservationRepo).create(fanMeetingID);
-    reservation = await ReservationUseCase(Repositories.reservationRepo)
-        .get(fanMeetingID, fanUUID);
+  Future<void> createReservation(int fanmeetingID) async {
+    print("CreateReservatiion-VM");
+    await CreateReservationUseCase(Repositories.reservationRepo)
+        .execute(fanMeetingID);
+  }
+
+  Future<void> getReservation() async {
+    fanMeetingID = fanMeetings[0].id;
+    isReserved = await GetReservationUseCase(Repositories.reservationRepo)
+        .execute(fanMeetingID);
+    print("isReserved");
+    print(isReserved);
     return;
+  }
+
+  Future<void> getIsFollowStatus() async {
+    final response =
+        await GetTalentUseCase(Repositories.talentRepository).execute(talentID);
+    isFollow = response.values.first;
+  }
+
+  Future<void> isFollowFunc() async {
+    if (isFollow == true) {
+      await DeleteFollowUseCase(Repositories.followRepository)
+          .execute(talentID: talentID);
+      getIsFollowStatus();
+    } else {
+      await CreateFollowUseCase(Repositories.followRepository)
+          .execute(talentID);
+      getIsFollowStatus();
+    }
   }
 }

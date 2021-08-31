@@ -1,6 +1,7 @@
 import 'package:onlylive/domain/repository/admin_repository.dart';
 import 'package:onlylive/domain/repository/auth_repository.dart';
 import 'package:onlylive/domain/repository/feature_repository.dart';
+import 'package:onlylive/domain/repository/follow_repository.dart';
 import 'package:onlylive/domain/repository/ranking_repository.dart';
 import 'package:onlylive/domain/repository/reservation_repository.dart';
 import 'package:onlylive/domain/repository/fan_repository.dart';
@@ -19,6 +20,7 @@ class Repositories {
     required AuthRepository authRepository,
     required WalletRepository walletRepository,
     required TalentRepository talentRepository,
+    required FollowRepository followRepository,
   }) {
     _reservationRepository = reservationRepository;
     _fanRepository = fanRepository;
@@ -29,6 +31,7 @@ class Repositories {
     _authRepository = authRepository;
     _walletRepository = walletRepository;
     _talentRepository = talentRepository;
+    _followRepository = followRepository;
   }
 
   static ReservationRepository? _reservationRepository;
@@ -40,6 +43,7 @@ class Repositories {
   static AuthRepository? _authRepository;
   static WalletRepository? _walletRepository;
   static TalentRepository? _talentRepository;
+  static FollowRepository? _followRepository;
 
   static ReservationRepository get reservationRepo =>
       provider(_reservationRepository);
@@ -54,6 +58,7 @@ class Repositories {
   static AuthRepository get authRepository => provider(_authRepository);
   static WalletRepository get walletRepository => provider(_walletRepository);
   static TalentRepository get talentRepository => provider(_talentRepository);
+  static FollowRepository get followRepository => provider(_followRepository);
 
   static T provider<T>(T? repository) {
     if (repository == null) throw Error();
