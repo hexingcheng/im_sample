@@ -3,9 +3,9 @@ import 'package:openapi/api.dart';
 
 class IsExtensionMapper {
   static const isExtensionMap = {
-    IsExtension.unknown: GrpcIsExtension.extensionUnknown,
-    IsExtension.ok: GrpcIsExtension.true_,
-    IsExtension.ng: GrpcIsExtension.false_,
+    IsExtension.unknown: GrpcIsExtension.number0,
+    IsExtension.ng: GrpcIsExtension.number1,
+    IsExtension.ok: GrpcIsExtension.number2
   };
 
   static IsExtension decode(GrpcIsExtension grpc) {

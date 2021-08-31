@@ -205,16 +205,7 @@
             "name": "state",
             "in": "query",
             "required": false,
-            "type": "string",
-            "enum": [
-              "state_unknown",
-              "finish",
-              "now",
-              "future",
-              "cancel",
-              "not_held"
-            ],
-            "default": "state_unknown"
+            "type": "string"
           },
           {
             "name": "fan_uuid",
@@ -366,25 +357,25 @@
             "name": "genre",
             "in": "path",
             "required": true,
-            "type": "string",
+            "type": "integer",
             "enum": [
-              "non_genre",
-              "model",
-              "actor",
-              "actress",
-              "youtuber",
-              "liver",
-              "instagrammer",
-              "tiktoker",
-              "idol",
-              "cosplayer",
-              "voice_actor",
-              "talent",
-              "artist",
-              "comedian",
-              "fortune_teller",
-              "other",
-              "influencer"
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16"
             ]
           },
           {
@@ -662,16 +653,16 @@
             "name": "state",
             "in": "query",
             "required": false,
-            "type": "string",
+            "type": "integer",
             "enum": [
-              "state_unknown",
-              "finish",
-              "now",
-              "future",
-              "cancel",
-              "not_held"
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
             ],
-            "default": "state_unknown"
+            "default": "0"
           }
         ],
         "tags": [
@@ -770,11 +761,7 @@
             "name": "topic",
             "in": "path",
             "required": true,
-            "type": "string",
-            "enum": [
-              "non_topic",
-              "popular"
-            ]
+            "type": "string"
           },
           {
             "name": "page_token",
@@ -2154,15 +2141,15 @@
             "name": "status",
             "in": "query",
             "required": false,
-            "type": "string",
+            "type": "integer",
             "enum": [
-              "health_unknown",
-              "ok",
-              "not_found",
-              "internal",
-              "version"
+              "0",
+              "1",
+              "2",
+              "3",
+              "4"
             ],
-            "default": "health_unknown"
+            "default": "0"
           }
         ],
         "tags": [
@@ -3591,21 +3578,23 @@
   },
   "definitions": {
     "CallToFanRequestAction": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "call",
-        "hang_out"
+        "0",
+        "1"
       ],
-      "default": "call"
+      "default": "0"
     },
     "CampaignCampaignCodeState": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "state_unknown",
-        "not_used",
-        "used"
+        "0",
+        "1",
+        "2"
       ],
-      "default": "state_unknown"
+      "default": "0"
     },
     "ErrorResponse": {
       "type": "object",
@@ -3621,12 +3610,13 @@
       "title": "エラーレスポンスオブジェクト"
     },
     "FanNotificationRequestSegment": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "all",
-        "designate"
+        "0",
+        "1"
       ],
-      "default": "all"
+      "default": "0"
     },
     "ListByFanMeetingIDResponseResult": {
       "type": "object",
@@ -3694,14 +3684,15 @@
       }
     },
     "grpcAddPointsRequestNumExtension": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "first",
-        "one",
-        "two",
-        "three"
+        "0",
+        "1",
+        "2",
+        "3"
       ],
-      "default": "first"
+      "default": "0"
     },
     "grpcAddPointsResponse": {
       "type": "object",
@@ -4178,16 +4169,17 @@
       }
     },
     "grpcFanMeetingState": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "state_unknown",
-        "finish",
-        "now",
-        "future",
-        "cancel",
-        "not_held"
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
       ],
-      "default": "state_unknown"
+      "default": "0"
     },
     "grpcFanNotificationResponse": {
       "type": "object",
@@ -4217,14 +4209,15 @@
       }
     },
     "grpcFanSex": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "unknown",
-        "man",
-        "woman",
-        "undefined"
+        "0",
+        "1",
+        "2",
+        "3"
       ],
-      "default": "unknown"
+      "default": "0"
     },
     "grpcFanSignInRequest": {
       "type": "object",
@@ -4285,13 +4278,14 @@
       }
     },
     "grpcFanmeetingStyle": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "style_unknown",
-        "style_regular",
-        "style_serial"
+        "0",
+        "1",
+        "2"
       ],
-      "default": "style_unknown"
+      "default": "0"
     },
     "grpcFeature": {
       "type": "object",
@@ -4318,27 +4312,28 @@
       }
     },
     "grpcGenre": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "non_genre",
-        "model",
-        "actor",
-        "actress",
-        "youtuber",
-        "liver",
-        "instagrammer",
-        "tiktoker",
-        "idol",
-        "cosplayer",
-        "voice_actor",
-        "talent",
-        "artist",
-        "comedian",
-        "fortune_teller",
-        "other",
-        "influencer"
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16"
       ],
-      "default": "non_genre",
+      "default": "0",
       "title": "ジャンル"
     },
     "grpcGetBillingByMonthRes": {
@@ -4487,25 +4482,27 @@
       }
     },
     "grpcHealthStatus": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "health_unknown",
-        "ok",
-        "not_found",
-        "internal",
-        "version"
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
       ],
-      "default": "health_unknown"
+      "default": "0"
     },
     "grpcIncentiveCode": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "none",
-        "point",
-        "apologize",
-        "campaign"
+        "0",
+        "1",
+        "2",
+        "3"
       ],
-      "default": "none"
+      "default": "0"
     },
     "grpcInfluencer": {
       "type": "object",
@@ -4615,14 +4612,15 @@
       }
     },
     "grpcInfluencerSex": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "unknown",
-        "man",
-        "woman",
-        "undefined"
+        "0",
+        "1",
+        "2",
+        "3"
       ],
-      "default": "unknown"
+      "default": "0"
     },
     "grpcInfluencerSignInRequest": {
       "type": "object",
@@ -4648,14 +4646,15 @@
       }
     },
     "grpcInfluencerSignUpRequestSex": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "unknown",
-        "man",
-        "woman",
-        "undefined"
+        "0",
+        "1",
+        "2",
+        "3"
       ],
-      "default": "unknown"
+      "default": "0"
     },
     "grpcInfluencerSignUpResponse": {
       "type": "object",
@@ -4666,13 +4665,14 @@
       }
     },
     "grpcIsExtension": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "extension_unknown",
-        "false",
-        "true"
+        "0",
+        "1",
+        "2"
       ],
-      "default": "extension_unknown"
+      "default": "0"
     },
     "grpcJoinedRoom": {
       "type": "object",
@@ -4934,32 +4934,35 @@
       }
     },
     "grpcMessageType": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "message_type_unknown",
-        "message_type_text",
-        "message_type_image",
-        "message_type_video"
+        "0",
+        "1",
+        "2",
+        "3"
       ],
-      "default": "message_type_unknown"
+      "default": "0"
     },
     "grpcNumExtension": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "first",
-        "one",
-        "two",
-        "three"
+        "0",
+        "1",
+        "2",
+        "3"
       ],
-      "default": "first"
+      "default": "0"
     },
     "grpcOption": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "nomarl",
-        "pre"
+        "0",
+        "1"
       ],
-      "default": "nomarl"
+      "default": "0"
     },
     "grpcRankingInfluencer": {
       "type": "object",
@@ -4982,29 +4985,31 @@
       }
     },
     "grpcReasonCancelMembership": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "unknownReason",
-        "notExistLikeInfluencer",
-        "manyBugs",
-        "chargeDissatisfaction",
-        "supportDissatisfaction",
-        "slanderFromInfluencer",
-        "otherReason"
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
       ],
-      "default": "unknownReason",
+      "default": "0",
       "title": "退会理由"
     },
     "grpcReportType": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "slander",
-        "adult",
-        "encounter",
-        "contravention",
-        "otherReport"
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
       ],
-      "default": "slander"
+      "default": "0"
     },
     "grpcReservation": {
       "type": "object",
@@ -5055,14 +5060,15 @@
       }
     },
     "grpcReservationState": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "non_reservation_state",
-        "wait",
-        "done",
-        "abort"
+        "0",
+        "1",
+        "2",
+        "3"
       ],
-      "default": "non_reservation_state",
+      "default": "0",
       "title": "予約の状態"
     },
     "grpcTimestamp": {
@@ -5079,12 +5085,13 @@
       }
     },
     "grpcTopic": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "non_topic",
-        "popular"
+        "0",
+        "1"
       ],
-      "default": "non_topic",
+      "default": "0",
       "title": "トピック"
     },
     "grpcUpdateCallTransactionRequest": {
@@ -5385,13 +5392,14 @@
       }
     },
     "grpcUserType": {
-      "type": "string",
+      "type": "integer",
+      "format": "int32",
       "enum": [
-        "user_type_unknown",
-        "user_type_fan",
-        "user_type_influencer"
+        "0",
+        "1",
+        "2"
       ],
-      "default": "user_type_unknown"
+      "default": "0"
     },
     "grpcWallet": {
       "type": "object",

@@ -15,24 +15,24 @@ class GrpcAddPointsRequestNumExtension {
   const GrpcAddPointsRequestNumExtension._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const first = GrpcAddPointsRequestNumExtension._(r'first');
-  static const one = GrpcAddPointsRequestNumExtension._(r'one');
-  static const two = GrpcAddPointsRequestNumExtension._(r'two');
-  static const three = GrpcAddPointsRequestNumExtension._(r'three');
+  static const number0 = GrpcAddPointsRequestNumExtension._(0);
+  static const number1 = GrpcAddPointsRequestNumExtension._(1);
+  static const number2 = GrpcAddPointsRequestNumExtension._(2);
+  static const number3 = GrpcAddPointsRequestNumExtension._(3);
 
   /// List of all possible values in this [enum][GrpcAddPointsRequestNumExtension].
   static const values = <GrpcAddPointsRequestNumExtension>[
-    first,
-    one,
-    two,
-    three,
+    number0,
+    number1,
+    number2,
+    number3,
   ];
 
   static GrpcAddPointsRequestNumExtension fromJson(dynamic value) =>
@@ -46,14 +46,14 @@ class GrpcAddPointsRequestNumExtension {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcAddPointsRequestNumExtension] to String,
+/// Transformation class that can [encode] an instance of [GrpcAddPointsRequestNumExtension] to int,
 /// and [decode] dynamic data back to [GrpcAddPointsRequestNumExtension].
 class GrpcAddPointsRequestNumExtensionTypeTransformer {
   const GrpcAddPointsRequestNumExtensionTypeTransformer._();
 
   factory GrpcAddPointsRequestNumExtensionTypeTransformer() => _instance ??= GrpcAddPointsRequestNumExtensionTypeTransformer._();
 
-  String encode(GrpcAddPointsRequestNumExtension data) => data.value;
+  int encode(GrpcAddPointsRequestNumExtension data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcAddPointsRequestNumExtension.
   ///
@@ -65,10 +65,10 @@ class GrpcAddPointsRequestNumExtensionTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcAddPointsRequestNumExtension decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'first': return GrpcAddPointsRequestNumExtension.first;
-      case r'one': return GrpcAddPointsRequestNumExtension.one;
-      case r'two': return GrpcAddPointsRequestNumExtension.two;
-      case r'three': return GrpcAddPointsRequestNumExtension.three;
+      case 0: return GrpcAddPointsRequestNumExtension.number0;
+      case 1: return GrpcAddPointsRequestNumExtension.number1;
+      case 2: return GrpcAddPointsRequestNumExtension.number2;
+      case 3: return GrpcAddPointsRequestNumExtension.number3;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

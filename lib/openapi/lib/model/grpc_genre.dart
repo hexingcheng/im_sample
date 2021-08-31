@@ -15,50 +15,50 @@ class GrpcGenre {
   const GrpcGenre._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const nonGenre = GrpcGenre._(r'non_genre');
-  static const model = GrpcGenre._(r'model');
-  static const actor = GrpcGenre._(r'actor');
-  static const actress = GrpcGenre._(r'actress');
-  static const youtuber = GrpcGenre._(r'youtuber');
-  static const liver = GrpcGenre._(r'liver');
-  static const instagrammer = GrpcGenre._(r'instagrammer');
-  static const tiktoker = GrpcGenre._(r'tiktoker');
-  static const idol = GrpcGenre._(r'idol');
-  static const cosplayer = GrpcGenre._(r'cosplayer');
-  static const voiceActor = GrpcGenre._(r'voice_actor');
-  static const talent = GrpcGenre._(r'talent');
-  static const artist = GrpcGenre._(r'artist');
-  static const comedian = GrpcGenre._(r'comedian');
-  static const fortuneTeller = GrpcGenre._(r'fortune_teller');
-  static const other = GrpcGenre._(r'other');
-  static const influencer = GrpcGenre._(r'influencer');
+  static const number0 = GrpcGenre._(0);
+  static const number1 = GrpcGenre._(1);
+  static const number2 = GrpcGenre._(2);
+  static const number3 = GrpcGenre._(3);
+  static const number4 = GrpcGenre._(4);
+  static const number5 = GrpcGenre._(5);
+  static const number6 = GrpcGenre._(6);
+  static const number7 = GrpcGenre._(7);
+  static const number8 = GrpcGenre._(8);
+  static const number9 = GrpcGenre._(9);
+  static const number10 = GrpcGenre._(10);
+  static const number11 = GrpcGenre._(11);
+  static const number12 = GrpcGenre._(12);
+  static const number13 = GrpcGenre._(13);
+  static const number14 = GrpcGenre._(14);
+  static const number15 = GrpcGenre._(15);
+  static const number16 = GrpcGenre._(16);
 
   /// List of all possible values in this [enum][GrpcGenre].
   static const values = <GrpcGenre>[
-    nonGenre,
-    model,
-    actor,
-    actress,
-    youtuber,
-    liver,
-    instagrammer,
-    tiktoker,
-    idol,
-    cosplayer,
-    voiceActor,
-    talent,
-    artist,
-    comedian,
-    fortuneTeller,
-    other,
-    influencer,
+    number0,
+    number1,
+    number2,
+    number3,
+    number4,
+    number5,
+    number6,
+    number7,
+    number8,
+    number9,
+    number10,
+    number11,
+    number12,
+    number13,
+    number14,
+    number15,
+    number16,
   ];
 
   static GrpcGenre fromJson(dynamic value) =>
@@ -72,14 +72,14 @@ class GrpcGenre {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcGenre] to String,
+/// Transformation class that can [encode] an instance of [GrpcGenre] to int,
 /// and [decode] dynamic data back to [GrpcGenre].
 class GrpcGenreTypeTransformer {
   const GrpcGenreTypeTransformer._();
 
   factory GrpcGenreTypeTransformer() => _instance ??= GrpcGenreTypeTransformer._();
 
-  String encode(GrpcGenre data) => data.value;
+  int encode(GrpcGenre data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcGenre.
   ///
@@ -91,23 +91,23 @@ class GrpcGenreTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcGenre decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'non_genre': return GrpcGenre.nonGenre;
-      case r'model': return GrpcGenre.model;
-      case r'actor': return GrpcGenre.actor;
-      case r'actress': return GrpcGenre.actress;
-      case r'youtuber': return GrpcGenre.youtuber;
-      case r'liver': return GrpcGenre.liver;
-      case r'instagrammer': return GrpcGenre.instagrammer;
-      case r'tiktoker': return GrpcGenre.tiktoker;
-      case r'idol': return GrpcGenre.idol;
-      case r'cosplayer': return GrpcGenre.cosplayer;
-      case r'voice_actor': return GrpcGenre.voiceActor;
-      case r'talent': return GrpcGenre.talent;
-      case r'artist': return GrpcGenre.artist;
-      case r'comedian': return GrpcGenre.comedian;
-      case r'fortune_teller': return GrpcGenre.fortuneTeller;
-      case r'other': return GrpcGenre.other;
-      case r'influencer': return GrpcGenre.influencer;
+      case 0: return GrpcGenre.number0;
+      case 1: return GrpcGenre.number1;
+      case 2: return GrpcGenre.number2;
+      case 3: return GrpcGenre.number3;
+      case 4: return GrpcGenre.number4;
+      case 5: return GrpcGenre.number5;
+      case 6: return GrpcGenre.number6;
+      case 7: return GrpcGenre.number7;
+      case 8: return GrpcGenre.number8;
+      case 9: return GrpcGenre.number9;
+      case 10: return GrpcGenre.number10;
+      case 11: return GrpcGenre.number11;
+      case 12: return GrpcGenre.number12;
+      case 13: return GrpcGenre.number13;
+      case 14: return GrpcGenre.number14;
+      case 15: return GrpcGenre.number15;
+      case 16: return GrpcGenre.number16;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

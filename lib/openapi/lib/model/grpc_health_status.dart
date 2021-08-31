@@ -15,26 +15,26 @@ class GrpcHealthStatus {
   const GrpcHealthStatus._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const healthUnknown = GrpcHealthStatus._(r'health_unknown');
-  static const ok = GrpcHealthStatus._(r'ok');
-  static const notFound = GrpcHealthStatus._(r'not_found');
-  static const internal = GrpcHealthStatus._(r'internal');
-  static const version = GrpcHealthStatus._(r'version');
+  static const number0 = GrpcHealthStatus._(0);
+  static const number1 = GrpcHealthStatus._(1);
+  static const number2 = GrpcHealthStatus._(2);
+  static const number3 = GrpcHealthStatus._(3);
+  static const number4 = GrpcHealthStatus._(4);
 
   /// List of all possible values in this [enum][GrpcHealthStatus].
   static const values = <GrpcHealthStatus>[
-    healthUnknown,
-    ok,
-    notFound,
-    internal,
-    version,
+    number0,
+    number1,
+    number2,
+    number3,
+    number4,
   ];
 
   static GrpcHealthStatus fromJson(dynamic value) =>
@@ -48,14 +48,14 @@ class GrpcHealthStatus {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcHealthStatus] to String,
+/// Transformation class that can [encode] an instance of [GrpcHealthStatus] to int,
 /// and [decode] dynamic data back to [GrpcHealthStatus].
 class GrpcHealthStatusTypeTransformer {
   const GrpcHealthStatusTypeTransformer._();
 
   factory GrpcHealthStatusTypeTransformer() => _instance ??= GrpcHealthStatusTypeTransformer._();
 
-  String encode(GrpcHealthStatus data) => data.value;
+  int encode(GrpcHealthStatus data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcHealthStatus.
   ///
@@ -67,11 +67,11 @@ class GrpcHealthStatusTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcHealthStatus decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'health_unknown': return GrpcHealthStatus.healthUnknown;
-      case r'ok': return GrpcHealthStatus.ok;
-      case r'not_found': return GrpcHealthStatus.notFound;
-      case r'internal': return GrpcHealthStatus.internal;
-      case r'version': return GrpcHealthStatus.version;
+      case 0: return GrpcHealthStatus.number0;
+      case 1: return GrpcHealthStatus.number1;
+      case 2: return GrpcHealthStatus.number2;
+      case 3: return GrpcHealthStatus.number3;
+      case 4: return GrpcHealthStatus.number4;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

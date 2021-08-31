@@ -15,20 +15,20 @@ class GrpcOption {
   const GrpcOption._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const nomarl = GrpcOption._(r'nomarl');
-  static const pre = GrpcOption._(r'pre');
+  static const number0 = GrpcOption._(0);
+  static const number1 = GrpcOption._(1);
 
   /// List of all possible values in this [enum][GrpcOption].
   static const values = <GrpcOption>[
-    nomarl,
-    pre,
+    number0,
+    number1,
   ];
 
   static GrpcOption fromJson(dynamic value) =>
@@ -42,14 +42,14 @@ class GrpcOption {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcOption] to String,
+/// Transformation class that can [encode] an instance of [GrpcOption] to int,
 /// and [decode] dynamic data back to [GrpcOption].
 class GrpcOptionTypeTransformer {
   const GrpcOptionTypeTransformer._();
 
   factory GrpcOptionTypeTransformer() => _instance ??= GrpcOptionTypeTransformer._();
 
-  String encode(GrpcOption data) => data.value;
+  int encode(GrpcOption data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcOption.
   ///
@@ -61,8 +61,8 @@ class GrpcOptionTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcOption decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'nomarl': return GrpcOption.nomarl;
-      case r'pre': return GrpcOption.pre;
+      case 0: return GrpcOption.number0;
+      case 1: return GrpcOption.number1;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

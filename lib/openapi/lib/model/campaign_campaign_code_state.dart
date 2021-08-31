@@ -15,22 +15,22 @@ class CampaignCampaignCodeState {
   const CampaignCampaignCodeState._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const stateUnknown = CampaignCampaignCodeState._(r'state_unknown');
-  static const notUsed = CampaignCampaignCodeState._(r'not_used');
-  static const used = CampaignCampaignCodeState._(r'used');
+  static const number0 = CampaignCampaignCodeState._(0);
+  static const number1 = CampaignCampaignCodeState._(1);
+  static const number2 = CampaignCampaignCodeState._(2);
 
   /// List of all possible values in this [enum][CampaignCampaignCodeState].
   static const values = <CampaignCampaignCodeState>[
-    stateUnknown,
-    notUsed,
-    used,
+    number0,
+    number1,
+    number2,
   ];
 
   static CampaignCampaignCodeState fromJson(dynamic value) =>
@@ -44,14 +44,14 @@ class CampaignCampaignCodeState {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [CampaignCampaignCodeState] to String,
+/// Transformation class that can [encode] an instance of [CampaignCampaignCodeState] to int,
 /// and [decode] dynamic data back to [CampaignCampaignCodeState].
 class CampaignCampaignCodeStateTypeTransformer {
   const CampaignCampaignCodeStateTypeTransformer._();
 
   factory CampaignCampaignCodeStateTypeTransformer() => _instance ??= CampaignCampaignCodeStateTypeTransformer._();
 
-  String encode(CampaignCampaignCodeState data) => data.value;
+  int encode(CampaignCampaignCodeState data) => data.value;
 
   /// Decodes a [dynamic value][data] to a CampaignCampaignCodeState.
   ///
@@ -63,9 +63,9 @@ class CampaignCampaignCodeStateTypeTransformer {
   /// and users are still using an old app with the old code.
   CampaignCampaignCodeState decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'state_unknown': return CampaignCampaignCodeState.stateUnknown;
-      case r'not_used': return CampaignCampaignCodeState.notUsed;
-      case r'used': return CampaignCampaignCodeState.used;
+      case 0: return CampaignCampaignCodeState.number0;
+      case 1: return CampaignCampaignCodeState.number1;
+      case 2: return CampaignCampaignCodeState.number2;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

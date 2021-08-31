@@ -3,12 +3,12 @@ import 'package:openapi/api.dart';
 
 class FanMeetingStateMapper {
   static const fanMeetingStateMap = {
-    FanMeetingState.unknown: GrpcFanMeetingState.stateUnknown,
-    FanMeetingState.cancel: GrpcFanMeetingState.cancel,
-    FanMeetingState.finish: GrpcFanMeetingState.finish,
-    FanMeetingState.now: GrpcFanMeetingState.now,
-    FanMeetingState.notHeld: GrpcFanMeetingState.notHeld,
-    FanMeetingState.future: GrpcFanMeetingState.future,
+    FanMeetingState.unknown: GrpcFanMeetingState.number0,
+    FanMeetingState.finish: GrpcFanMeetingState.number1,
+    FanMeetingState.now: GrpcFanMeetingState.number2,
+    FanMeetingState.future: GrpcFanMeetingState.number3,
+    FanMeetingState.cancel: GrpcFanMeetingState.number4,
+    FanMeetingState.notHeld: GrpcFanMeetingState.number5,
   };
 
   static FanMeetingState decode(GrpcFanMeetingState grpc) {

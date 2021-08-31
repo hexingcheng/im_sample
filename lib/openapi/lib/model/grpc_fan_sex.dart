@@ -15,24 +15,24 @@ class GrpcFanSex {
   const GrpcFanSex._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => value.toString();
 
-  String toJson() => value;
+  int toJson() => value;
 
-  static const unknown = GrpcFanSex._(r'unknown');
-  static const man = GrpcFanSex._(r'man');
-  static const woman = GrpcFanSex._(r'woman');
-  static const undefined = GrpcFanSex._(r'undefined');
+  static const number0 = GrpcFanSex._(0);
+  static const number1 = GrpcFanSex._(1);
+  static const number2 = GrpcFanSex._(2);
+  static const number3 = GrpcFanSex._(3);
 
   /// List of all possible values in this [enum][GrpcFanSex].
   static const values = <GrpcFanSex>[
-    unknown,
-    man,
-    woman,
-    undefined,
+    number0,
+    number1,
+    number2,
+    number3,
   ];
 
   static GrpcFanSex fromJson(dynamic value) =>
@@ -46,14 +46,14 @@ class GrpcFanSex {
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [GrpcFanSex] to String,
+/// Transformation class that can [encode] an instance of [GrpcFanSex] to int,
 /// and [decode] dynamic data back to [GrpcFanSex].
 class GrpcFanSexTypeTransformer {
   const GrpcFanSexTypeTransformer._();
 
   factory GrpcFanSexTypeTransformer() => _instance ??= GrpcFanSexTypeTransformer._();
 
-  String encode(GrpcFanSex data) => data.value;
+  int encode(GrpcFanSex data) => data.value;
 
   /// Decodes a [dynamic value][data] to a GrpcFanSex.
   ///
@@ -65,10 +65,10 @@ class GrpcFanSexTypeTransformer {
   /// and users are still using an old app with the old code.
   GrpcFanSex decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case r'unknown': return GrpcFanSex.unknown;
-      case r'man': return GrpcFanSex.man;
-      case r'woman': return GrpcFanSex.woman;
-      case r'undefined': return GrpcFanSex.undefined;
+      case 0: return GrpcFanSex.number0;
+      case 1: return GrpcFanSex.number1;
+      case 2: return GrpcFanSex.number2;
+      case 3: return GrpcFanSex.number3;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');

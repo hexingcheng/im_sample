@@ -3,10 +3,10 @@ import 'package:openapi/api.dart';
 
 class SexMapper {
   static const sexMap = {
-    Sex.undfiend: GrpcFanSex.undefined,
-    Sex.unknown: GrpcFanSex.unknown,
-    Sex.man: GrpcFanSex.man,
-    Sex.woman: GrpcFanSex.woman,
+    Sex.unknown: GrpcFanSex.number0,
+    Sex.man: GrpcFanSex.number1,
+    Sex.woman: GrpcFanSex.number2,
+    Sex.undfiend: GrpcFanSex.number3,
   };
 
   static Sex decode(GrpcFanSex grpc) {

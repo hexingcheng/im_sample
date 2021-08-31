@@ -3,9 +3,9 @@ import 'package:openapi/api.dart';
 
 class FanMeetingStyleMapper {
   static const fanMeetingStyleMap = {
-    FanMeetingStyle.unknown: GrpcFanmeetingStyle.unknown,
-    FanMeetingStyle.regular: GrpcFanmeetingStyle.regular,
-    FanMeetingStyle.serial: GrpcFanmeetingStyle.serial,
+    FanMeetingStyle.unknown: GrpcFanmeetingStyle.number0,
+    FanMeetingStyle.regular: GrpcFanmeetingStyle.number1,
+    FanMeetingStyle.serial: GrpcFanmeetingStyle.number2,
   };
 
   static FanMeetingStyle decode(GrpcFanmeetingStyle grpc) {
