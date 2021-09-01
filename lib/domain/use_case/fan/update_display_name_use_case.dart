@@ -14,17 +14,15 @@ class UpdateDisplayNameUseCase extends UseCase {
   }) async {
     final uuid = SharedPrefrencesService.getUUID();
 
-    Future<void> updateDisplayName() async {
-      final apiToken = SharedPrefrencesService.getApiToken();
-      await _fanRepo.updateDisplayName(
-          accessToken: apiToken!,
-          uuid: uuid!,
-          displayName: displayName,
-          option: 1);
-    }
-
     try {
-      await updateDisplayName.retry();
+      await UseCase.retryAuth(() async {
+        final apiToken = SharedPrefrencesService.getApiToken();
+        await _fanRepo.updateDisplayName(
+            accessToken: apiToken!,
+            uuid: uuid!,
+            displayName: displayName,
+            option: 1);
+      });
     } on ApiError catch (e) {
       throw UseCase.useCaseErr(e);
     }

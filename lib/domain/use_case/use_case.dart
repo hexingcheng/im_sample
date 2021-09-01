@@ -11,20 +11,18 @@ class UseCase {
     }
     throw UseCaseError(message: e.message, code: e.code);
   }
-}
 
-extension RetryExtension<T> on Future<T> Function() {
-  Future<T> retry({int count = 1}) async {
+  static Future<T> retryAuth<T>(Future<T> Function() function,
+      {int count = 1}) async {
     try {
-      return await this();
+      return await function();
     } on ApiError catch (e) {
       if (e.code == ErrorCodes.tokenExpired) {
         final oldToken = SharedPrefrencesService.getApiToken();
         final newToken =
             await Repositories.authRepository.refreshToken(oldToken!);
         await SharedPrefrencesService.setApiToken(newToken);
-
-        return retry(count: count - 1);
+        return retryAuth(() async => function(), count: count - 1);
       }
       rethrow;
     } catch (e) {

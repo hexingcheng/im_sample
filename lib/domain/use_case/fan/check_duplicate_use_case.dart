@@ -15,7 +15,7 @@ class CheckDuplicateAnnotationIdUseCase extends UseCase {
     try {
       final uuid = SharedPrefrencesService.getUUID();
 
-      Future<void> checkDuplicate() async {
+      await UseCase.retryAuth(() async {
         final apiToken = SharedPrefrencesService.getApiToken();
         await _fanRepo.updateAnnotationIdAndBirth(
             accessToken: apiToken!,
@@ -23,9 +23,7 @@ class CheckDuplicateAnnotationIdUseCase extends UseCase {
             annotationId: annotationId,
             birth: birth,
             option: 1);
-      }
-
-      await checkDuplicate.retry();
+      });
     } on ApiError catch (e) {
       throw UseCase.useCaseErr(e);
     }

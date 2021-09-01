@@ -25,7 +25,15 @@ class UpdateAnnotationIdAndBirthUseCase extends UseCase {
     }
 
     try {
-      await updateAnnotationIdAndBirth.retry();
+      await UseCase.retryAuth(() async {
+        final apiToken = SharedPrefrencesService.getApiToken();
+        _fanRepo.updateAnnotationIdAndBirth(
+            accessToken: apiToken!,
+            uuid: uuid!,
+            annotationId: annotationId,
+            birth: birth,
+            option: 0);
+      });
     } on ApiError catch (e) {
       throw UseCase.useCaseErr(e);
     }
