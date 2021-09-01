@@ -11,7 +11,7 @@ class FanMapper {
       uuid: grpc.uuid,
       introduction: grpc.introduction,
       displayName: grpc.displayName,
-      birth: TimeStampMapper.decode(grpc.birth),
+      birth: grpc.birth != null ? TimeStampMapper.decode(grpc.birth) : null,
       annotationID: grpc.annotationId,
       voipToken: grpc.voipToken,
       fcmToken: grpc.fcmToken,

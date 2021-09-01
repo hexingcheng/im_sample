@@ -7,7 +7,7 @@ import 'package:onlylive/di.dart';
 import 'package:onlylive/entry.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onlylive/services/fcm_service.dart';
-import 'package:onlylive/services/shared_prefrences_service.dart';
+import 'package:onlylive/domain/service/shared_prefrences_service.dart';
 // import 'package:onlylive/test.dart';
 import 'flavor.dart';
 
@@ -23,7 +23,7 @@ Future<void> main() async {
 
   di();
   await Firebase.initializeApp();
-  SharedPrefrencesService();
+  SharedPrefrencesService().init();
   FCMService();
 
   runApp(MyApp());

@@ -6,9 +6,9 @@ import 'package:onlylive/domain/repository/repository.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/domain/use_case/admin/get_app_config_use_case.dart.dart';
 import 'package:onlylive/domain/use_case/call_transaction/get_call_transaction_use_case.dart';
-import 'package:onlylive/view/alert/force_update_screen.dart';
+import 'package:onlylive/domain/service/shared_prefrences_service.dart';
+import 'package:onlylive/snippets/locale.dart';
 import 'package:onlylive/view/call/call_screen.dart';
-import 'package:onlylive/view/alert/maintenance_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -16,13 +16,13 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
   @override
   RootVM() {
     Future(() async {
+      await setLanguageCode();
       await permissionRequest();
     });
   }
 
   void init() {
     WidgetsBinding.instance!.addObserver(this);
-    checkAppState();
   }
 
   @override
@@ -36,9 +36,14 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.resumed) {
-      await checkAppState();
+      await getEntry();
       // await checkCallTransaction();
     }
+  }
+
+  Future<void> setLanguageCode() async {
+    final locale = await getLocale();
+    await SharedPrefrencesService.setLanguageCode(locale.languageCode);
   }
 
   Future<void> checkCallTransaction() async {
@@ -50,7 +55,7 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
     }
   }
 
-  Future<void> checkAppState() async {
+  Future<EntryType> getEntry() async {
     int version(String version) {
       return int.parse(version.replaceAll(RegExp(r'\.'), ""));
     }
@@ -63,17 +68,15 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
     // force update
     if (version(packageInfo.version) <
         version(appConfig.forceUpdateAndroidVersion)) {
-      NavigatorService.navigatorKey.currentState!
-          .push(ForceUpdateScreen.route());
-      return;
+      return EntryType.forceUpdate;
     }
 
     // maintenance
     if (appConfig.isMaintenance) {
-      NavigatorService.navigatorKey.currentState!
-          .push(MaintenanceScreen.route());
-      return;
+      return EntryType.maintenance;
     }
+
+    return EntryType.home;
   }
 
   Future<CallTransaction?> getCallTransaction() async {
@@ -103,3 +106,5 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
     }
   }
 }
+
+enum EntryType { home, call, maintenance, forceUpdate }

@@ -1,11 +1,9 @@
 class Validator {
-  String? require(String? val, String label) {
-    if (val == null) {
-      return null;
+  static bool _require(String val) {
+    if (val == "") {
+      return false;
     }
-    if (val.isEmpty) {
-      return "$labelを入力してください";
-    }
+    return true;
   }
 
   static bool _isNumber(String? val) {
@@ -30,6 +28,16 @@ class Validator {
       return false;
     }
     return true;
+  }
+
+  static bool _match(String? val, String? target) {
+    if (val == null) {
+      return false;
+    }
+    if (val == target) {
+      return true;
+    }
+    return false;
   }
 
   static bool phoneNumber(String? val) {
@@ -64,13 +72,22 @@ class Validator {
     return existNumber && existAlphabet && range;
   }
 
-  bool match(String? val, String? target) {
-    if (val == null) {
-      return false;
-    }
-    if (val == target) {
+  static bool passwordConfirmation(String? origin, String? target) {
+    return _match(origin, target);
+  }
+
+  static bool name(String val) {
+    return _require(val) && _range(val, max: 10);
+  }
+
+  static bool birthday(DateTime? val) {
+    if (val != null) {
       return true;
     }
     return false;
+  }
+
+  static bool id(String val) {
+    return _require(val) && _range(val, max: 20);
   }
 }

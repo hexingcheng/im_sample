@@ -19,7 +19,6 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     return ChangeNotifierProvider<SignUpVM>(
       create: (context) => SignUpVM(),
       builder: (context, ba) {
@@ -30,86 +29,66 @@ class SignUpScreen extends StatelessWidget {
             title: "新規登録",
           ),
           body: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      "安全な取引のため、携帯電話のSMS（ショートメッセージサービス）を利用して認証を行います",
-                      style: TextStyle(
-                        color: OnlyliveColor.grey,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                    "安全な取引のため、携帯電話のSMS（ショートメッセージサービス）を利用して認証を行います",
+                    style: TextStyle(
+                      color: OnlyliveColor.grey,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
                     ),
-                    const SizedBox(height: 24),
-                    OnlyliveTextFormField(
-                      label: "電話番号",
-                      onChanged: (val) => vm.phoneNumber = val,
-                      keyboardType: TextInputType.number,
-                    ),
-                    const SizedBox(height: 24),
-                    OnlyliveTextFormField(
+                  ),
+                  const SizedBox(height: 24),
+                  OnlyliveTextFormField(
+                    label: "電話番号",
+                    onChanged: vm.onChagePhoneNumber,
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 24),
+                  OnlyliveTextFormField(
                       label: "パスワード",
-                      onChanged: (val) => vm.password = val,
-                      validator: vm.validatePassword,
+                      onChanged: vm.onChagePassword,
                       passwordMode: true,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "半角のアルファベットと数字両方を含む6~29文字",
-                      style: TextStyle(
-                        color: context.select<SignUpVM, bool>(
-                                (vm) => vm.validPasswordFormat)
-                            ? OnlyliveColor.darkPurple
-                            : Colors.red,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    OnlyliveTextFormField(
+                      noteText: "半角のアルファベットと数字両方を含む6~29文字",
+                      hasValid: context
+                          .select<SignUpVM, bool>((vm) => vm.isValidPassword)),
+                  const SizedBox(height: 8),
+                  const SizedBox(height: 24),
+                  OnlyliveTextFormField(
                       label: "パスワード（確認）",
-                      onChanged: (val) => vm.passwordConfirmation = val,
-                      validator: vm.validatePasswordConfirmation,
+                      onChanged: vm.onChagePasswordConfirmation,
                       passwordMode: true,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "同じパスワードを入力",
-                      style: TextStyle(
-                        color: context.select<SignUpVM, bool>(
-                                (vm) => vm.validPasswordConfirmation)
-                            ? OnlyliveColor.darkPurple
-                            : Colors.red,
+                      noteText: "同じパスワードを入力",
+                      hasValid: context.select<SignUpVM, bool>(
+                          (vm) => vm.isValidPasswordConfirmation)),
+                  const SizedBox(height: 24),
+                  Center(
+                    child: SizedBox(
+                      width: 335,
+                      height: 52,
+                      child: RoundRectButton(
+                        onPressed: () async {
+                          Navigator.push(
+                              context,
+                              SMSAuthScreen.route(
+                                  phoneNumber: vm.phoneNumber,
+                                  password: vm.password));
+                        },
+                        text: "SMSに認証コードを送る",
+                        textColor: Colors.white,
+                        isEnabled: context
+                            .select<SignUpVM, bool>((vm) => vm.isEnableButton),
+                        backgroundColor: OnlyliveColor.purple,
+                        disableColor: OnlyliveColor.lightPurple,
+                        overlayColor: OnlyliveColor.lightPurple,
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    Center(
-                      child: SizedBox(
-                        width: 335,
-                        height: 52,
-                        child: RoundRectButton(
-                          onPressed: () async {
-                            if (vm.validate(_formKey)) {
-                              await vm.onSubmit();
-                              Navigator.push(context, SMSAuthScreen.route());
-                            }
-                          },
-                          text: "SMSに認証コードを送る",
-                          textColor: Colors.white,
-                          backgroundColor: context.select<SignUpVM, bool>(
-                                  (vm) => vm.isCommnicatedAPI)
-                              ? OnlyliveColor.lightPurple
-                              : OnlyliveColor.purple,
-                          overlayColor: OnlyliveColor.lightPurple,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

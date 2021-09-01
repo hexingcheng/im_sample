@@ -7,6 +7,7 @@ import 'package:openapi/api.dart';
 class Repository {
   String apiTokenHeader = "x-api-jwt";
   String xPlatformHeader = "x-platform";
+  String authorizationHeader = "authorization";
 
   String get getXPlatformValue {
     if (Platform.isIOS) {

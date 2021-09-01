@@ -51,10 +51,8 @@ class SignInScreen extends StatelessWidget {
                               label: "電話番号",
                               onChanged: vm.onChangedPhoneNumber,
                               hintText: "08012345678",
-                              noteColor: context.select<SignInVM, bool>(
-                                      (vm) => vm.isValidPhoneNumber)
-                                  ? OnlyliveColor.grey
-                                  : Colors.red,
+                              hasValid: context.select<SignInVM, bool>(
+                                  (vm) => vm.isValidPhoneNumber),
                               noteText: "お使いのスマーフとフォンの電話番号を入力してください",
                             ),
                             const SizedBox(height: 24),
@@ -63,10 +61,8 @@ class SignInScreen extends StatelessWidget {
                               onChanged: vm.onChagePassword,
                               passwordMode: true,
                               hintText: "Abcd01",
-                              noteColor: context.select<SignInVM, bool>(
-                                      (vm) => vm.isValidPassword)
-                                  ? OnlyliveColor.grey
-                                  : Colors.red,
+                              hasValid: context.select<SignInVM, bool>(
+                                  (vm) => vm.isValidPassword),
                               noteText: "半角のアルファベットと数字両方を含む6~20文字",
                             ),
                           ],

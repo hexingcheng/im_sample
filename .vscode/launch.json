@@ -11,7 +11,7 @@
         "development",
         "--dart-define",
         "FLAVOR=development",
-                "--no-sound-null-safety",
+        "--no-sound-null-safety",
       ]
     },
     {
@@ -24,7 +24,7 @@
         "staging",
         "--dart-define",
         "FLAVOR=staging",
-                "--no-sound-null-safety",
+        "--no-sound-null-safety",
       ]
     },
     {

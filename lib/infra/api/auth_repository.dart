@@ -28,4 +28,38 @@ class APIAuthRepository extends Repository implements AuthRepository {
       throw apiException(e);
     }
   }
+
+  @override
+  Future<Auth> signUp({
+    required String phoneNumber,
+    required String password,
+    required String firebaseToken,
+    String? fcmToken,
+    String? apsToken,
+  }) async {
+    try {
+      _client.apiClient
+          .addDefaultHeader(authorizationHeader, "bearer $firebaseToken");
+      final res = await _client.authServiceFanSignUp(GrpcFanSignUpRequest(
+        phoneNumber: phoneNumber,
+        password: password,
+        fcmToken: fcmToken,
+        apsToken: apsToken,
+      ));
+      return Auth(apiToken: res.apiToken, uuid: res.uuid);
+    } on ApiException catch (e) {
+      throw apiException(e);
+    }
+  }
+
+  @override
+  Future<String> refreshToken(String oldToken) async {
+    try {
+      final res = await _client.authServiceFanRefreshToken(
+          GrpcFanRefreshTokenRequest(oldToken: oldToken));
+      return res.newToken;
+    } on ApiException catch (e) {
+      throw apiException(e);
+    }
+  }
 }
