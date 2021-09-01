@@ -7,6 +7,6 @@ class TimeStampMapper {
   }
 
   static GrpcTimestamp encode(DateTime dateTime) {
-    return GrpcTimestamp(seconds: dateTime.millisecondsSinceEpoch);
+    return GrpcTimestamp(seconds: dateTime.millisecondsSinceEpoch ~/ 1000);
   }
 }

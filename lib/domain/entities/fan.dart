@@ -21,7 +21,7 @@ class Fan {
   String introduction;
   String displayName;
   String annotationID;
-  DateTime birth;
+  DateTime? birth;
   String phoneNumber;
   String? voipToken;
   String? apsToken;

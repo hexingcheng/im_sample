@@ -1,4 +1,3 @@
-import 'package:onlylive/domain/entities/app_config.dart';
 import 'package:onlylive/domain/entities/auth.dart';
 
 abstract class AuthRepository {
@@ -8,4 +7,16 @@ abstract class AuthRepository {
     required String password,
     String? fcmToken,
   });
+
+  // signUp is fan sign in
+  Future<Auth> signUp({
+    required String phoneNumber,
+    required String password,
+    required String firebaseToken,
+    String? fcmToken,
+    String? apsToken,
+  });
+
+  // refreshToken is refresh token
+  Future<String> refreshToken(String oldToken);
 }

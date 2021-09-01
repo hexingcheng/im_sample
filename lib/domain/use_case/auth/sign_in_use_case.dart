@@ -2,7 +2,7 @@ import 'package:onlylive/domain/repository/auth_repository.dart';
 import 'package:onlylive/domain/repository/error.dart';
 import 'package:onlylive/domain/use_case/use_case.dart';
 import 'package:onlylive/services/fcm_service.dart';
-import 'package:onlylive/services/shared_prefrences_service.dart';
+import 'package:onlylive/domain/service/shared_prefrences_service.dart';
 
 class SignInUseCase extends UseCase {
   SignInUseCase(this._authRepository);
@@ -27,7 +27,7 @@ class SignInUseCase extends UseCase {
         SharedPrefrencesService.setUUID(auth.uuid),
       ]);
     } on ApiError catch (e) {
-      useCaseErr(e);
+      throw UseCase.useCaseErr(e);
     }
   }
 }

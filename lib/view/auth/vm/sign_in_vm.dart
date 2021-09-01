@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/auth/auth_use_case.dart';
+import 'package:onlylive/domain/use_case/auth/sign_in_use_case.dart';
 import 'package:onlylive/domain/use_case/errors.dart';
 import 'package:onlylive/snippets/validator.dart';
 
@@ -53,7 +53,7 @@ class SignInVM with ChangeNotifier {
           .execute(phoneNumber: _phoneNumber, password: _password);
     } on UNAUTHENTICATED {
       return SignInResult.invalidPassword;
-    } on NOTFOUND {
+    } on NotFound {
       return SignInResult.unRegistered;
     } on DELETEDFAN {
       return SignInResult.deleted;

@@ -6,7 +6,7 @@ class SexMapper {
     Sex.unknown: GrpcFanSex.number0,
     Sex.man: GrpcFanSex.number1,
     Sex.woman: GrpcFanSex.number2,
-    Sex.undfiend: GrpcFanSex.number3,
+    Sex.undfiend: GrpcFanSex.number3
   };
 
   static Sex decode(GrpcFanSex grpc) {

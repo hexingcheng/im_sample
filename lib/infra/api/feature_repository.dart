@@ -12,6 +12,5 @@ class APIFeatureRepository implements FeatureRepository {
     final response =
         await _client.featureServiceListFeatures(pageSize: pageSize);
     return response.feature.map(FeatureMapper.decode).toList();
-    ;
   }
 }

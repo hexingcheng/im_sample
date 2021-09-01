@@ -5,25 +5,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class OnlyliveTextFormField extends StatefulWidget {
   const OnlyliveTextFormField({
     required this.label,
-    this.validator,
     this.onChanged,
-    this.onSaved,
+    this.unFocus,
     this.keyboardType = TextInputType.text,
     this.hintText,
+    this.hasValid = true,
     this.passwordMode = false,
     this.maxLength,
-    this.noteColor,
     this.noteText,
   });
   final String label;
-  final String? Function(String?)? validator;
+  final bool hasValid;
   final void Function(String)? onChanged;
-  final void Function(String?)? onSaved;
+  final void Function()? unFocus;
   final TextInputType keyboardType;
   final String? hintText;
   final bool passwordMode;
   final int? maxLength;
-  final Color? noteColor;
   final String? noteText;
 
   @override
@@ -32,6 +30,9 @@ class OnlyliveTextFormField extends StatefulWidget {
 
 class _OnlyliveTextFormFieldState extends State<OnlyliveTextFormField> {
   bool _showPassword = false;
+  final _controller = TextEditingController();
+  int _textLength = 0;
+  final _focusNode = FocusNode();
 
   bool chageObscureText() {
     if (_showPassword) {
@@ -41,28 +42,72 @@ class _OnlyliveTextFormFieldState extends State<OnlyliveTextFormField> {
   }
 
   @override
+  void initState() {
+    _controller.addListener(onChageText);
+    if (widget.unFocus != null) {
+      _focusNode.addListener(() {
+        if (!_focusNode.hasFocus) {
+          widget.unFocus!();
+        }
+      });
+    }
+    super.initState();
+  }
+
+  void onChageText() {
+    super.setState(() {
+      _textLength = _controller.text.length;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              widget.label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: OnlyliveColor.darkPurple,
+              ),
+            ),
+            widget.maxLength != null
+                ? Text(
+                    "$_textLength/${widget.maxLength}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: OnlyliveColor.darkPurple,
+                    ),
+                  )
+                : const SizedBox.shrink()
+          ],
+        ),
+        TextFormField(
+          controller: _controller,
+          onChanged: widget.onChanged,
+          focusNode: _focusNode,
+          keyboardType: widget.keyboardType,
+          cursorColor: OnlyliveColor.purple,
+          cursorHeight: 24,
+          cursorWidth: 3,
+          obscureText: !widget.passwordMode ? false : chageObscureText(),
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
             color: OnlyliveColor.darkPurple,
           ),
-        ),
-        TextFormField(
-          validator: widget.validator,
-          onChanged: widget.onChanged,
-          onSaved: widget.onSaved,
-          keyboardType: widget.keyboardType,
-          cursorColor: OnlyliveColor.purple,
-          cursorHeight: 24,
-          cursorWidth: 3,
           maxLength: widget.maxLength,
-          obscureText: !widget.passwordMode ? false : chageObscureText(),
+          buildCounter: (context,
+                  {required currentLength,
+                  required isFocused,
+                  required maxLength}) =>
+              null,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(top: 12, bottom: 13),
             focusColor: OnlyliveColor.purple,
@@ -104,7 +149,7 @@ class _OnlyliveTextFormFieldState extends State<OnlyliveTextFormField> {
                   Text(
                     widget.noteText!,
                     style: TextStyle(
-                      color: widget.noteColor,
+                      color: widget.hasValid ? OnlyliveColor.grey : Colors.red,
                     ),
                     textAlign: TextAlign.left,
                   ),
