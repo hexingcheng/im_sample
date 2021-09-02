@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:onlylive/domain/repository/error.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/errors.dart';
 import 'package:onlylive/domain/service/shared_prefrences_service.dart';
+import 'package:onlylive/domain/use_case/errors.dart';
+import 'package:openapi/api.dart';
 
 class UseCase {
   static Error useCaseErr(ApiError e) {
@@ -12,17 +15,30 @@ class UseCase {
     throw UseCaseError(message: e.message, code: e.code);
   }
 
-  static Future<T> retryAuth<T>(Future<T> Function() function,
-      {int count = 1}) async {
+  static Future<T> retryAuth<T>(FutureOr<T> Function() function) {
+    Future<T> handleError(ApiError e) {
+      final oldToken = SharedPrefrencesService.getApiToken();
+      return Repositories.authRepository
+          .refreshToken(oldToken!)
+          .then(SharedPrefrencesService.setApiToken)
+          .then((_) => function());
+    }
+
     try {
-      return await function();
+      final res = function();
+      if (res is Future<T>) {
+        return res.onError<ApiError>((e, stackTrace) {
+          if (e.code == ErrorCodes.tokenExpired) {
+            return handleError(e);
+          }
+          return Future.error(e);
+        });
+      } else {
+        return Future.value(res);
+      }
     } on ApiError catch (e) {
       if (e.code == ErrorCodes.tokenExpired) {
-        final oldToken = SharedPrefrencesService.getApiToken();
-        final newToken =
-            await Repositories.authRepository.refreshToken(oldToken!);
-        await SharedPrefrencesService.setApiToken(newToken);
-        return retryAuth(() async => function(), count: count - 1);
+        return handleError(e);
       }
       rethrow;
     } catch (e) {
