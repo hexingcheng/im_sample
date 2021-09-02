@@ -87,8 +87,7 @@ class CallService {
     const flavor = String.fromEnvironment("FLAVOR");
     print(flavor);
     await initConfig(Flavor(flavor));
-    final _client = ApiClient(basePath: Config.app.host);
-    return APIFanRepository(FanServiceApi(_client));
+    return APIFanRepository(Config.app.host);
   }
 }
 

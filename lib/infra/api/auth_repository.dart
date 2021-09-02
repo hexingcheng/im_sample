@@ -4,8 +4,12 @@ import 'package:onlylive/infra/api/repository.dart';
 import 'package:openapi/api.dart';
 
 class APIAuthRepository extends Repository implements AuthRepository {
-  APIAuthRepository(this._client);
-  final AuthServiceApi _client;
+  APIAuthRepository(this._basePath);
+  final String _basePath;
+
+  void authService() {
+    AuthServiceApi(ApiClient(basePath: _basePath));
+  }
 
   @override
   Future<Auth> signIn({
@@ -14,18 +18,17 @@ class APIAuthRepository extends Repository implements AuthRepository {
     String? fcmToken,
   }) async {
     try {
-      _client.apiClient.addDefaultHeader(
-        xPlatformHeader,
-        getXPlatformValue,
-      );
-      final res = await _client.authServiceFanSignIn(GrpcFanSignInRequest(
+      final service =
+          AuthServiceApi(ApiClient(basePath: _basePath)..addXPlatForm());
+
+      final res = await service.authServiceFanSignIn(GrpcFanSignInRequest(
         phoneNumber: phoneNumber,
         password: password,
         fcmToken: fcmToken,
       ));
       return Auth(apiToken: res.apiToken, uuid: res.uuid);
     } on ApiException catch (e) {
-      throw apiException(e);
+      throw Repository.apiException(e);
     }
   }
 
@@ -38,9 +41,10 @@ class APIAuthRepository extends Repository implements AuthRepository {
     String? apsToken,
   }) async {
     try {
-      _client.apiClient
-          .addDefaultHeader(authorizationHeader, "bearer $firebaseToken");
-      final res = await _client.authServiceFanSignUp(GrpcFanSignUpRequest(
+      final service = AuthServiceApi(ApiClient(basePath: _basePath)
+        ..addAuthorization("bearer $firebaseToken"));
+
+      final res = await service.authServiceFanSignUp(GrpcFanSignUpRequest(
         phoneNumber: phoneNumber,
         password: password,
         fcmToken: fcmToken,
@@ -48,18 +52,19 @@ class APIAuthRepository extends Repository implements AuthRepository {
       ));
       return Auth(apiToken: res.apiToken, uuid: res.uuid);
     } on ApiException catch (e) {
-      throw apiException(e);
+      throw Repository.apiException(e);
     }
   }
 
   @override
   Future<String> refreshToken(String oldToken) async {
     try {
-      final res = await _client.authServiceFanRefreshToken(
+      final service = AuthServiceApi(ApiClient(basePath: _basePath));
+      final res = await service.authServiceFanRefreshToken(
           GrpcFanRefreshTokenRequest(oldToken: oldToken));
       return res.newToken;
     } on ApiException catch (e) {
-      throw apiException(e);
+      throw Repository.apiException(e);
     }
   }
 }

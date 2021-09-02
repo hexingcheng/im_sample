@@ -10,16 +10,17 @@ import 'package:onlylive/infra/mapper/time_stamp_mapper.dart';
 import 'package:openapi/api.dart';
 
 class APIFanRepository extends Repository implements FanRepository {
-  APIFanRepository(this._client);
-  final FanServiceApi _client;
+  APIFanRepository(this._basePath);
+  final String _basePath;
 
   @override
   Future<Fan> getFan(String fanUUID) async {
     try {
-      final response = await _client.fanServiceGetFan(fanUUID);
+      final service = FanServiceApi(ApiClient(basePath: _basePath));
+      final response = await service.fanServiceGetFan(fanUUID);
       return FanMapper.decode(response.fan);
     } on ApiException catch (e) {
-      throw apiException(e);
+      throw Repository.apiException(e);
     }
   }
 
@@ -31,15 +32,16 @@ class APIFanRepository extends Repository implements FanRepository {
       required DateTime birth,
       required int option}) async {
     try {
-      _client.apiClient.addDefaultHeader(apiTokenHeader, accessToken);
-      await _client.fanServiceUpdateFan(GrpcUpdateFanRequest(
+      final service = FanServiceApi(
+          ApiClient(basePath: _basePath)..addApiToken(accessToken));
+      await service.fanServiceUpdateFan(GrpcUpdateFanRequest(
           fan: GrpcFan(
               uuid: uuid,
               annotationId: annotationId,
               birth: TimeStampMapper.encode(birth)),
           option: OptionMapper.encode(option)));
     } on ApiException catch (e) {
-      throw apiException(e);
+      throw Repository.apiException(e);
     }
   }
 
@@ -50,8 +52,9 @@ class APIFanRepository extends Repository implements FanRepository {
       required String displayName,
       required int option}) async {
     try {
-      _client.apiClient.addDefaultHeader(apiTokenHeader, accessToken);
-      await _client.fanServiceUpdateDisplayNameFan(
+      final service = FanServiceApi(
+          ApiClient(basePath: _basePath)..addApiToken(accessToken));
+      await service.fanServiceUpdateDisplayNameFan(
         GrpcUpdateDisplayNameFanRequest(
           uuid: uuid,
           displayName: displayName,
@@ -59,7 +62,7 @@ class APIFanRepository extends Repository implements FanRepository {
         ),
       );
     } on ApiException catch (e) {
-      throw apiException(e);
+      throw Repository.apiException(e);
     }
   }
 
@@ -82,7 +85,8 @@ class APIFanRepository extends Repository implements FanRepository {
 
   @override
   Future<CallTransaction> getCallTransaction(String fanUUID) async {
-    final response = await _client.fanServiceGetCallTransaction(fanUUID);
+    final service = FanServiceApi(ApiClient(basePath: _basePath));
+    final response = await service.fanServiceGetCallTransaction(fanUUID);
     return CallTransactionMapper.decode(response.callTransaction);
   }
 
@@ -90,7 +94,8 @@ class APIFanRepository extends Repository implements FanRepository {
   Future<void> updateCallTransaction(
       String fanUUID, CallTransaction callTransaction) async {
     try {
-      await _client.fanServiceUpdateCallTransaction(
+      final service = FanServiceApi(ApiClient(basePath: _basePath));
+      await service.fanServiceUpdateCallTransaction(
           fanUUID,
           GrpcUpdateCallTransactionRequest(
               callUuid: callTransaction.callUUID,
