@@ -25,7 +25,7 @@ Method | HTTP request | Description
 
 
 # **fanServiceDeleteFan**
-> Object fanServiceDeleteFan(body)
+> GrpcEmpty fanServiceDeleteFan(body)
 
 
 
@@ -56,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fanServiceUpdateCallTransaction**
-> Object fanServiceUpdateCallTransaction(fanUuid, body)
+> GrpcEmpty fanServiceUpdateCallTransaction(fanUuid, body)
 
 
 
@@ -240,7 +240,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -479,7 +479,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fanServiceUpdatePasswordFan**
-> Object fanServiceUpdatePasswordFan(body)
+> GrpcEmpty fanServiceUpdatePasswordFan(body)
 
 
 
@@ -510,7 +510,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 

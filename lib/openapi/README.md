@@ -166,6 +166,7 @@ Class | Method | HTTP request | Description
  - [GrpcCreateReservationResponse](doc//GrpcCreateReservationResponse.md)
  - [GrpcCreateSerialCodeResponse](doc//GrpcCreateSerialCodeResponse.md)
  - [GrpcDeleteFanRequest](doc//GrpcDeleteFanRequest.md)
+ - [GrpcEmpty](doc//GrpcEmpty.md)
  - [GrpcFan](doc//GrpcFan.md)
  - [GrpcFanMeeting](doc//GrpcFanMeeting.md)
  - [GrpcFanMeetingAndNumberOfReservation](doc//GrpcFanMeetingAndNumberOfReservation.md)

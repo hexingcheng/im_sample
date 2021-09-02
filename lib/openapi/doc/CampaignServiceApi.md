@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **campaignServiceConsumeSerialCode**
-> Object campaignServiceConsumeSerialCode(serialCode, body)
+> GrpcEmpty campaignServiceConsumeSerialCode(serialCode, body)
 
 
 
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 

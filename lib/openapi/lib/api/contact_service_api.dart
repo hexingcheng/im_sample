@@ -53,7 +53,7 @@ class ContactServiceApi {
   /// Parameters:
   ///
   /// * [GrpcCreateContactReportRequest] body (required):
-  Future<Object> contactServiceCreateContactReport(GrpcCreateContactReportRequest body) async {
+  Future<GrpcEmpty> contactServiceCreateContactReport(GrpcCreateContactReportRequest body) async {
     final response = await contactServiceCreateContactReportWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -62,8 +62,8 @@ class ContactServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 }

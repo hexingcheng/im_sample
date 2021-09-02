@@ -167,7 +167,7 @@ class ReservationServiceApi {
   /// Parameters:
   ///
   /// * [int] id (required):
-  Future<Object> reservationServiceDeleteReservation(int id) async {
+  Future<GrpcEmpty> reservationServiceDeleteReservation(int id) async {
     final response = await reservationServiceDeleteReservationWithHttpInfo(id);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -176,9 +176,9 @@ class ReservationServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'GET /v1/reservations/fans/{fan_uuid}/influencers/{influencer_uuid}' operation and returns the [Response].
@@ -440,7 +440,7 @@ class ReservationServiceApi {
   /// Parameters:
   ///
   /// * [int] id (required):
-  Future<Object> reservationServiceRemoveFanByReservation(int id) async {
+  Future<GrpcEmpty> reservationServiceRemoveFanByReservation(int id) async {
     final response = await reservationServiceRemoveFanByReservationWithHttpInfo(id);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -449,9 +449,9 @@ class ReservationServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'PUT /v1/reservations/upload/cheki' operation and returns the [Response].
@@ -492,7 +492,7 @@ class ReservationServiceApi {
   /// Parameters:
   ///
   /// * [GrpcUploadChekiRequest] body (required):
-  Future<Object> reservationServiceUploadCheki(GrpcUploadChekiRequest body) async {
+  Future<GrpcEmpty> reservationServiceUploadCheki(GrpcUploadChekiRequest body) async {
     final response = await reservationServiceUploadChekiWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -501,9 +501,9 @@ class ReservationServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'PUT /v1/reservations/upload/tencent-log/im' operation and returns the [Response].
@@ -544,7 +544,7 @@ class ReservationServiceApi {
   /// Parameters:
   ///
   /// * [GrpcUploadTencentInstantMessageLogByReservationRequest] body (required):
-  Future<Object> reservationServiceUploadTencentInstantMessageLogByReservation(GrpcUploadTencentInstantMessageLogByReservationRequest body) async {
+  Future<GrpcEmpty> reservationServiceUploadTencentInstantMessageLogByReservation(GrpcUploadTencentInstantMessageLogByReservationRequest body) async {
     final response = await reservationServiceUploadTencentInstantMessageLogByReservationWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -553,9 +553,9 @@ class ReservationServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'PUT /v1/reservations/upload/tencent-log/lite-av' operation and returns the [Response].
@@ -596,7 +596,7 @@ class ReservationServiceApi {
   /// Parameters:
   ///
   /// * [GrpcUploadTencentLiteAVLogByReservationRequest] body (required):
-  Future<Object> reservationServiceUploadTencentLiteAVLogByReservation(GrpcUploadTencentLiteAVLogByReservationRequest body) async {
+  Future<GrpcEmpty> reservationServiceUploadTencentLiteAVLogByReservation(GrpcUploadTencentLiteAVLogByReservationRequest body) async {
     final response = await reservationServiceUploadTencentLiteAVLogByReservationWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -605,8 +605,8 @@ class ReservationServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 }

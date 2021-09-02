@@ -72,6 +72,7 @@ part 'model/grpc_create_reservation_request.dart';
 part 'model/grpc_create_reservation_response.dart';
 part 'model/grpc_create_serial_code_response.dart';
 part 'model/grpc_delete_fan_request.dart';
+part 'model/grpc_empty.dart';
 part 'model/grpc_fan.dart';
 part 'model/grpc_fan_meeting.dart';
 part 'model/grpc_fan_meeting_and_number_of_reservation.dart';

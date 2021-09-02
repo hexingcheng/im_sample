@@ -115,7 +115,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **reservationServiceDeleteReservation**
-> Object reservationServiceDeleteReservation(id)
+> GrpcEmpty reservationServiceDeleteReservation(id)
 
 
 
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -342,7 +342,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **reservationServiceRemoveFanByReservation**
-> Object reservationServiceRemoveFanByReservation(id)
+> GrpcEmpty reservationServiceRemoveFanByReservation(id)
 
 
 
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -387,7 +387,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **reservationServiceUploadCheki**
-> Object reservationServiceUploadCheki(body)
+> GrpcEmpty reservationServiceUploadCheki(body)
 
 
 
@@ -418,7 +418,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -432,7 +432,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **reservationServiceUploadTencentInstantMessageLogByReservation**
-> Object reservationServiceUploadTencentInstantMessageLogByReservation(body)
+> GrpcEmpty reservationServiceUploadTencentInstantMessageLogByReservation(body)
 
 
 
@@ -463,7 +463,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -477,7 +477,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **reservationServiceUploadTencentLiteAVLogByReservation**
-> Object reservationServiceUploadTencentLiteAVLogByReservation(body)
+> GrpcEmpty reservationServiceUploadTencentLiteAVLogByReservation(body)
 
 
 
@@ -508,7 +508,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 

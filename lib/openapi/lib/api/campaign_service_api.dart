@@ -61,7 +61,7 @@ class CampaignServiceApi {
   /// * [String] serialCode (required):
   ///
   /// * [GrpcConsumeSerialCodeRequest] body (required):
-  Future<Object> campaignServiceConsumeSerialCode(String serialCode, GrpcConsumeSerialCodeRequest body) async {
+  Future<GrpcEmpty> campaignServiceConsumeSerialCode(String serialCode, GrpcConsumeSerialCodeRequest body) async {
     final response = await campaignServiceConsumeSerialCodeWithHttpInfo(serialCode, body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -70,9 +70,9 @@ class CampaignServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'GET /v1/fans/{fan_uuid}/campaigns' operation and returns the [Response].

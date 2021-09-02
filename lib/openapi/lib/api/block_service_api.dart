@@ -53,7 +53,7 @@ class BlockServiceApi {
   /// Parameters:
   ///
   /// * [GrpcCreateBlockRequest] body (required):
-  Future<Object> blockServiceCreateBlock(GrpcCreateBlockRequest body) async {
+  Future<GrpcEmpty> blockServiceCreateBlock(GrpcCreateBlockRequest body) async {
     final response = await blockServiceCreateBlockWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -62,8 +62,8 @@ class BlockServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 }

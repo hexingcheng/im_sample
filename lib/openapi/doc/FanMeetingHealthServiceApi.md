@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **fanMeetingHealthServiceFanMeetingHealth**
-> Object fanMeetingHealthServiceFanMeetingHealth(fanMeetingId)
+> GrpcEmpty fanMeetingHealthServiceFanMeetingHealth(fanMeetingId)
 
 
 
@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 

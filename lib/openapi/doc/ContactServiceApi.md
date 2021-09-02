@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **contactServiceCreateContactReport**
-> Object contactServiceCreateContactReport(body)
+> GrpcEmpty contactServiceCreateContactReport(body)
 
 
 
@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
