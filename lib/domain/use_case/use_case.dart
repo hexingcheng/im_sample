@@ -4,6 +4,7 @@ import 'package:onlylive/domain/repository/error.dart';
 import 'package:onlylive/domain/repository/repository.dart';
 import 'package:onlylive/domain/service/shared_prefrences_service.dart';
 import 'package:onlylive/domain/use_case/errors.dart';
+import 'package:openapi/api.dart';
 
 class UseCase {
   static Error useCaseErr(ApiError e) {
@@ -30,7 +31,7 @@ class UseCase {
           if (e.code == ErrorCodes.tokenExpired) {
             return handleError(e);
           }
-          throw e;
+          return Future.error(e);
         });
       } else {
         return Future.value(res);
@@ -43,9 +44,5 @@ class UseCase {
     } catch (e) {
       rethrow;
     }
-  }
-
-  static Future<T> catchApiError<T>(ApiError e, {StackTrace? st}) {
-    return Future.error(UseCase.useCaseErr(e));
   }
 }
