@@ -11,17 +11,15 @@ import 'package:onlylive/infra/api/feature_repository.dart';
 import 'package:onlylive/infra/api/wallet_repository.dart';
 
 void di() {
-  final _client = ApiClient(basePath: Config.app.host);
+  final basePath = Config.app.host;
 
   Repositories(
-      reservationRepository:
-          APIReservationRepository(ReservationServiceApi(_client)),
-      fanRepository: APIFanRepository(FanServiceApi(_client)),
-      fanMeetingRepository:
-          APIFanmeetingRepository(FanMeetingServiceApi(_client)),
+      reservationRepository: APIReservationRepository(basePath),
+      fanRepository: APIFanRepository(basePath),
+      fanMeetingRepository: APIFanmeetingRepository(basePath),
       adminRepository: APIAdminRepository(),
-      featureRepository: APIFeatureRepository(FeatureServiceApi(_client)),
-      rankingRepository: APIRankingRepository(PointServiceApi(_client)),
-      walletRepository: APIWalletRepository(WalletServiceApi(_client)),
-      authRepository: APIAuthRepository(AuthServiceApi(_client)));
+      featureRepository: APIFeatureRepository(basePath),
+      rankingRepository: APIRankingRepository(basePath),
+      walletRepository: APIWalletRepository(basePath),
+      authRepository: APIAuthRepository(basePath));
 }

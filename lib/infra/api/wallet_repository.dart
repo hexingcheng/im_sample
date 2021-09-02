@@ -5,12 +5,14 @@ import 'package:onlylive/infra/mapper/wallet/wallet_mapper.dart';
 import 'package:openapi/api.dart';
 
 class APIWalletRepository implements WalletRepository {
-  APIWalletRepository(this._client);
-  final WalletServiceApi _client;
+  APIWalletRepository(this._basePath);
+  final String _basePath;
 
   @override
   Future<Wallet> getWallet(String accessToken, String fanUUID) async {
-    final res = await _client.walletServiceGetBalanceByFanUUID(fanUUID);
+    final service = WalletServiceApi(ApiClient(basePath: _basePath));
+
+    final res = await service.walletServiceGetBalanceByFanUUID(fanUUID);
     return WalletMapper.decode(res);
   }
 }

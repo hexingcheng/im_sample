@@ -7,12 +7,13 @@ import 'package:onlylive/infra/mapper/fan_meeting_and_reserved_mapper.dart';
 import 'package:openapi/api.dart';
 
 class APIFanmeetingRepository implements FanMeetingRepository {
-  APIFanmeetingRepository(this._service);
-  final FanMeetingServiceApi _service;
+  APIFanmeetingRepository(this._basePath);
+  final String _basePath;
 
   @override
   Future<FanMeeting> getFanMeeting(int id) async {
-    final response = await _service.fanMeetingServiceGetFanMeeting(id);
+    final service = FanMeetingServiceApi(ApiClient(basePath: _basePath));
+    final response = await service.fanMeetingServiceGetFanMeeting(id);
 
     return FanMeetingMapper.decode(response.fanMeeting);
   }
@@ -20,7 +21,9 @@ class APIFanmeetingRepository implements FanMeetingRepository {
   @override
   Future<Map<String, List<FanMeetingAndReserved>>> listFanMeetingByState(
       FanMeetingState state, String pageToken) async {
-    final response = await _service.fanMeetingServiceListFanMeetings(
+    final service = FanMeetingServiceApi(ApiClient(basePath: _basePath));
+
+    final response = await service.fanMeetingServiceListFanMeetings(
         state: state.string(), pageToken: pageToken);
 
     final _nextPageToken = response.nextPageToken;
@@ -35,8 +38,10 @@ class APIFanmeetingRepository implements FanMeetingRepository {
   @override
   Future<Map<String, List<FanMeetingAndReserved>>> listFanMeetingByTopic(
       Topic topic, String pageToken) async {
+    final service = FanMeetingServiceApi(ApiClient(basePath: _basePath));
+
     final response =
-        await _service.fanMeetingServiceListFanMeetingsByTopic(topic.string());
+        await service.fanMeetingServiceListFanMeetingsByTopic(topic.string());
 
     final _nextPageToken = response.nextPageToken;
 

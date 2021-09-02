@@ -4,13 +4,15 @@ import 'package:onlylive/domain/entities/feature.dart';
 import 'package:onlylive/domain/repository/feature_repository.dart';
 
 class APIFeatureRepository implements FeatureRepository {
-  APIFeatureRepository(this._client);
-  final FeatureServiceApi _client;
+  APIFeatureRepository(this._basePath);
+
+  final String _basePath;
 
   @override
   Future<List<Feature>> listFeature(int pageSize) async {
+    final service = FeatureServiceApi(ApiClient(basePath: _basePath));
     final response =
-        await _client.featureServiceListFeatures(pageSize: pageSize);
+        await service.featureServiceListFeatures(pageSize: pageSize);
     return response.feature.map(FeatureMapper.decode).toList();
   }
 }
