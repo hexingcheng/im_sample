@@ -52,9 +52,9 @@ class TopicTalentGridView extends StatelessWidget {
                 (fanMeeting) => TalentCard(
                   imgHeight: _popularCardImageHeight,
                   imgWidth: _popularCardWidth,
-                  imageUrl: fanMeeting.talent.mainSquareImageUrl,
-                  name: fanMeeting.talent.displayName,
-                  genre: fanMeeting.talent.genre[0],
+                  imageUrl: fanMeeting.talent!.mainSquareImageUrl,
+                  name: fanMeeting.talent!.displayName,
+                  genre: fanMeeting.talent!.genre[0],
                 ),
               )
               .toList(),

@@ -1,20 +1,24 @@
 import 'package:onlylive/domain/entities/talent.dart';
+import 'package:onlylive/domain/entities/follow_status.dart';
 import 'package:onlylive/domain/repository/talent_repository.dart';
+import 'package:onlylive/domain/service/shared_prefrences_service.dart';
 import 'package:onlylive/infra/mapper/talent_mapper.dart';
 import 'package:openapi/api.dart';
-import 'package:onlylive/services/shared_prefrences_service.dart';
 
 class APITalentRepository implements TalentRepository {
-  APITalentRepository(this._client);
-  final InfluencerServiceApi _client;
+  APITalentRepository(this._basePath);
+  final String _basePath;
 
   @override
-  Future<Map<Talent, bool?>> getTalent(String talentID) async {
-    final apiToken = await SharedPrefrencesService.getApiToken();
-    print(apiToken);
-    final fanUUID = await SharedPrefrencesService.getUUID();
-    final res = await _client.influencerServiceGetInfluencer(talentID,
+  Future<FollowStatus> getTalent(
+      {String? fanUUID, required String talentID}) async {
+    final service = InfluencerServiceApi(ApiClient(basePath: _basePath));
+    final res = await service.influencerServiceGetInfluencer(talentID,
         fanUuid: fanUUID);
-    return {TalentMapper.decode(res.influencer): res.isFollow};
+
+    return FollowStatus(
+        talent: TalentMapper.decode(res.influencer),
+        isFollow: res.isFollow ?? false,
+        followerNum: res.followerNum);
   }
 }

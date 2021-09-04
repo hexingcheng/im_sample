@@ -49,3 +49,6 @@ class AlaredyExistAnnotaionId implements Exception {}
 
 // exception raised when internal error
 class Internal implements Exception {}
+
+// exception raised when the authentication information (api token or fan uuid) was not found
+class NotFonudAuthenticationInformation implements Exception {}

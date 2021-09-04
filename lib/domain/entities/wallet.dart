@@ -23,6 +23,6 @@ class Wallet {
 
 class BreakDown {
   BreakDown({required this.point, required this.expireDate});
-  int point;
-  DateTime expireDate;
+  int? point;
+  DateTime? expireDate;
 }

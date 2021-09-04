@@ -9,7 +9,7 @@ class ReservationMapper {
         id: grpc.id,
         fanUUID: grpc.fanUuid,
         state: ReservationStateMapper.decode(
-            grpc.state ?? GrpcReservationState.nonReservationState),
+            grpc.state ?? GrpcReservationState.number0),
         fanmeetingID: grpc.fanMeetingId,
         influecnerUUID: grpc.influencerUuid,
         startTime: TimeStampMapper.decode(grpc.startTime),

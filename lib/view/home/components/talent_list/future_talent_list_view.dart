@@ -29,13 +29,8 @@ class FutureTalentListView extends StatelessWidget {
             children: List.generate(
               fanMeetings.length,
               (index) => GestureDetector(
-                onTap: () => Navigator.push(
-                    context,
-                    // TalentDetailScreen.route()
-                    MaterialPageRoute(
-                        builder: (context) => TalentDetailScreen(
-                              talentID: fanMeetings[index].talent.uuid,
-                            ))),
+                onTap: () => Navigator.push(context,
+                    TalentDetailScreen.route(fanMeetings[index].talent!.uuid)),
                 child: Container(
                   height: 204,
                   width: 120,
@@ -43,9 +38,9 @@ class FutureTalentListView extends StatelessWidget {
                   child: TalentCard(
                     imgHeight: 150,
                     imgWidth: 120,
-                    imageUrl: fanMeetings[index].talent.mainSquareImageUrl,
-                    name: fanMeetings[index].talent.displayName,
-                    genre: fanMeetings[index].talent.genre[0],
+                    imageUrl: fanMeetings[index].talent!.mainSquareImageUrl,
+                    name: fanMeetings[index].talent!.displayName,
+                    genre: fanMeetings[index].talent!.genre[0],
                     filterColor: const Color.fromRGBO(196, 196, 196, 0.4),
                     label: !fanMeetings[index].eventDate.isZero
                         ? Positioned(

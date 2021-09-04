@@ -79,9 +79,9 @@ class ListFanMeetingGridViewState extends State<ListFanMeetingGridView> {
                     TalentCard(
                       imgHeight: _popularCardImageHeight,
                       imgWidth: _popularCardWidth,
-                      imageUrl: fanMeeting.talent.mainSquareImageUrl,
-                      name: fanMeeting.talent.displayName,
-                      genre: fanMeeting.talent.genre[0],
+                      imageUrl: fanMeeting.talent!.mainSquareImageUrl,
+                      name: fanMeeting.talent!.displayName,
+                      genre: fanMeeting.talent!.genre[0],
                     ),
                     widget.layer != null
                         ? widget.layer!(fanMeeting)

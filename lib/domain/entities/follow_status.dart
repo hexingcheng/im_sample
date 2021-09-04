@@ -1,8 +1,8 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/domain/entities/talent.dart';
 
-class TalentFollowInfo {
-  TalentFollowInfo(
+class FollowStatus {
+  FollowStatus(
       {required this.talent,
       required this.isFollow,
       required this.followerNum});

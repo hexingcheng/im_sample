@@ -1,5 +1,5 @@
-class ReservationStatusInfo {
-  ReservationStatusInfo({
+class ReservationStatus {
+  ReservationStatus({
     required this.isReserved,
     required this.numReservedFan,
   });

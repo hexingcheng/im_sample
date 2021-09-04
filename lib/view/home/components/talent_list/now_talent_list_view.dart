@@ -56,11 +56,8 @@ class NowTalentListView extends StatelessWidget {
                     (index) => GestureDetector(
                       onTap: () => Navigator.push(
                           context,
-                          // TalentDetailScreen.route()
-                          MaterialPageRoute(
-                              builder: (context) => TalentDetailScreen(
-                                    talentID: fanMeetings[index].talent.uuid,
-                                  ))),
+                          TalentDetailScreen.route(
+                              fanMeetings[index].talent!.uuid)),
                       child: Container(
                         height: 254,
                         width: 150,
@@ -69,9 +66,9 @@ class NowTalentListView extends StatelessWidget {
                           imgHeight: 200,
                           imgWidth: 150,
                           imageUrl:
-                              fanMeetings[index].talent.mainSquareImageUrl,
-                          name: fanMeetings[index].talent.displayName,
-                          genre: fanMeetings[index].talent.genre[0],
+                              fanMeetings[index].talent!.mainSquareImageUrl,
+                          name: fanMeetings[index].talent!.displayName,
+                          genre: fanMeetings[index].talent!.genre[0],
                           label: NowLabel(),
                         ),
                       ),

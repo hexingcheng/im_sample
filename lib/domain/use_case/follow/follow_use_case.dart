@@ -11,15 +11,16 @@ class FollowUseCase extends UseCase {
     try {
       final uuid = SharedPrefrencesService.getUUID();
 
-      Future<void> follow() async {
+      return UseCase.retryAuth(() async {
         final apiToken = SharedPrefrencesService.getApiToken();
-        if (uuid != null && apiToken != null) {
-          await _followRepository.create(
-              apiToken: apiToken, fanUUID: uuid, talentID: talentID);
-        }
-      }
 
-      await follow.retry();
+        if (uuid == null || apiToken == null) {
+          return;
+        }
+
+        await _followRepository.create(
+            apiToken: apiToken, fanUUID: uuid, talentID: talentID);
+      }).catchError((e) => throw UseCase.useCaseErr(e as ApiError));
     } on ApiError catch (e) {
       UseCase.useCaseErr(e);
     }

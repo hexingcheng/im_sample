@@ -30,6 +30,7 @@ class _TalentViewState extends State<TalentView> {
           options: CarouselOptions(
               height: widget.height,
               viewportFraction: 1,
+              enableInfiniteScroll: false,
               enlargeCenterPage: false,
               onPageChanged: (index, reason) {
                 setState(

@@ -22,13 +22,13 @@ class Talent {
   String annotationID;
   String mainSquareImageUrl;
   String mainRectangleImageUrl;
-  List<String> imageUrls;
-  String twitterUrl;
-  String instagramUrl;
-  String tiktokUrl;
-  String youtubeUrl;
-  String customLinkName;
-  String customLinkUrl;
+  List<String>? imageUrls;
+  String? twitterUrl;
+  String? instagramUrl;
+  String? tiktokUrl;
+  String? youtubeUrl;
+  String? customLinkName;
+  String? customLinkUrl;
   List<Genre> genre;
 }
 

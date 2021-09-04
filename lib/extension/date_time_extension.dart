@@ -9,7 +9,7 @@ extension ExtensionDateTime on DateTime {
 
   // mm/dd hh:MM -
   String get full =>
-      "${_zeroFill(month)}/${_zeroFill(day)} ${_zeroFill(month)}:${_zeroFill(minute)} -";
+      "${_zeroFill(month)}/${_zeroFill(day)} ${_zeroFill(hour)}:${_zeroFill(minute)} -";
 
   // mm/dd
   String get date => "$month月$day日";

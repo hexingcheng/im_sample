@@ -13,11 +13,16 @@ class UnFollowUseCase extends UseCase {
     try {
       final uuid = SharedPrefrencesService.getUUID();
 
-      final apiToken = SharedPrefrencesService.getApiToken();
-      if (uuid != null && apiToken != null) {
+      return UseCase.retryAuth(() async {
+        final apiToken = SharedPrefrencesService.getApiToken();
+
+        if (uuid == null || apiToken == null) {
+          return;
+        }
+
         await _followRepository.delete(
             apiToken: apiToken, fanUUID: uuid, talentID: talentID);
-      }
+      }).catchError((e) => throw UseCase.useCaseErr(e as ApiError));
     } on ApiError catch (e) {
       UseCase.useCaseErr(e);
     }

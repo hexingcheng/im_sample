@@ -3,10 +3,10 @@ import 'package:openapi/api.dart';
 
 class ReservationStateMapper {
   static const reservationStateMap = {
-    ReservationState.unknown: GrpcReservationState.nonReservationState,
-    ReservationState.wait: GrpcReservationState.wait,
-    ReservationState.done: GrpcReservationState.done,
-    ReservationState.abort: GrpcReservationState.abort,
+    ReservationState.unknown: GrpcReservationState.number0,
+    ReservationState.wait: GrpcReservationState.number1,
+    ReservationState.done: GrpcReservationState.number2,
+    ReservationState.abort: GrpcReservationState.number3,
   };
 
   static ReservationState decode(GrpcReservationState grpc) {

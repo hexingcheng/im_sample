@@ -1,6 +1,4 @@
 import 'package:onlylive/domain/entities/fan_meeting.dart';
-import 'package:onlylive/domain/entities/fanmeeting_of_influencer.dart';
-import 'package:onlylive/domain/entities/schedule.dart';
 import 'package:onlylive/domain/entities/fan_meeting_and_reserved.dart';
 import 'package:onlylive/domain/entities/topic.dart';
 
@@ -16,8 +14,6 @@ abstract class FanMeetingRepository {
   Future<Map<String, List<FanMeetingAndReserved>>> listFanMeetingByTopic(
       Topic topic, String pageToken);
 
-  Future<List<FanMeetingOfInfluencer>> getFanmeetingByTalentID(
+  Future<List<FanMeeting>> getFanmeetingByTalentID(
       FanMeetingState state, String talentID);
-
-  Future<List<Schedule>> getSchedules(FanMeetingState state, String talentID);
 }

@@ -17,7 +17,6 @@ void di() {
   final basePath = Config.app.host;
 
   Repositories(
-<<<<<<< HEAD
       reservationRepository: APIReservationRepository(basePath),
       fanRepository: APIFanRepository(basePath),
       fanMeetingRepository: APIFanmeetingRepository(basePath),
@@ -25,20 +24,7 @@ void di() {
       featureRepository: APIFeatureRepository(basePath),
       rankingRepository: APIRankingRepository(basePath),
       walletRepository: APIWalletRepository(basePath),
-      authRepository: APIAuthRepository(basePath));
-=======
-    reservationRepository:
-        APIReservationRepository(ReservationServiceApi(_client)),
-    fanRepository: APIFanRepository(FanServiceApi(_client)),
-    fanMeetingRepository:
-        APIFanmeetingRepository(FanMeetingServiceApi(_client)),
-    adminRepository: APIAdminRepository(),
-    featureRepository: APIFeatureRepository(FeatureServiceApi(_client)),
-    rankingRepository: APIRankingRepository(PointServiceApi(_client)),
-    walletRepository: APIWalletRepository(WalletServiceApi(_client)),
-    authRepository: APIAuthRepository(AuthServiceApi(_client)),
-    talentRepository: APITalentRepository(InfluencerServiceApi(_client)),
-    followRepository: APIFollowRepository(FollowServiceApi(_client)),
-  );
->>>>>>> 予約までの流れ接続
+      authRepository: APIAuthRepository(basePath),
+      talentRepository: APITalentRepository(basePath),
+      followRepository: APIFollowRepository(basePath));
 }

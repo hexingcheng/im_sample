@@ -19,7 +19,7 @@ class FanMapper {
       imageUrl: grpc.imageUri,
       phoneNumber: grpc.phoneNumber,
       email: grpc.email,
-      sex: SexMapper.decode(grpc.sex),
+      sex: SexMapper.decode(grpc.sex ?? GrpcFanSex.number0),
       prefecture: grpc.prefecture,
     );
   }

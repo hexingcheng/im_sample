@@ -1,46 +1,41 @@
 import 'package:onlylive/domain/repository/follow_repository.dart';
 import 'package:onlylive/infra/api/repository.dart';
 import 'package:openapi/api.dart';
-import 'package:onlylive/services/shared_prefrences_service.dart';
 
 class APIFollowRepository extends Repository implements FollowRepository {
-  APIFollowRepository(this._client);
-  final FollowServiceApi _client;
+  APIFollowRepository(this._basePath);
+  final String _basePath;
 
   @override
-  Future<void> create(String talentID) async {
-    try {
-      final apiToken = await SharedPrefrencesService.getApiToken();
-      final fanUUID = await SharedPrefrencesService.getUUID();
-
-      _client.apiClient.addDefaultHeader(
-        apiTokenHeader,
-        apiToken,
-      );
-      await _client.followServiceCreateFollow(GrpcCreateFollowRequest(
-        fanUuid: fanUUID,
-        influencerUuid: talentID,
-      ));
-    } catch (e) {
-      rethrow;
-    }
+  Future<void> create(
+      {required String apiToken,
+      required String fanUUID,
+      required String talentID}) {
+    return FollowServiceApi(
+            ApiClient(basePath: _basePath)..addApiToken(apiToken))
+        .followServiceCreateFollow(GrpcCreateFollowRequest(
+          fanUuid: fanUUID,
+          influencerUuid: talentID,
+        ))
+        .onError<ApiException>(
+            (e, stackTrace) => throw Repository.apiException(e));
   }
 
   @override
-  Future<void> delete({
-    required String talentID,
-  }) async {
+  Future<void> delete(
+      {required String apiToken,
+      required String fanUUID,
+      required String talentID}) async {
     try {
-      final apiToken = await SharedPrefrencesService.getApiToken();
-      final fanUUID = await SharedPrefrencesService.getUUID();
-
-      _client.apiClient.addDefaultHeader(
-        apiTokenHeader,
-        apiToken,
+      await FollowServiceApi(
+              ApiClient(basePath: _basePath)..addApiToken(apiToken))
+          .followServiceDeleteFollow(
+        fanUUID,
+        talentID,
       );
-      await _client.followServiceDeleteFollow(fanUUID, talentID);
-    } catch (e) {
-      rethrow;
+    } on ApiException catch (e) {
+      print(e);
+      throw Repository.apiException(e);
     }
   }
 }
