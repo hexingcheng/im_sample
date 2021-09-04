@@ -1,3 +1,5 @@
+import 'package:flutter/rendering.dart';
+import 'package:onlylive/infra/api/follow_repository.dart';
 import 'package:openapi/api.dart';
 import 'package:onlylive/config.dart';
 import 'package:onlylive/domain/repository/repository.dart';
@@ -9,6 +11,7 @@ import 'package:onlylive/infra/api/ranking_repository.dart';
 import 'package:onlylive/infra/api/reservation_repository..dart';
 import 'package:onlylive/infra/api/feature_repository.dart';
 import 'package:onlylive/infra/api/wallet_repository.dart';
+import 'package:onlylive/infra/api/talent_repository.dart';
 
 void di() {
   final basePath = Config.app.host;
@@ -21,5 +24,7 @@ void di() {
       featureRepository: APIFeatureRepository(basePath),
       rankingRepository: APIRankingRepository(basePath),
       walletRepository: APIWalletRepository(basePath),
-      authRepository: APIAuthRepository(basePath));
+      authRepository: APIAuthRepository(basePath),
+      talentRepository: APITalentRepository(basePath),
+      followRepository: APIFollowRepository(basePath));
 }

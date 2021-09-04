@@ -31,7 +31,6 @@ class APIFanmeetingRepository implements FanMeetingRepository {
     final _fanMeetings = response.fanMeetingAndReserved
         .map(FanMeetingAndReservedMapper.decode)
         .toList();
-
     return {_nextPageToken: _fanMeetings};
   }
 
@@ -50,5 +49,15 @@ class APIFanmeetingRepository implements FanMeetingRepository {
         .toList();
 
     return {_nextPageToken: _fanMeetings};
+  }
+
+  @override
+  Future<List<FanMeeting>> getFanmeetingByTalentID(
+      FanMeetingState state, String talentID) {
+    final service = FanMeetingServiceApi(ApiClient(basePath: _basePath));
+    return service
+        .fanMeetingServiceListFanMeetingsByInfluencerUUID(talentID,
+            state: state.string())
+        .then((res) => res.fanMeeting.map(FanMeetingMapper.decode).toList());
   }
 }

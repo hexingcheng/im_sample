@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **blockServiceCreateBlock**
-> Object blockServiceCreateBlock(body)
+> GrpcEmpty blockServiceCreateBlock(body)
 
 
 
@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 

@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 
 # **influencerServiceCallToFan**
-> Object influencerServiceCallToFan(body)
+> GrpcEmpty influencerServiceCallToFan(body)
 
 
 
@@ -50,7 +50,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **influencerServiceDeleteInfluencer**
-> Object influencerServiceDeleteInfluencer(uuid)
+> GrpcEmpty influencerServiceDeleteInfluencer(uuid)
 
 
 
@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -109,7 +109,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **influencerServiceDeleteInfluencerImage**
-> Object influencerServiceDeleteInfluencerImage(influencerUuid, imageUri)
+> GrpcEmpty influencerServiceDeleteInfluencerImage(influencerUuid, imageUri)
 
 
 
@@ -142,7 +142,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 

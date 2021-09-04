@@ -9,9 +9,9 @@
 
 part of openapi.api;
 
-
 class FollowServiceApi {
-  FollowServiceApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  FollowServiceApi([ApiClient apiClient])
+      : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -19,10 +19,11 @@ class FollowServiceApi {
   /// Parameters:
   ///
   /// * [GrpcCreateFollowRequest] body (required):
-  Future<Response> followServiceCreateFollowWithHttpInfo(GrpcCreateFollowRequest body) async {
+  Future<Response> followServiceCreateFollowWithHttpInfo(
+      GrpcCreateFollowRequest body) async {
     // Verify required params are set.
     if (body == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
+      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
     final path = r'/v1/follows';
@@ -34,9 +35,9 @@ class FollowServiceApi {
     final formParams = <String, String>{};
 
     final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final nullableContentType =
+        contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['x-api-jwt'];
-
 
     return await apiClient.invokeAPI(
       path,
@@ -53,7 +54,8 @@ class FollowServiceApi {
   /// Parameters:
   ///
   /// * [GrpcCreateFollowRequest] body (required):
-  Future<Object> followServiceCreateFollow(GrpcCreateFollowRequest body) async {
+  Future<GrpcEmpty> followServiceCreateFollow(
+      GrpcCreateFollowRequest body) async {
     final response = await followServiceCreateFollowWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -62,9 +64,12 @@ class FollowServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
-        }
-    return Future<Object>.value(null);
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'GrpcEmpty',
+      ) as GrpcEmpty;
+    }
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'DELETE /v1/follows/fan/{fan_uuid}/influencer/{influencer_uuid}' operation and returns the [Response].
@@ -73,18 +78,21 @@ class FollowServiceApi {
   /// * [String] fanUuid (required):
   ///
   /// * [String] influencerUuid (required):
-  Future<Response> followServiceDeleteFollowWithHttpInfo(String fanUuid, String influencerUuid) async {
+  Future<Response> followServiceDeleteFollowWithHttpInfo(
+      String fanUuid, String influencerUuid) async {
     // Verify required params are set.
     if (fanUuid == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: fanUuid');
+      throw ApiException(
+          HttpStatus.badRequest, 'Missing required param: fanUuid');
     }
     if (influencerUuid == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: influencerUuid');
+      throw ApiException(
+          HttpStatus.badRequest, 'Missing required param: influencerUuid');
     }
 
     final path = r'/v1/follows/fan/{fan_uuid}/influencer/{influencer_uuid}'
-      .replaceAll('{' + 'fan_uuid' + '}', fanUuid.toString())
-      .replaceAll('{' + 'influencer_uuid' + '}', influencerUuid.toString());
+        .replaceAll('{' + 'fan_uuid' + '}', fanUuid.toString())
+        .replaceAll('{' + 'influencer_uuid' + '}', influencerUuid.toString());
 
     Object postBody;
 
@@ -93,9 +101,9 @@ class FollowServiceApi {
     final formParams = <String, String>{};
 
     final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final nullableContentType =
+        contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['x-api-jwt'];
-
 
     return await apiClient.invokeAPI(
       path,
@@ -114,8 +122,10 @@ class FollowServiceApi {
   /// * [String] fanUuid (required):
   ///
   /// * [String] influencerUuid (required):
-  Future<Object> followServiceDeleteFollow(String fanUuid, String influencerUuid) async {
-    final response = await followServiceDeleteFollowWithHttpInfo(fanUuid, influencerUuid);
+  Future<GrpcEmpty> followServiceDeleteFollow(
+      String fanUuid, String influencerUuid) async {
+    final response =
+        await followServiceDeleteFollowWithHttpInfo(fanUuid, influencerUuid);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -123,23 +133,28 @@ class FollowServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
-        }
-    return Future<Object>.value(null);
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'GrpcEmpty',
+      ) as GrpcEmpty;
+    }
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'GET /v1/follows/influencer/{influencer_uuid}/follower_num' operation and returns the [Response].
   /// Parameters:
   ///
   /// * [String] influencerUuid (required):
-  Future<Response> followServiceGetFollowerNumByInfluencerUUIDWithHttpInfo(String influencerUuid) async {
+  Future<Response> followServiceGetFollowerNumByInfluencerUUIDWithHttpInfo(
+      String influencerUuid) async {
     // Verify required params are set.
     if (influencerUuid == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: influencerUuid');
+      throw ApiException(
+          HttpStatus.badRequest, 'Missing required param: influencerUuid');
     }
 
     final path = r'/v1/follows/influencer/{influencer_uuid}/follower_num'
-      .replaceAll('{' + 'influencer_uuid' + '}', influencerUuid.toString());
+        .replaceAll('{' + 'influencer_uuid' + '}', influencerUuid.toString());
 
     Object postBody;
 
@@ -148,9 +163,9 @@ class FollowServiceApi {
     final formParams = <String, String>{};
 
     final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final nullableContentType =
+        contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['x-api-jwt'];
-
 
     return await apiClient.invokeAPI(
       path,
@@ -167,8 +182,11 @@ class FollowServiceApi {
   /// Parameters:
   ///
   /// * [String] influencerUuid (required):
-  Future<GrpcGetFollowerNumByInfluencerUUIDResponse> followServiceGetFollowerNumByInfluencerUUID(String influencerUuid) async {
-    final response = await followServiceGetFollowerNumByInfluencerUUIDWithHttpInfo(influencerUuid);
+  Future<GrpcGetFollowerNumByInfluencerUUIDResponse>
+      followServiceGetFollowerNumByInfluencerUUID(String influencerUuid) async {
+    final response =
+        await followServiceGetFollowerNumByInfluencerUUIDWithHttpInfo(
+            influencerUuid);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -176,8 +194,11 @@ class FollowServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcGetFollowerNumByInfluencerUUIDResponse',) as GrpcGetFollowerNumByInfluencerUUIDResponse;
-        }
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'GrpcGetFollowerNumByInfluencerUUIDResponse',
+      ) as GrpcGetFollowerNumByInfluencerUUIDResponse;
+    }
     return Future<GrpcGetFollowerNumByInfluencerUUIDResponse>.value(null);
   }
 
@@ -189,7 +210,8 @@ class FollowServiceApi {
   /// * [String] pageToken:
   ///
   /// * [String] fanUuid:
-  Future<Response> followServiceListFollowsByFanUUIDWithHttpInfo({ int pageSize, String pageToken, String fanUuid }) async {
+  Future<Response> followServiceListFollowsByFanUUIDWithHttpInfo(
+      {int pageSize, String pageToken, String fanUuid}) async {
     // Verify required params are set.
 
     final path = r'/v1/follows';
@@ -201,19 +223,22 @@ class FollowServiceApi {
     final formParams = <String, String>{};
 
     if (pageSize != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'page_size', pageSize));
+      queryParams.addAll(
+          _convertParametersForCollectionFormat('', 'page_size', pageSize));
     }
     if (pageToken != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'page_token', pageToken));
+      queryParams.addAll(
+          _convertParametersForCollectionFormat('', 'page_token', pageToken));
     }
     if (fanUuid != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'fan_uuid', fanUuid));
+      queryParams.addAll(
+          _convertParametersForCollectionFormat('', 'fan_uuid', fanUuid));
     }
 
     final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final nullableContentType =
+        contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['x-api-jwt'];
-
 
     return await apiClient.invokeAPI(
       path,
@@ -234,8 +259,10 @@ class FollowServiceApi {
   /// * [String] pageToken:
   ///
   /// * [String] fanUuid:
-  Future<GrpcListFollowsByFanUUIDResponse> followServiceListFollowsByFanUUID({ int pageSize, String pageToken, String fanUuid }) async {
-    final response = await followServiceListFollowsByFanUUIDWithHttpInfo( pageSize: pageSize, pageToken: pageToken, fanUuid: fanUuid );
+  Future<GrpcListFollowsByFanUUIDResponse> followServiceListFollowsByFanUUID(
+      {int pageSize, String pageToken, String fanUuid}) async {
+    final response = await followServiceListFollowsByFanUUIDWithHttpInfo(
+        pageSize: pageSize, pageToken: pageToken, fanUuid: fanUuid);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -243,8 +270,11 @@ class FollowServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcListFollowsByFanUUIDResponse',) as GrpcListFollowsByFanUUIDResponse;
-        }
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'GrpcListFollowsByFanUUIDResponse',
+      ) as GrpcListFollowsByFanUUIDResponse;
+    }
     return Future<GrpcListFollowsByFanUUIDResponse>.value(null);
   }
 
@@ -254,7 +284,8 @@ class FollowServiceApi {
   /// * [String] pageToken:
   ///
   /// * [String] fanUuid:
-  Future<Response> followServiceListUnFollowsByFanUUIDWithHttpInfo({ String pageToken, String fanUuid }) async {
+  Future<Response> followServiceListUnFollowsByFanUUIDWithHttpInfo(
+      {String pageToken, String fanUuid}) async {
     // Verify required params are set.
 
     final path = r'/v1/unfollows';
@@ -266,16 +297,18 @@ class FollowServiceApi {
     final formParams = <String, String>{};
 
     if (pageToken != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'page_token', pageToken));
+      queryParams.addAll(
+          _convertParametersForCollectionFormat('', 'page_token', pageToken));
     }
     if (fanUuid != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'fan_uuid', fanUuid));
+      queryParams.addAll(
+          _convertParametersForCollectionFormat('', 'fan_uuid', fanUuid));
     }
 
     final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final nullableContentType =
+        contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['x-api-jwt'];
-
 
     return await apiClient.invokeAPI(
       path,
@@ -294,8 +327,11 @@ class FollowServiceApi {
   /// * [String] pageToken:
   ///
   /// * [String] fanUuid:
-  Future<GrpcListUnFollowsByFanUUIDResponse> followServiceListUnFollowsByFanUUID({ String pageToken, String fanUuid }) async {
-    final response = await followServiceListUnFollowsByFanUUIDWithHttpInfo( pageToken: pageToken, fanUuid: fanUuid );
+  Future<GrpcListUnFollowsByFanUUIDResponse>
+      followServiceListUnFollowsByFanUUID(
+          {String pageToken, String fanUuid}) async {
+    final response = await followServiceListUnFollowsByFanUUIDWithHttpInfo(
+        pageToken: pageToken, fanUuid: fanUuid);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -303,8 +339,11 @@ class FollowServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcListUnFollowsByFanUUIDResponse',) as GrpcListUnFollowsByFanUUIDResponse;
-        }
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'GrpcListUnFollowsByFanUUIDResponse',
+      ) as GrpcListUnFollowsByFanUUIDResponse;
+    }
     return Future<GrpcListUnFollowsByFanUUIDResponse>.value(null);
   }
 }

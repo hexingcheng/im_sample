@@ -32,8 +32,7 @@ class MainVM with ChangeNotifier {
     final uuid = SharedPrefrencesService.getUUID();
     if (uuid != null) {
       try {
-        final fan =
-            await GetFanUseCase(Repositories.fanRepository).execute(uuid);
+        final fan = await GetFanUseCase(Repositories.fanRepository).execute();
         return fan;
       } catch (e) {
         return null;

@@ -68,7 +68,12 @@ class PointServiceApi {
   }
 
   /// Performs an HTTP 'GET /v1/ranking' operation and returns the [Response].
-  Future<Response> pointServiceGetRankingWithHttpInfo() async {
+  /// Parameters:
+  ///
+  /// * [bool] isEmpty:
+  Future<Response> pointServiceGetRankingWithHttpInfo({ bool isEmpty }) async {
+    // Verify required params are set.
+
     final path = r'/v1/ranking';
 
     Object postBody;
@@ -76,6 +81,10 @@ class PointServiceApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+    if (isEmpty != null) {
+      queryParams.addAll(_convertParametersForCollectionFormat('', 'is_empty', isEmpty));
+    }
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -94,8 +103,11 @@ class PointServiceApi {
     );
   }
 
-  Future<GrpcGetRankingResponse> pointServiceGetRanking() async {
-    final response = await pointServiceGetRankingWithHttpInfo();
+  /// Parameters:
+  ///
+  /// * [bool] isEmpty:
+  Future<GrpcGetRankingResponse> pointServiceGetRanking({ bool isEmpty }) async {
+    final response = await pointServiceGetRankingWithHttpInfo( isEmpty: isEmpty );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

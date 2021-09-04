@@ -53,7 +53,7 @@ class InfluencerServiceApi {
   /// Parameters:
   ///
   /// * [GrpcCallToFanRequest] body (required):
-  Future<Object> influencerServiceCallToFan(GrpcCallToFanRequest body) async {
+  Future<GrpcEmpty> influencerServiceCallToFan(GrpcCallToFanRequest body) async {
     final response = await influencerServiceCallToFanWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -62,9 +62,9 @@ class InfluencerServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'DELETE /v1/influencers/{uuid}' operation and returns the [Response].
@@ -106,7 +106,7 @@ class InfluencerServiceApi {
   /// Parameters:
   ///
   /// * [String] uuid (required):
-  Future<Object> influencerServiceDeleteInfluencer(String uuid) async {
+  Future<GrpcEmpty> influencerServiceDeleteInfluencer(String uuid) async {
     final response = await influencerServiceDeleteInfluencerWithHttpInfo(uuid);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -115,9 +115,9 @@ class InfluencerServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'DELETE /v1/influencers/{influencer_uuid}/image' operation and returns the [Response].
@@ -167,7 +167,7 @@ class InfluencerServiceApi {
   /// * [String] influencerUuid (required):
   ///
   /// * [String] imageUri:
-  Future<Object> influencerServiceDeleteInfluencerImage(String influencerUuid, { String imageUri }) async {
+  Future<GrpcEmpty> influencerServiceDeleteInfluencerImage(String influencerUuid, { String imageUri }) async {
     final response = await influencerServiceDeleteInfluencerImageWithHttpInfo(influencerUuid,  imageUri: imageUri );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -176,9 +176,9 @@ class InfluencerServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'GET /v1/influencers/uuid/{uuid}' operation and returns the [Response].

@@ -11,7 +11,8 @@ class FanMeetingMapper {
     return FanMeeting(
       id: grpc.id,
       itemCode: grpc.itemCode,
-      talent: TalentMapper.decode(grpc.influencer),
+      talent:
+          grpc.influencer != null ? TalentMapper.decode(grpc.influencer) : null,
       limitedPeople: grpc.limitedPeople,
       state: FanMeetingStateMapper.decode(
           grpc.state ?? GrpcFanMeetingState.number0),

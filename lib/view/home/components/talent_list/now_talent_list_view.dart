@@ -4,6 +4,7 @@ import 'package:onlylive/view/home/components/talent_list/talent_list_header_vie
 import 'package:onlylive/view/home/screens/now_talent_list/now_talent_list_screen.dart';
 import 'package:onlylive/widgets/atoms/now_label.dart';
 import 'package:onlylive/widgets/molecules/talent_card.dart';
+import 'package:onlylive/view/talent/talent_detail_screen.dart';
 
 class NowTalentListView extends StatelessWidget {
   const NowTalentListView(this.fanMeetings, {Key? key}) : super(key: key);
@@ -52,17 +53,24 @@ class NowTalentListView extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   children: List.generate(
                     fanMeetings.length,
-                    (index) => Container(
-                      height: 254,
-                      width: 150,
-                      margin: const EdgeInsets.only(right: 12),
-                      child: TalentCard(
-                        imgHeight: 200,
-                        imgWidth: 150,
-                        imageUrl: fanMeetings[index].talent.mainSquareImageUrl,
-                        name: fanMeetings[index].talent.displayName,
-                        genre: fanMeetings[index].talent.genre[0],
-                        label: NowLabel(),
+                    (index) => GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          TalentDetailScreen.route(
+                              fanMeetings[index].talent!.uuid)),
+                      child: Container(
+                        height: 254,
+                        width: 150,
+                        margin: const EdgeInsets.only(right: 12),
+                        child: TalentCard(
+                          imgHeight: 200,
+                          imgWidth: 150,
+                          imageUrl:
+                              fanMeetings[index].talent!.mainSquareImageUrl,
+                          name: fanMeetings[index].talent!.displayName,
+                          genre: fanMeetings[index].talent!.genre[0],
+                          label: NowLabel(),
+                        ),
                       ),
                     ),
                   ).toList(),

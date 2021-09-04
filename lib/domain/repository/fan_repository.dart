@@ -3,7 +3,7 @@ import 'package:onlylive/domain/entities/fan.dart';
 
 abstract class FanRepository {
   // getFan is fan getter
-  Future<Fan> getFan(String fanUUID);
+  Future<Fan> getFan(String apiToken, String fanUUID);
 
   // updateAnnotaionIdAndBirth
   Future<void> updateAnnotationIdAndBirth(

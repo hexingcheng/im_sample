@@ -1,5 +1,5 @@
 import 'package:onlylive/domain/entities/fan.dart';
-import 'package:onlylive/domain/entities/time_stamp.dart';
+import 'package:onlylive/domain/repository/error.dart';
 import 'package:onlylive/domain/repository/fan_repository.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/infra/api/repository.dart';
@@ -14,14 +14,13 @@ class APIFanRepository extends Repository implements FanRepository {
   final String _basePath;
 
   @override
-  Future<Fan> getFan(String fanUUID) async {
-    try {
-      final service = FanServiceApi(ApiClient(basePath: _basePath));
-      final response = await service.fanServiceGetFan(fanUUID);
-      return FanMapper.decode(response.fan);
-    } on ApiException catch (e) {
-      throw Repository.apiException(e);
-    }
+  Future<Fan> getFan(String apiToken, String fanUUID) {
+    final service =
+        FanServiceApi(ApiClient(basePath: _basePath)..addApiToken(apiToken));
+    return service
+        .fanServiceGetFan(fanUUID)
+        .then((value) => FanMapper.decode(value.fan))
+        .catchError((e) => throw Repository.apiException(e as ApiException));
   }
 
   @override

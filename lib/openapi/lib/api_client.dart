@@ -257,6 +257,8 @@ class ApiClient {
           return GrpcCreateSerialCodeResponse.fromJson(value);
         case 'GrpcDeleteFanRequest':
           return GrpcDeleteFanRequest.fromJson(value);
+        case 'GrpcEmpty':
+          return GrpcEmpty.fromJson(value);
         case 'GrpcFan':
           return GrpcFan.fromJson(value);
         case 'GrpcFanMeeting':

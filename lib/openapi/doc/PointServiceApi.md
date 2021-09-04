@@ -59,7 +59,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **pointServiceGetRanking**
-> GrpcGetRankingResponse pointServiceGetRanking()
+> GrpcGetRankingResponse pointServiceGetRanking(isEmpty)
 
 
 
@@ -72,9 +72,10 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('x-api-jwt').apiKeyPrefix = 'Bearer';
 
 final api_instance = PointServiceApi();
+final isEmpty = true; // bool | 
 
 try { 
-    final result = api_instance.pointServiceGetRanking();
+    final result = api_instance.pointServiceGetRanking(isEmpty);
     print(result);
 } catch (e) {
     print('Exception when calling PointServiceApi->pointServiceGetRanking: $e\n');
@@ -82,7 +83,10 @@ try {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **isEmpty** | **bool**|  | [optional] 
 
 ### Return type
 

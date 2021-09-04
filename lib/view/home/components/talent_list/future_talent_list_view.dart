@@ -5,6 +5,7 @@ import 'package:onlylive/view/home/screens/future_talent_list/futurre_talent_lis
 import 'package:onlylive/widgets/atoms/schedule_label.dart';
 import 'package:onlylive/widgets/molecules/talent_card.dart';
 import 'package:onlylive/extension/date_time_extension.dart';
+import 'package:onlylive/view/talent/talent_detail_screen.dart';
 
 class FutureTalentListView extends StatelessWidget {
   const FutureTalentListView(this.fanMeetings, {Key? key}) : super(key: key);
@@ -28,7 +29,8 @@ class FutureTalentListView extends StatelessWidget {
             children: List.generate(
               fanMeetings.length,
               (index) => GestureDetector(
-                onTap: () => {},
+                onTap: () => Navigator.push(context,
+                    TalentDetailScreen.route(fanMeetings[index].talent!.uuid)),
                 child: Container(
                   height: 204,
                   width: 120,
@@ -36,9 +38,9 @@ class FutureTalentListView extends StatelessWidget {
                   child: TalentCard(
                     imgHeight: 150,
                     imgWidth: 120,
-                    imageUrl: fanMeetings[index].talent.mainSquareImageUrl,
-                    name: fanMeetings[index].talent.displayName,
-                    genre: fanMeetings[index].talent.genre[0],
+                    imageUrl: fanMeetings[index].talent!.mainSquareImageUrl,
+                    name: fanMeetings[index].talent!.displayName,
+                    genre: fanMeetings[index].talent!.genre[0],
                     filterColor: const Color.fromRGBO(196, 196, 196, 0.4),
                     label: !fanMeetings[index].eventDate.isZero
                         ? Positioned(

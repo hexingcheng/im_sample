@@ -274,7 +274,7 @@ import 'package:openapi/api.dart';
 final api_instance = FanMeetingServiceApi();
 final influencerUuid = influencerUuid_example; // String | 
 final fanUuid = fanUuid_example; // String | 
-final state = 56; // int | 
+final state = state_example; // String | 
 
 try { 
     final result = api_instance.fanMeetingServiceListFanMeetingsByInfluencerUUID(influencerUuid, fanUuid, state);
@@ -290,7 +290,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **influencerUuid** | **String**|  | 
  **fanUuid** | **String**|  | [optional] 
- **state** | **int**|  | [optional] [default to 0]
+ **state** | **String**|  | [optional] 
 
 ### Return type
 
@@ -404,7 +404,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fanMeetingServiceRemoveFanByFanMeeting**
-> Object fanMeetingServiceRemoveFanByFanMeeting(id)
+> GrpcEmpty fanMeetingServiceRemoveFanByFanMeeting(id)
 
 
 
@@ -435,7 +435,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -449,7 +449,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fanMeetingServiceUpdateFanMeeting**
-> Object fanMeetingServiceUpdateFanMeeting(body)
+> GrpcEmpty fanMeetingServiceUpdateFanMeeting(body)
 
 
 
@@ -480,7 +480,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -494,7 +494,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fanMeetingServiceUploadTencentInstantMessageLogByFanMeeting**
-> Object fanMeetingServiceUploadTencentInstantMessageLogByFanMeeting(body)
+> GrpcEmpty fanMeetingServiceUploadTencentInstantMessageLogByFanMeeting(body)
 
 
 
@@ -525,7 +525,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -539,7 +539,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fanMeetingServiceUploadTencentLiteAVLogByFanMeeting**
-> Object fanMeetingServiceUploadTencentLiteAVLogByFanMeeting(body)
+> GrpcEmpty fanMeetingServiceUploadTencentLiteAVLogByFanMeeting(body)
 
 
 
@@ -570,7 +570,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 

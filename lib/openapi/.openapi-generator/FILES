@@ -41,6 +41,7 @@ doc/GrpcCreateReservationRequest.md
 doc/GrpcCreateReservationResponse.md
 doc/GrpcCreateSerialCodeResponse.md
 doc/GrpcDeleteFanRequest.md
+doc/GrpcEmpty.md
 doc/GrpcFan.md
 doc/GrpcFanMeeting.md
 doc/GrpcFanMeetingAndNumberOfReservation.md
@@ -199,6 +200,7 @@ lib/model/grpc_create_reservation_request.dart
 lib/model/grpc_create_reservation_response.dart
 lib/model/grpc_create_serial_code_response.dart
 lib/model/grpc_delete_fan_request.dart
+lib/model/grpc_empty.dart
 lib/model/grpc_fan.dart
 lib/model/grpc_fan_meeting.dart
 lib/model/grpc_fan_meeting_and_number_of_reservation.dart

@@ -1,4 +1,3 @@
-import 'package:onlylive/domain/entities/time_stamp.dart';
 import 'package:openapi/api.dart';
 
 class TimeStampMapper {

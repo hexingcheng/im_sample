@@ -53,7 +53,7 @@ class FanServiceApi {
   /// Parameters:
   ///
   /// * [GrpcDeleteFanRequest] body (required):
-  Future<Object> fanServiceDeleteFan(GrpcDeleteFanRequest body) async {
+  Future<GrpcEmpty> fanServiceDeleteFan(GrpcDeleteFanRequest body) async {
     final response = await fanServiceDeleteFanWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -62,9 +62,9 @@ class FanServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'GET /v1/fans/{fan_uuid}/call_transaction' operation and returns the [Response].
@@ -277,7 +277,7 @@ class FanServiceApi {
   /// * [String] fanUuid (required):
   ///
   /// * [GrpcUpdateCallTransactionRequest] body (required):
-  Future<Object> fanServiceUpdateCallTransaction(String fanUuid, GrpcUpdateCallTransactionRequest body) async {
+  Future<GrpcEmpty> fanServiceUpdateCallTransaction(String fanUuid, GrpcUpdateCallTransactionRequest body) async {
     final response = await fanServiceUpdateCallTransactionWithHttpInfo(fanUuid, body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -286,9 +286,9 @@ class FanServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'PUT /v1/fans/display_name' operation and returns the [Response].
@@ -589,7 +589,7 @@ class FanServiceApi {
   /// Parameters:
   ///
   /// * [GrpcUpdatePasswordFanRequest] body (required):
-  Future<Object> fanServiceUpdatePasswordFan(GrpcUpdatePasswordFanRequest body) async {
+  Future<GrpcEmpty> fanServiceUpdatePasswordFan(GrpcUpdatePasswordFanRequest body) async {
     final response = await fanServiceUpdatePasswordFanWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -598,9 +598,9 @@ class FanServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'PUT /v1/fans/voip_token' operation and returns the [Response].

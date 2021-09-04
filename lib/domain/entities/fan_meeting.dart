@@ -18,7 +18,7 @@ class FanMeeting {
   int id;
   ItemCode itemCode;
   int limitedPeople;
-  Talent talent;
+  Talent? talent;
   FanMeetingState state;
   IsExtension isExtension;
   DateTime eventDate;

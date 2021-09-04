@@ -13,4 +13,7 @@ abstract class FanMeetingRepository {
   // listFanMeetingByTopic is getting list fanmeeting conditional on topic
   Future<Map<String, List<FanMeetingAndReserved>>> listFanMeetingByTopic(
       Topic topic, String pageToken);
+
+  Future<List<FanMeeting>> getFanmeetingByTalentID(
+      FanMeetingState state, String talentID);
 }

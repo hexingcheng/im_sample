@@ -323,8 +323,8 @@ class FanMeetingServiceApi {
   ///
   /// * [String] fanUuid:
   ///
-  /// * [int] state:
-  Future<Response> fanMeetingServiceListFanMeetingsByInfluencerUUIDWithHttpInfo(String influencerUuid, { String fanUuid, int state }) async {
+  /// * [String] state:
+  Future<Response> fanMeetingServiceListFanMeetingsByInfluencerUUIDWithHttpInfo(String influencerUuid, { String fanUuid, String state }) async {
     // Verify required params are set.
     if (influencerUuid == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: influencerUuid');
@@ -369,8 +369,8 @@ class FanMeetingServiceApi {
   ///
   /// * [String] fanUuid:
   ///
-  /// * [int] state:
-  Future<GrpcListFanMeetingsByInfluencerUUIDResponse> fanMeetingServiceListFanMeetingsByInfluencerUUID(String influencerUuid, { String fanUuid, int state }) async {
+  /// * [String] state:
+  Future<GrpcListFanMeetingsByInfluencerUUIDResponse> fanMeetingServiceListFanMeetingsByInfluencerUUID(String influencerUuid, { String fanUuid, String state }) async {
     final response = await fanMeetingServiceListFanMeetingsByInfluencerUUIDWithHttpInfo(influencerUuid,  fanUuid: fanUuid, state: state );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -552,7 +552,7 @@ class FanMeetingServiceApi {
   /// Parameters:
   ///
   /// * [int] id (required):
-  Future<Object> fanMeetingServiceRemoveFanByFanMeeting(int id) async {
+  Future<GrpcEmpty> fanMeetingServiceRemoveFanByFanMeeting(int id) async {
     final response = await fanMeetingServiceRemoveFanByFanMeetingWithHttpInfo(id);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -561,9 +561,9 @@ class FanMeetingServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'PUT /v1/fan-meetings' operation and returns the [Response].
@@ -604,7 +604,7 @@ class FanMeetingServiceApi {
   /// Parameters:
   ///
   /// * [GrpcUpdateFanMeetingRequest] body (required):
-  Future<Object> fanMeetingServiceUpdateFanMeeting(GrpcUpdateFanMeetingRequest body) async {
+  Future<GrpcEmpty> fanMeetingServiceUpdateFanMeeting(GrpcUpdateFanMeetingRequest body) async {
     final response = await fanMeetingServiceUpdateFanMeetingWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -613,9 +613,9 @@ class FanMeetingServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'PUT /v1/fan-meetings/upload/tencent-log/im' operation and returns the [Response].
@@ -656,7 +656,7 @@ class FanMeetingServiceApi {
   /// Parameters:
   ///
   /// * [GrpcUploadTencentInstantMessageLogByFanMeetingRequest] body (required):
-  Future<Object> fanMeetingServiceUploadTencentInstantMessageLogByFanMeeting(GrpcUploadTencentInstantMessageLogByFanMeetingRequest body) async {
+  Future<GrpcEmpty> fanMeetingServiceUploadTencentInstantMessageLogByFanMeeting(GrpcUploadTencentInstantMessageLogByFanMeetingRequest body) async {
     final response = await fanMeetingServiceUploadTencentInstantMessageLogByFanMeetingWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -665,9 +665,9 @@ class FanMeetingServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 
   /// Performs an HTTP 'PUT /v1/fan-meetings/upload/tencent-log/lite-av' operation and returns the [Response].
@@ -708,7 +708,7 @@ class FanMeetingServiceApi {
   /// Parameters:
   ///
   /// * [GrpcUploadTencentLiteAVLogByFanMeetingRequest] body (required):
-  Future<Object> fanMeetingServiceUploadTencentLiteAVLogByFanMeeting(GrpcUploadTencentLiteAVLogByFanMeetingRequest body) async {
+  Future<GrpcEmpty> fanMeetingServiceUploadTencentLiteAVLogByFanMeeting(GrpcUploadTencentLiteAVLogByFanMeetingRequest body) async {
     final response = await fanMeetingServiceUploadTencentLiteAVLogByFanMeetingWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -717,8 +717,8 @@ class FanMeetingServiceApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Object',) as Object;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GrpcEmpty',) as GrpcEmpty;
         }
-    return Future<Object>.value(null);
+    return Future<GrpcEmpty>.value(null);
   }
 }

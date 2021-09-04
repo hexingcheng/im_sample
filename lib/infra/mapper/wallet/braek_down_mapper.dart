@@ -6,7 +6,9 @@ class BreakDownMapper {
   static BreakDown decode(GrpcBreakDown grpc) {
     return BreakDown(
       point: grpc.point,
-      expireDate: TimeStampMapper.decode(grpc.expireDate),
+      expireDate: grpc.expireDate != null
+          ? TimeStampMapper.decode(grpc.expireDate)
+          : null,
     );
   }
 }

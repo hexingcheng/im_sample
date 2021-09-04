@@ -10,9 +10,9 @@ class Back extends StatelessWidget {
     return IconButton(
       icon: const Icon(
         Icons.arrow_back_ios,
-        size: 20,
+        size: 24,
       ),
-      color: OnlyliveColor.grey,
+      color: OnlyliveColor.white,
       onPressed: () => Navigator.of(context).pop(),
     );
   }

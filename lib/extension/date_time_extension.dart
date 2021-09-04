@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 extension ExtensionDateTime on DateTime {
   String _zeroFill(int time) {
     return time.toString().padLeft(2, "0");
@@ -11,4 +13,7 @@ extension ExtensionDateTime on DateTime {
 
   // mm/dd
   String get date => "$month月$day日";
+
+  // hh/MM
+  String get hm => "${_zeroFill(hour)} : ${_zeroFill(minute)}  -";
 }

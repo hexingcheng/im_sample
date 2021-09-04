@@ -10,15 +10,25 @@ import 'package:onlylive/extension/int_extension.dart';
 
 class ReservationDialog extends StatelessWidget {
   ReservationDialog(
-      {required this.fanMeeing,
+      {required this.style,
+      required this.imageUrl,
+      required this.displayName,
       required this.balance,
+      required this.secondsPerReserved,
+      required this.unitCoin,
+      required this.waitingFanNum,
       required this.onPressedButton,
       Key? key})
       : super(key: key) {
     setProperty();
   }
 
-  final FanMeeting fanMeeing;
+  final FanMeetingStyle style;
+  final String imageUrl;
+  final String displayName;
+  final int secondsPerReserved;
+  final int unitCoin;
+  final int waitingFanNum;
   final int balance;
   final void Function() onPressedButton;
 
@@ -28,7 +38,7 @@ class ReservationDialog extends StatelessWidget {
   static String hyperLink = "https://onlylive.jp/shop";
 
   void setProperty() {
-    if (FanMeetingStyle.serial == fanMeeing.style) {
+    if (FanMeetingStyle.serial == style) {
       dialogHeight = 336;
       buttonText = "通話予約する";
       hyperLinkText = "通話方法を確認";
@@ -64,14 +74,14 @@ class ReservationDialog extends StatelessWidget {
               const SizedBox(height: 16),
               Imgix(
                 context: context,
-                imageUrl: fanMeeing.talent.mainSquareImageUrl,
+                imageUrl: imageUrl,
                 width: 64,
                 height: 64,
                 borderRadius: BorderRadius.circular(100),
               ),
               const SizedBox(height: 10),
               Text(
-                fanMeeing.talent.displayName,
+                displayName,
                 style: const TextStyle(
                   color: OnlyliveColor.darkPurple,
                   fontWeight: FontWeight.w700,
@@ -87,7 +97,7 @@ class ReservationDialog extends StatelessWidget {
                   fontSize: 12,
                 ),
               ),
-              fanMeeing.style == FanMeetingStyle.regular
+              style == FanMeetingStyle.regular
                   ? Column(
                       children: <Widget>[
                         const SizedBox(height: 10),

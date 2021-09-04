@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **followServiceCreateFollow**
-> Object followServiceCreateFollow(body)
+> GrpcEmpty followServiceCreateFollow(body)
 
 
 
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **followServiceDeleteFollow**
-> Object followServiceDeleteFollow(fanUuid, influencerUuid)
+> GrpcEmpty followServiceDeleteFollow(fanUuid, influencerUuid)
 
 
 
@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**GrpcEmpty**](GrpcEmpty.md)
 
 ### Authorization
 
