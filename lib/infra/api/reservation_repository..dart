@@ -1,5 +1,7 @@
+import 'package:onlylive/domain/entities/reservation.dart';
 import 'package:onlylive/domain/entities/reservation_status.dart';
 import 'package:onlylive/domain/repository/reservation_repository.dart';
+import 'package:onlylive/infra/mapper/reservation/reservation_mapper.dart';
 import 'package:openapi/api.dart';
 import 'package:onlylive/infra/api/repository.dart';
 
@@ -13,7 +15,7 @@ class APIReservationRepository implements ReservationRepository {
       required String fanUUID,
       required int fanmeetingID}) {
     return ReservationServiceApi(
-            ApiClient(basePath: _basePath)..addApiToken(apiToken))
+            ApiClient(basePath: _basePath)..addApiToken(apiToken)..addXPlatForm())
         .reservationServiceCreateReservation(GrpcCreateReservationRequest(
             fanMeetingId: fanmeetingID, fanUuid: fanUUID))
         .onError<ApiException>(
@@ -32,6 +34,17 @@ class APIReservationRepository implements ReservationRepository {
         .then((res) => ReservationStatus(
             isReserved: res.isReserved ?? false,
             numReservedFan: res.numReservedFan ?? 0))
+        .onError<ApiException>(
+            (e, stackTrace) => throw Repository.apiException(e));
+  }
+
+  @override
+  Future<Reservation> get(String apiToken, int reservationID) async {
+    final service = ReservationServiceApi(
+        ApiClient(basePath: _basePath)..addApiToken(apiToken));
+    return service
+        .reservationServiceGetReservation(reservationID)
+        .then(ReservationMapper.decode)
         .onError<ApiException>(
             (e, stackTrace) => throw Repository.apiException(e));
   }

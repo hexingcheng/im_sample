@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:logger/logger.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
-import 'package:onlylive/services/call_service.dart';
+import 'package:onlylive/domain/service/call_service.dart';
 import 'package:uuid/uuid.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -10,24 +11,23 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   _openIncomingCall(message);
 }
 
-Future<void> _openIncomingCall(RemoteMessage message) async {
+Future<void> _openIncomingCall(RemoteMessage message) {
   final payload = message.data;
-  final callerId = payload['caller_id'] as String? ?? "callerId";
-  final callerName = payload['caller_name'] as String? ?? "caller_name";
-  final callUUUD = const Uuid().v4();
-  // final _callKeep = CallService(CallTransaction(
-  //   callUUID: "",
-  //   talentDisplayName: callerName,
-  //   talentUUID: callerId,
-  //   fanMeetingID: 0,
-  //   reservationID: 0,
-  //   itemCode: "",
-  //   fanUUID: "",
-  //   balance: 0,
-  //   updatedAt: DateTime(0),
-  // )).instance;
-  // await _callKeep.displayIncomingCall(callUUUD, "07048031881",
-  //     handleType: "number", hasVideo: false);
+  Logger().i(payload);
+  final talentDisplayName = payload['talent_display_name'] as String? ?? "";
+  final fanMeetingID = payload['fan_meeting_id'] as String? ?? "";
+  final reservationID = payload['reservation_id'] as String? ?? "";
+  final talentUUID = payload['talent_uuid'] as String? ?? "";
+  final _callKeep = CallService();
+  return _callKeep
+      .displayIncomingCall("07048031881")
+      .then((callUUID) => _callKeep.registerListner(CallTransaction(
+            callUUID: callUUID,
+            talentDisplayName: talentDisplayName,
+            talentUUID: talentUUID,
+            fanMeetingID: 10,
+            reservationID: 10,
+          )));
 }
 
 enum Category { incomingCall }

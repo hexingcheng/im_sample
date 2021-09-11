@@ -83,10 +83,13 @@ class APIFanRepository extends Repository implements FanRepository {
   // }
 
   @override
-  Future<CallTransaction> getCallTransaction(String fanUUID) async {
+  Future<CallTransaction> getCallTransaction(String fanUUID) {
     final service = FanServiceApi(ApiClient(basePath: _basePath));
-    final response = await service.fanServiceGetCallTransaction(fanUUID);
-    return CallTransactionMapper.decode(response.callTransaction);
+    return service
+        .fanServiceGetCallTransaction(fanUUID)
+        .then((response) =>
+            CallTransactionMapper.decode(response.callTransaction))
+        .catchError((e) => throw Repository.apiException(e as ApiException));
   }
 
   @override
@@ -100,8 +103,8 @@ class APIFanRepository extends Repository implements FanRepository {
               callUuid: callTransaction.callUUID,
               influencerDisplayName: callTransaction.talentDisplayName,
               influencerUuid: callTransaction.talentUUID,
-              reservationId: "callTransaction.reservationID",
-              fanMeetingId: "callTransaction.fanMeetingID"));
+              reservationId: "",
+              fanMeetingId: ""));
     } catch (e) {
       rethrow;
     }

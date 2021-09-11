@@ -8,6 +8,7 @@ class Reservation {
       required this.startTime,
       required this.finishTime,
       required this.createdAt,
+      this.chekiImageUrl,
       required this.updatedAt});
 
   final int id;
@@ -17,6 +18,7 @@ class Reservation {
   final String influecnerUUID;
   final DateTime startTime;
   final DateTime finishTime;
+  final String? chekiImageUrl;
   final DateTime createdAt;
   final DateTime updatedAt;
 }

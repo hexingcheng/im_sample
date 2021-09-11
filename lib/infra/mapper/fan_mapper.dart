@@ -1,6 +1,4 @@
-import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/domain/entities/fan.dart';
-import 'package:onlylive/domain/entities/sex.dart';
 import 'package:onlylive/infra/mapper/sex_mapper.dart';
 import 'package:onlylive/infra/mapper/time_stamp_mapper.dart';
 import 'package:openapi/api.dart';

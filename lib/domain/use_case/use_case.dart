@@ -9,6 +9,9 @@ import 'package:openapi/api.dart';
 class UseCase {
   static Error useCaseErr(ApiError e) {
     final exception = errorMap[e.code];
+    print(e.message);
+    print(e.code);
+    print("aaaaaaaaaaaaaaaaaaaabbbbbbbbbb");
     if (exception != null) {
       throw exception;
     }

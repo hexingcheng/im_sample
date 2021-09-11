@@ -5,7 +5,7 @@ class CallTransaction {
     required this.talentUUID,
     required this.fanMeetingID,
     required this.reservationID,
-    required this.updatedAt,
+    this.updatedAt,
   });
 
   String talentDisplayName;
@@ -13,5 +13,5 @@ class CallTransaction {
   String callUUID;
   int fanMeetingID;
   int reservationID;
-  DateTime updatedAt;
+  DateTime? updatedAt;
 }

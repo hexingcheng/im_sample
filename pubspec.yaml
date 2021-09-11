@@ -26,13 +26,13 @@ dependencies:
   fluttertoast: ^8.0.7
   webview_flutter: ^2.0.2
   shared_preferences: ^2.0.6
+  dio: ^4.0.0
   flutter_svg: ^0.21.0-nullsafety.0
   font_awesome_flutter: ^9.0.0
   carousel_slider: ^4.0.0-nullsafety.0
   tencent_trtc_cloud: ^1.0.9
-  tencent_im_sdk_plugin: ^3.3.2
+  tencent_im_sdk_plugin: ^3.3.8
   crypto: ^3.0.1
-  http: ^0.13.3
   firebase_messaging: ^10.0.4
   firebase_core_platform_interface: ^4.0.1
   firebase_auth: ^3.1.0
@@ -54,6 +54,8 @@ dependencies:
   intl: ^0.17.0
   flutter_email_sender: ^5.0.2
   country_codes: ^2.0.1
+  image_gallery_saver: '^1.6.9'
+  logger: ^1.1.0
   openapi:
     path: lib/openapi/
   flutter_localizations: 
@@ -117,7 +119,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - env/
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

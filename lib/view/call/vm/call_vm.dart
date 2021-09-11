@@ -1,56 +1,102 @@
 import 'dart:async';
-
+import 'dart:typed_data';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onlylive/config.dart';
-import 'package:onlylive/domain/entities/call_transaction.dart';
-import 'package:onlylive/domain/entities/fan.dart';
+import 'package:logger/logger.dart';
 import 'package:onlylive/domain/entities/reservation.dart';
-import 'package:onlylive/domain/entities/talent.dart';
 import 'package:onlylive/domain/repository/repository.dart';
-import 'package:onlylive/domain/use_case/reservation/create_reservation_use_case.dart';
+import 'package:onlylive/domain/service/const/tencent.dart';
+import 'package:onlylive/domain/use_case/fan/get_fan_use_case.dart';
+import 'package:onlylive/domain/use_case/reservation/get_reservation_use_case.dart';
+import 'package:onlylive/domain/service/im_serivce.dart';
+import 'package:onlylive/domain/use_case/fan_meeting/fanmeeting_use_case.dart';
 import 'package:onlylive/domain/entities/fan_meeting.dart';
-import 'package:onlylive/services/tencent.dart';
-import 'package:tencent_im_sdk_plugin/enum/V2TimAdvancedMsgListener.dart';
-import 'package:tencent_im_sdk_plugin/enum/V2TimSDKListener.dart';
-import 'package:tencent_trtc_cloud/trtc_cloud.dart';
-import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
-import 'package:tencent_trtc_cloud/trtc_cloud_listener.dart';
-import 'package:tencent_trtc_cloud/trtc_cloud_video_view.dart';
-import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
-import 'package:tencent_im_sdk_plugin/enum/log_level.dart';
-import 'package:tencent_im_sdk_plugin/manager/v2_tim_manager.dart';
+import 'package:onlylive/domain/service/trtc_service.dart';
 import 'package:callkeep/callkeep.dart';
+import 'package:onlylive/domain/use_case/wallet/consume_use_case.dart';
+import 'package:onlylive/domain/use_case/wallet/get_wallet_usecase.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:onlylive/extension/int_extension.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+
+enum CallStatus {
+  connecting,
+  duringCall,
+  complete,
+  saveCheki,
+  networkError,
+  block
+}
+enum ToastType {
+  unknown,
+  poorNetwork,
+  peepingPhotos,
+  alreadyHasShooting,
+  shootingTimeHasPassed
+}
 
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class CallVM with ChangeNotifier {
-  CallVM({required CallTransaction callTransaction}) {
-    isLoading = true;
-    Future(() async {
-      // await _permissionRequest();
-      // await call();
-      await _initState(callTransaction);
-      await _initTrtc();
-      await _initIM();
-      await createReservation();
-      isLoading = false;
-      // _startCall();
-      notifyListeners();
-    });
-  }
+  CallVM({required this.fanMeetingId, required this.reservationId});
 
-  // private
+  final int fanMeetingId;
+  final int reservationId;
+
+  // fan
+  String? _fanUUID;
+  String get fanUUID => _fanUUID ?? "";
+  String? _annotaionID;
+  String get annotaionID => _annotaionID ?? "";
+
+  // talent
+  String? _talentDisplayName;
+  String get talentDisplayName => _talentDisplayName ?? "";
+
+  String? _talentMainSquareImageUrl;
+  String get talentMainSquareImage => _talentMainSquareImageUrl ?? "";
+
+  String? _talentIntroduction;
+  String get talentIntroduction => _talentIntroduction ?? "";
+
+  String? _talentUUID;
+
+  // fanMeeting
+  int? _secondsPerReservation;
+  int get secondsPerReservation => _secondsPerReservation ?? 0;
+
+  ItemCode? _itemCode;
+  ItemCode get itemCode => _itemCode ?? "";
+
+  // wallet
+  int? _balance;
+  int get balance => _balance ?? 0;
+
+  // tencenct
+  late TRTCService _trtcService;
+  late IMService _imService;
+
+  // call
+  bool _hasCheki = false;
+  bool get hasCheki => _hasCheki;
+
+  ToastType _toastType = ToastType.unknown;
+  ToastType get toastType => _toastType;
+
   bool _showCautionPopUp = true;
   bool _isFinishedFanMeeting = false;
   bool _hasDuringChekiShooting = false;
   bool _isEnabledCheki = true;
   late Timer _timer;
   int _validExtensionNum = 3;
+  int _remainigMinutes = 0;
+  int _remainigSeconds = 0;
+  bool _isLoading = false;
+  bool _initilized = false;
+  CallStatus _callStatus = CallStatus.connecting;
 
   // gettter
+  CallStatus get callStatus => _callStatus;
   bool get showCautionPopUp => _showCautionPopUp;
   bool get isFinishedFanMeeting => _isFinishedFanMeeting;
   bool get hasDuringChekiShooting => _hasDuringChekiShooting;
@@ -59,19 +105,15 @@ class CallVM with ChangeNotifier {
   int get validExtensionNum => _validExtensionNum;
   String get remainingTime =>
       "${_remainigMinutes.zeroFill(2)}:${_remainigSeconds.zeroFill(2)}";
+  bool get isLoading => _isLoading;
+  bool get initilized => _initilized;
 
   @override
   void dispose() {
-    _destoryRoom();
+    _trtcService.dispose();
 
     _timer.cancel();
     super.dispose();
-  }
-
-  void _destoryRoom() {
-    trtcInstanece!.unRegisterListener(onRtcListener);
-    trtcInstanece!.exitRoom();
-    TRTCCloud.destroySharedInstance();
   }
 
   void progress() {
@@ -84,19 +126,10 @@ class CallVM with ChangeNotifier {
     }
   }
 
-  late FanMeeting fanMeeting;
-  late Talent talent;
-  late Reservation reservation;
-  late Fan fan;
-  bool isLoading = false;
-
   void closeCautionPopUp() {
     _showCautionPopUp = false;
     notifyListeners();
   }
-
-  int _remainigMinutes = 0;
-  int _remainigSeconds = 0;
 
   final FlutterCallkeep _callKeep = FlutterCallkeep();
 
@@ -134,223 +167,176 @@ class CallVM with ChangeNotifier {
     }
   }
 
-  static String userSig = GenerateTestUserSig.genTestSig(userId) as String;
+  Future<void> initState() async {
+    // await _permissionRequest();
+    await Future.wait([
+      _getFan(),
+      _getWalet(),
+      _getFanMeeting(fanMeetingId),
+    ]).catchError((e) => throw Exception("failed to init state"));
 
-  static int roomId = 487;
-  late TRTCCloud? trtcInstanece;
-  static String userId = "aaaa";
+    await Future.wait([
+      _initTrtc(_fanUUID),
+      _initIM(_fanUUID, fanMeetingId),
+    ]).catchError((e) => throw Exception("failed to init tencent service"));
 
-  String message = "";
-
-  Future<void> _initState(CallTransaction callTransaction) async {
-    // fanMeeting = await FanMeetingUseCase(Repositories().fanMeetingRepository)
-    //     .get(callTransaction.fanMeetingID);
-
-    // fan = await FanUseCase(Repositories().fanRepository)
-    //     .get(callTransaction.fanUUID);
-    // fan = await FanUseCase(Repositories().fanRepository)
-    //     .get(callTransaction.fanUUID);
-    // fanMeeting = FanMeeting(
-    //     id: 511,
-    //     talent: Talent(
-    //       uuid: "uuid",
-    //       introduction: "introduction",
-    //       displayName: "displayName",
-    //       annotationID: "annotationID",
-    //       mainSquareImageUrl:
-    //           "https://ichef.bbci.co.uk/news/800/cpsprodpb/509D/production/_112873602_whatsappimage2020-06-12at11.23.53-2.jpg",
-    //       mainRectangleImageUrl: "mainRectangleImageUrl",
-    //       twitterUrl: "twitterUrl",
-    //       instagramUrl: "instagramUrl",
-    //       tiktokUrl: "tiktokUrl",
-    //       youtubeUrl: "youtubeUrl",
-    //       customLinkName: "customLinkName",
-    //       customLinkUrl: "customLinkUrl",
-    //       genre: [],
-    //       imageUrls: [],
-    //       thu
-    //     ),
-    //     itemCode: "itemCode",
-    //     limitedPeople: 10,
-    //     state: FanMeetingState.now,
-    //     isExtension: IsExtension.ok,
-    //     eventDate: DateTime(0),
-    //     startTime: DateTime(0),
-    //     finishTime: DateTime(0),
-    //     secondsPerReservation: 5,
-    //     style: FanMeetingStyle.regular,
-    //     createdAt: DateTime(0),
-    //     updatedAt: DateTime(0));
-    fan = Fan(
-        uuid: "uuid",
-        introduction: "introduction",
-        displayName: "displayName",
-        annotationID: "annotationID",
-        birth: DateTime(0),
-        phoneNumber: "phoneNumber",
-        imageUrl:
-            "https://ichef.bbci.co.uk/news/800/cpsprodpb/509D/production/_112873602_whatsappimage2020-06-12at11.23.53-2.jpg");
-    reservation = Reservation(
-        id: 9,
-        state: ReservationState.wait,
-        startTime: DateTime(0),
-        fanUUID: "",
-        fanmeetingID: 1,
-        influecnerUUID: "",
-        finishTime: DateTime(0),
-        createdAt: DateTime(0),
-        updatedAt: DateTime(0));
-    _remainigMinutes = fanMeeting.secondsPerReservation.convertSecondsToMinutes;
-    _remainigSeconds = fanMeeting.secondsPerReservation -
-        Duration(minutes: _remainigMinutes).inSeconds;
+    _initilized = true;
+    notifyListeners();
   }
 
-  Future<void> _initTrtc() async {
-    trtcInstanece = await TRTCCloud.sharedInstance();
-    trtcInstanece!
-        .registerListener((type, params) => onRtcListener(type, params));
-    enterRoom();
+  Future<String?> _getChekiUrl(int reservationID) {
+    return GetReservationUseCase(Repositories.reservationRepo)
+        .execute(reservationID)
+        .then((value) => value.chekiImageUrl);
   }
 
-  void onRtcListener(TRTCCloudListener type, dynamic params) {
-    if (type == TRTCCloudListener.onError) {
-      print("エラーがおきたー" + params['errMsg'].toString());
-    }
-    if (type == TRTCCloudListener.onStartPublishing) {
-      print("startしたーーーー");
-    }
-    if (type == TRTCCloudListener.onUserVideoAvailable) {
-      print("userしゅとくｓちあー");
-    }
-  }
+  Future<void> _getFanMeeting(int fanMeetingID) {
+    return GetFanMeetingUseCase(Repositories.fanMeetingRepository)
+        .execute(fanMeetingID)
+        .then((fanMeeting) {
+      final talent = fanMeeting.talent;
+      if (talent == null) throw NullThrownError();
 
-  V2TIMManager timManager = TencentImSDKPlugin.v2TIMManager;
-
-  V2TimSDKListener initLisener() {
-    return V2TimSDKListener(onConnectSuccess: () => {});
-  }
-
-  Future<void> createReservation() async {
-    await CreateReservationUseCase(Repositories.reservationRepo)
-        .execute(fanMeeting.id);
-  }
-
-  void _startCall() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      progress();
-      if (Duration(minutes: _remainigMinutes, seconds: _remainigSeconds) ==
-          Duration.zero) {
-        _finishFanMeeting();
-        _timer.cancel();
-      }
-      notifyListeners();
+      _secondsPerReservation = fanMeeting.secondsPerReservation;
+      _itemCode = fanMeeting.itemCode;
+      _talentDisplayName = talent.displayName;
+      _talentMainSquareImageUrl = talent.mainSquareImageUrl;
+      _talentIntroduction = talent.introduction;
+      _talentUUID = talent.uuid;
     });
   }
 
-  void _finishFanMeeting() {
-    _isFinishedFanMeeting = true;
+  Future<void> _getFan() {
+    return GetFanUseCase(Repositories.fanRepository)
+        .execute()
+        .then((value) => _fanUUID = value.uuid);
   }
 
-  void cheki() {
-    _hasDuringChekiShooting = true;
-    _isEnabledCheki = false;
+  Future<void> _getWalet() {
+    return GetWalletUseCase(Repositories.walletRepository)
+        .execute()
+        .then((wallet) => _balance = wallet.balance);
+  }
+
+  Future<void> _consume(int numExtension) {
+    // 必ず5秒後に消費する
+    return Future.delayed(const Duration(seconds: 5)).then((_) =>
+        ConsumeUseCase(Repositories.walletRepository)
+            .execute(fanMeetingId: fanMeetingId, numExtension: numExtension));
+  }
+
+  void _networkListener(NetworkQuality networkQuality) {
+    if (networkQuality == NetworkQuality.good) Logger().i("net work がいい");
+    if (networkQuality == NetworkQuality.bad) Logger().i("net work がわるい");
+  }
+
+  Future<void> _initTrtc(String? fanUUID) async {
+    if (fanUUID == null) throw Exception("not fonud fan uuid");
+    _trtcService = TRTCService(fanUUID);
+    await _trtcService.init();
+    _trtcService.addNetworkQualityListener(_networkListener);
+    await _trtcService.enterRoom(fanMeetingId);
+  }
+
+  Future<void> chekiRequest() async {
+    if (_remainigMinutes == 0 && _remainigSeconds <= 5) {
+      _toastType = ToastType.shootingTimeHasPassed;
+    } else {
+      _hasDuringChekiShooting = true;
+      _isEnabledCheki = false;
+      await _imService.sendMessage(
+          key: IMSendKeys.chekiRequest.string, userID: _talentUUID ?? "");
+    }
     notifyListeners();
   }
 
-  void extension(int rate) {
+  Future<void> extension(int rate) async {
     _validExtensionNum = rate;
+    await _imService.sendMessage(
+        key: IMSendKeys.extendRequest.string,
+        content: rate.toString(),
+        userID: _talentUUID ?? "");
+    _consume(_validExtensionNum);
     notifyListeners();
   }
 
-  void showExtensionMenu() {
-    notifyListeners();
-  }
-
-  Future<void> _initIM() async {
-    final litener = initLisener();
-    V2TimValueCallback<bool> initRes = await timManager.initSDK(
-      sdkAppID: Config.tencent.sdkAppId,
-      loglevel: LogLevel.V2TIM_LOG_DEBUG,
-      listener: litener,
-    );
-    timManager.login(userID: userId, userSig: userSig);
-    final converstion = timManager.getConversationManager();
-    final imMessageManager = timManager.getMessageManager();
-    final listener = V2TimAdvancedMsgListener(onRecvNewMessage: (msg) {});
-    imMessageManager.addAdvancedMsgListener(listener: listener);
-    await timManager.joinGroup(
-        groupID: fanMeeting.id.toString(), message: message);
-    final session = await converstion.getConversation(
-      conversationID: fanMeeting.id.toString(),
-    );
-  }
-
-// Future onDidReceiveLocalNotification(int id, String? title, String? body, String? payload) async {
-//   // display a dialog with the notification details, tap ok to go to another page
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) => CupertinoAlertDialog(
-//       title: Text("タイトル"),
-//       content: Text("body"),
-//       actions: [
-//         CupertinoDialogAction(
-//           isDefaultAction: true,
-//           child: Text('Ok'),
-//           onPressed: () async {
-//             Navigator.of(context, rootNavigator: true).pop();
-//             await Navigator.pushNamed(context, "/login");
-//           },
-//         )
-//       ],
-//     ),
-//   );
-// }
-//   void localNotificaion() {
-//     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-//     var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-//     var initializationSettingsIOS = IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-//     var initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-//     flutterLocalNotificationsPlugin.initialize(initializationSettings,
-//         onSelectNotification: (a) async => {
-//           print("aaaaaaaaaaa")
-//         });
-
-//     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-//         'your channel id', 'your channel name', 'your channel description',
-//         importance: Importance.max, priority: Priority.high);
-//     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-//     final platformChannelSpecifics = NotificationDetails(
-//         android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-//   }
-
-  late TRTCCloudVideoViewController _trtcController;
-
-  void enterRoom() {
-    try {
-      final userSig = GenerateTestUserSig.genTestSig(userId) as String;
-      trtcInstanece!.enterRoom(
-        TRTCParams(
-          sdkAppId: Config.tencent.sdkAppId,
-          userId: userId,
-          userSig: userSig,
-          strRoomId: roomId.toString(),
-          roomId: roomId,
-        ),
-        TRTCCloudDef.TRTC_APP_SCENE_VIDEOCALL,
+  Future<void> saveCheki() async {
+    final checkiUrl = await _getChekiUrl(reservationId);
+    if (checkiUrl != null) {
+      final response = await Dio()
+          .get(checkiUrl, options: Options(responseType: ResponseType.bytes));
+      await ImageGallerySaver.saveImage(
+        Uint8List.fromList(response.data as List<int>),
+        quality: 100,
       );
-    } catch (e) {
-      print(e);
+
+      _callStatus = CallStatus.saveCheki;
     }
   }
 
-  void renderView(int viewId) {
-    try {
-      trtcInstanece!.startRemoteView("d5a80f0e-86c6-4df4-87b9-fea801d1346e",
-          TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG, viewId);
+  Future<void> _initIM(String? userId, int roomId) async {
+    if (userId == null) throw Exception("not fonud fan uuid");
+    _imService = IMService(
+      userId,
+      roomId,
+    );
+    await _imService.init();
+    await _imService.joinGroup(roomId);
 
-      // trtcInstanece!.startPublishStream(TRTCCloudDef.TRTC_AUDIO_QUALITY_SPEECH);
-      // trtcInstanece!.startLocalAudio(TRTCCloudDef.TRTC_AUDIO_QUALITY_SPEECH);
-      // trtcInstanece!.stopLocalAudio();
+    _imService.addListener((msg) {
+      Logger().e("ながれてるーーーーーーーー");
+      Logger().e(msg.toJson());
+      if (msg.key == IMReceiveKeys.didTookCheki.string) {
+        tookCheki();
+      }
+      if (msg.key == IMReceiveKeys.blockFan.string) {}
+      if (msg.key == IMReceiveKeys.endFanmeeting.string) {
+        completeFanMeeting();
+      }
+      if (msg.key == IMReceiveKeys.callRemainTime.string) {
+        callRemainTime(msg);
+      }
+    });
+  }
+
+  void tookCheki() {
+    _hasCheki = true;
+    _hasDuringChekiShooting = false;
+    notifyListeners();
+  }
+
+  void blockFan() {
+    _isFinishedFanMeeting = true;
+    _callStatus = CallStatus.block;
+    notifyListeners();
+  }
+
+  Future<void> completeFanMeeting() async {
+    _isFinishedFanMeeting = true;
+    if (hasCheki) {
+      await saveCheki();
+      _callStatus = CallStatus.saveCheki;
+    } else {
+      _callStatus = CallStatus.complete;
+    }
+    notifyListeners();
+  }
+
+  void callRemainTime(IMMessage msg) {
+    final seconds = int.parse(msg.content!);
+    if (_callStatus == CallStatus.connecting) {
+      _callStatus = CallStatus.duringCall;
+      _consume(0);
+    }
+    _remainigMinutes = seconds.convertSecondsToMinutes;
+    _remainigSeconds = seconds - (60 * _remainigMinutes);
+    notifyListeners();
+  }
+
+  Future<void> renderView(int viewId) async {
+    if (_talentUUID == null) throw Exception("not fonud talent uuid");
+    try {
+      await _trtcService.renderView(_talentUUID!, viewId);
     } catch (e) {}
   }
 }

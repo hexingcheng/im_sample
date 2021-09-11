@@ -10,6 +10,7 @@ import 'package:onlylive/domain/use_case/fan_meeting/list_fan_meeting_by_topic_u
 import 'package:onlylive/domain/use_case/feature/list_feature_use_case.dart';
 import 'package:onlylive/domain/use_case/fan_meeting/list_fan_meeting_by_state_use_case.dart';
 import 'package:onlylive/domain/use_case/ranking/get_ranking_use_case.dart';
+import 'package:onlylive/domain/use_case/reservation/create_reservation_use_case.dart';
 
 enum HomeListType {
   now,

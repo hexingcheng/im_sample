@@ -193,7 +193,7 @@ class RegisterProfileScreen extends StatelessWidget {
                             isEnabled: context.select<RegisterProfileVM, bool>(
                                 (vm) => vm.isEnableButton),
                             backgroundColor: OnlyliveColor.purple,
-                            disableColor: OnlyliveColor.lightPurple,
+                            disableBackgroundColor: OnlyliveColor.lightPurple,
                             overlayColor: OnlyliveColor.lightPurple,
                           ),
                         ),

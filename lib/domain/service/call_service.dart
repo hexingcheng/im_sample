@@ -2,26 +2,25 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:callkeep/callkeep.dart';
+import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:onlylive/config.dart';
 import 'package:onlylive/domain/repository/fan_repository.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/flavor.dart';
 import 'package:onlylive/infra/api/fan_repository.dart';
-import 'package:openapi/api.dart';
+import 'package:uuid/uuid.dart';
 
 class CallService {
-  CallService(this.callTransaction) {
+  CallService() {
     configure();
   }
-  late CallTransaction callTransaction;
   late String _number;
 
   final FlutterCallkeep _callKeep = FlutterCallkeep();
 
-  FlutterCallkeep get instance => _callKeep;
-
-  void configure() {
-    _callKeep.setup(<String, dynamic>{
+  Future<void> configure() {
+    return _callKeep.setup(<String, dynamic>{
       'ios': {
         'appName': 'CallKeepDemo',
       },
@@ -33,33 +32,64 @@ class CallService {
         'okButton': 'ok',
       },
     });
+  }
 
+  Future<bool> hasPhoneAccount() {
+    return Future.value(_callKeep.hasPhoneAccount()).catchError((e) {
+      Logger().e("failed to has phone account: $e");
+    });
+  }
+
+  Future<bool> phoneAccountPermissionRequest(BuildContext context) {
+    return Future.value(
+        _callKeep.hasDefaultPhoneAccount(context, <String, dynamic>{
+      'ios': {
+        'appName': 'CallKeepDemo',
+      },
+      'android': {
+        'alertTitle': 'Permissions required',
+        'alertDescription':
+            'This application needs to access your phone accounts',
+        'cancelButton': 'Cancel',
+        'okButton': 'ok',
+      },
+    }).catchError((e) {
+      Logger().e("failed to has phone account: $e");
+    }));
+  }
+
+  // return call uuid
+  Future<String> displayIncomingCall(String incomingCallNumber) {
+    final callUUID = const Uuid().v4();
+    return _callKeep
+        .displayIncomingCall(callUUID, incomingCallNumber,
+            handleType: "number", hasVideo: false)
+        .then((_) => callUUID)
+        .catchError((e) {
+      Logger().e("failed to display incoming call: $e");
+    });
+  }
+
+  void registerListner(CallTransaction callTransaction) {
     _callKeep
-      ..on(CallKeepDidDisplayIncomingCall(),
-          (CallKeepDidDisplayIncomingCall event) {
+      ..on(CallKeepDidDisplayIncomingCall(), (event) {
         print("did display");
       })
-      ..on(CallKeepPerformAnswerCallAction(), answerCallAction)
-      ..on(CallKeepDidPerformDTMFAction(),
-          (CallKeepDidPerformDTMFAction event) {})
-      ..on(CallKeepDidReceiveStartCallAction(),
-          (CallKeepDidReceiveStartCallAction event) {
+      ..on(
+          CallKeepPerformAnswerCallAction(),
+          (event) => answerCallAction(
+              event! as CallKeepPerformAnswerCallAction, callTransaction))
+      ..on(CallKeepDidPerformDTMFAction(), (event) {})
+      ..on(CallKeepDidReceiveStartCallAction(), (event) {
         print("did start");
       })
-      ..on(
-          CallKeepDidToggleHoldAction(), (CallKeepDidToggleHoldAction event) {})
-      ..on(CallKeepDidPerformSetMutedCallAction(),
-          (CallKeepDidPerformSetMutedCallAction event) {})
-      ..on(CallKeepPerformEndCallAction(),
-          (CallKeepPerformEndCallAction event) {
-        print(
-            'backgroundMessage: CallKeepPerformEndCallAction ${event.callUUID}');
-      })
+      ..on(CallKeepDidToggleHoldAction(), (event) {})
+      ..on(CallKeepPerformEndCallAction(), (event) {})
       ..on(CallKeepPushKitToken(), (CallKeepPushKitToken event) {});
   }
 
-  Future<void> answerCallAction(CallKeepPerformAnswerCallAction event) async {
-    event as CallKeepPerformAnswerCallAction;
+  Future<void> answerCallAction(CallKeepPerformAnswerCallAction event,
+      CallTransaction callTransaction) async {
     try {
       final startCall = _callKeep.startCall(
           event.callUUID!, _number, callTransaction.talentDisplayName);
@@ -72,7 +102,7 @@ class CallService {
 
       Timer(const Duration(seconds: 1), () {
         _callKeep
-          ..setCurrentCallActive(callTransaction.callUUID)
+          ..setCurrentCallActive(event.callUUID!)
           ..backToForeground();
       });
     } catch (e) {

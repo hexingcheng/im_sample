@@ -83,7 +83,7 @@ class SignUpScreen extends StatelessWidget {
                         isEnabled: context
                             .select<SignUpVM, bool>((vm) => vm.isEnableButton),
                         backgroundColor: OnlyliveColor.purple,
-                        disableColor: OnlyliveColor.lightPurple,
+                        disableBackgroundColor: OnlyliveColor.lightPurple,
                         overlayColor: OnlyliveColor.lightPurple,
                       ),
                     ),

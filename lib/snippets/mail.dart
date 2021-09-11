@@ -4,20 +4,13 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:onlylive/domain/entities/fan.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-Future<void> openMailApp({Fan? fan}) async {
-  var uuid = "";
-  var annotationID = "";
-
-  if (fan != null) {
-    uuid = fan.uuid;
-    annotationID = fan.annotationID;
-  }
+Future<void> openMailApp({String? fanUUID, String? annotationId}) async {
   final body = "お問い合わせの内容を明記の上、メールをお送りください。\n"
-      "${_setUserID(annotationID)}"
+      "${_setUserID(annotationId)}"
       "【お問い合わせの内容】\n"
       "\n\n\n\n\n"
       "*****************************\n"
-      "${await _setCommonInformation(uuid)}";
+      "${await _setCommonInformation(fanUUID ?? "")}";
 
   final email = Email(
     body: body,
@@ -28,8 +21,8 @@ Future<void> openMailApp({Fan? fan}) async {
   await FlutterEmailSender.send(email);
 }
 
-String _setUserID(String annotationID) {
-  if (annotationID == "") {
+String _setUserID(String? annotationID) {
+  if (annotationID == null) {
     return "";
   }
   return "【ユーザーID】\n"

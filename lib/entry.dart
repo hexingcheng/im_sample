@@ -1,3 +1,4 @@
+import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/services/navigator_service.dart';
 import 'package:onlylive/view/alert/force_update_screen.dart';
 import 'package:onlylive/view/alert/maintenance_screen.dart';
@@ -5,6 +6,7 @@ import 'package:onlylive/view/auth/register_profile_screen.dart';
 import 'package:onlylive/view/call/call_screen.dart';
 import 'package:onlylive/view/home/home_screen.dart';
 import 'package:onlylive/view/main_screen.dart';
+import 'package:onlylive/view/test.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:onlylive/rootVM.dart';
@@ -57,19 +59,19 @@ class App extends StatelessWidget {
     return FutureBuilder(
         future: rootVM.getEntry(),
         builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.done) {
-            switch (snap.data! as EntryType) {
+          if (rootVM.initilized) {
+            switch (rootVM.entry) {
               case EntryType.home:
                 return MainScreen();
               case EntryType.forceUpdate:
                 return const ForceUpdateScreen();
               case EntryType.maintenance:
-                return MainScreen();
+                return const MaintenanceScreen();
               case EntryType.call:
-                return CallScreen();
+                return CallScreen(rootVM.callTransaction);
             }
           } else {
-            return MainScreen();
+            return SizedBox();
           }
         });
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
 import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/view/call/call_screen.dart';
-import 'package:onlylive/view/home/screens/topic_talent_list/topic_talent_list_screen.dart';
 import 'package:onlylive/widgets/atoms/round_rect_button.dart';
 import 'package:onlylive/widgets/molecules/talent_card.dart';
 
@@ -71,16 +70,17 @@ class TopicTalentGridView extends StatelessWidget {
               backgroundColor: const Color(0xffA3B7FF),
               textColor: Colors.white,
               onPressed: () => Navigator.of(context, rootNavigator: true).push(
-                  CallScreen.route(CallTransaction(
-                      callUUID: "callUUID",
-                      talentDisplayName: "talentDisplayName",
-                      talentUUID: "talentUUID",
-                      fanMeetingID: 1,
-                      reservationID: 1,
-                      itemCode: "item001",
-                      balance: 100,
-                      fanUUID: "fanUUID",
-                      updatedAt: DateTime.now()))),
+                CallScreen.route(
+                  CallTransaction(
+                    callUUID: "callUUID",
+                    talentDisplayName: "talentDisplayName",
+                    talentUUID: "talentUUID",
+                    fanMeetingID: 1,
+                    reservationID: 1,
+                    updatedAt: DateTime.now(),
+                  ),
+                ),
+              ),
             ),
           ),
         ),

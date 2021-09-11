@@ -3,18 +3,18 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:onlylive/config.dart';
 
-class GenerateTestUserSig {
-  static int expireTime = 604800;
-
-  ///生成UserSig
-  static genTestSig(String userId) {
+class TencentUserSigService {
+  static const int expireTime = 604800;
+  static int sdkAppId = Config.tencent.sdkAppId;
+  static String secretKey = Config.tencent.secretKey;
+  static String generateUserSig(String userId) {
     int currTime = _getCurrentTime();
     String sig = '';
     Map<String, dynamic> sigDoc = new Map<String, dynamic>();
     sigDoc.addAll({
       "TLS.ver": "2.0",
       "TLS.identifier": userId,
-      "TLS.sdkappid": Config.tencent.sdkAppId,
+      "TLS.sdkappid": sdkAppId,
       "TLS.expire": expireTime,
       "TLS.time": currTime,
     });
@@ -39,10 +39,10 @@ class GenerateTestUserSig {
     required int currTime,
     required int expire,
   }) {
-    int sdkappid = Config.tencent.sdkAppId;
+    int sdkappid = sdkAppId;
     String contentToBeSigned =
         "TLS.identifier:$identifier\nTLS.sdkappid:$sdkappid\nTLS.time:$currTime\nTLS.expire:$expire\n";
-    Hmac hmacSha256 = new Hmac(sha256, utf8.encode(Config.tencent.secretKey));
+    Hmac hmacSha256 = new Hmac(sha256, utf8.encode(secretKey));
     Digest hmacSha256Digest =
         hmacSha256.convert(utf8.encode(contentToBeSigned));
     return base64.encode(hmacSha256Digest.bytes);

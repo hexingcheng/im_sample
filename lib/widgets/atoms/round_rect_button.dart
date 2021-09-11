@@ -8,12 +8,14 @@ class RoundRectButton extends StatelessWidget {
     this.backgroundColor = Colors.white,
     this.overlayColor = Colors.white,
     this.isEnabled = true,
-    this.disableColor,
+    this.disableBackgroundColor,
+    this.disableTextColor,
     this.borderColor,
     this.textStyle = const TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
     ),
+    this.icon,
   });
   final Function() onPressed;
   final String text;
@@ -22,17 +24,30 @@ class RoundRectButton extends StatelessWidget {
   final Color backgroundColor;
   final Color overlayColor;
   final bool isEnabled;
-  final Color? disableColor;
+  final Color? disableBackgroundColor;
+  final Color? disableTextColor;
   final Color? borderColor;
+  final Widget? icon;
 
-  Color? changeColorByIsEnable(Set<MaterialState> _) {
+  Color? changeBackgroundColorByIsEnable(Set<MaterialState> _) {
     if (isEnabled) {
       return backgroundColor;
     } else {
-      if (disableColor == null) {
+      if (disableBackgroundColor == null) {
         return backgroundColor;
       }
-      return disableColor;
+      return disableBackgroundColor;
+    }
+  }
+
+  Color? changeTextColorByIsEnable() {
+    if (isEnabled) {
+      return textColor;
+    } else {
+      if (disableTextColor == null) {
+        return textColor;
+      }
+      return disableTextColor;
     }
   }
 
@@ -40,8 +55,8 @@ class RoundRectButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.resolveWith(changeColorByIsEnable),
+          backgroundColor: MaterialStateProperty.resolveWith(
+              changeBackgroundColorByIsEnable),
           side: borderColor != null
               ? MaterialStateProperty.all(
                   BorderSide(color: borderColor!),
@@ -52,8 +67,8 @@ class RoundRectButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
             ),
           ),
-          overlayColor:
-              MaterialStateProperty.resolveWith(changeColorByIsEnable),
+          overlayColor: MaterialStateProperty.resolveWith(
+              changeBackgroundColorByIsEnable),
           shadowColor: MaterialStateProperty.all(
               const Color(0xffA3B7FF).withOpacity(0.3)),
           elevation: MaterialStateProperty.resolveWith(
@@ -70,7 +85,18 @@ class RoundRectButton extends StatelessWidget {
           onPressed();
         }
       },
-      child: Text(text, style: textStyle.copyWith(color: textColor)),
+      child: icon == null
+          ? Text(text,
+              style: textStyle.copyWith(color: changeTextColorByIsEnable()))
+          : Row(
+              children: [
+                icon!,
+                const SizedBox(width: 16),
+                Text(text,
+                    style:
+                        textStyle.copyWith(color: changeTextColorByIsEnable())),
+              ],
+            ),
     );
   }
 }
