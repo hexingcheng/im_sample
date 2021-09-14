@@ -4,11 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onlylive/config.dart';
-import 'package:onlylive/di.dart';
 import 'package:onlylive/entry.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:onlylive/services/fcm_service.dart';
-import 'package:onlylive/domain/service/shared_prefrences_service.dart';
 // import 'package:onlylive/test.dart';
 import 'flavor.dart';
 
@@ -25,11 +22,6 @@ Future<void> main() async {
   }
   const flavor = String.fromEnvironment("FLAVOR");
   await initConfig(Flavor(flavor));
-
-  di();
-  await Firebase.initializeApp();
-  SharedPrefrencesService().init();
-  FCMService();
 
   runApp(MyApp());
 }

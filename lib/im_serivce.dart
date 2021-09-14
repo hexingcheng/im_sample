@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:logger/logger.dart';
 import 'package:onlylive/config.dart';
-import 'package:onlylive/domain/service/tencent_sig.dart';
+import 'package:onlylive/tencent_sig.dart';
 import 'package:tencent_im_sdk_plugin/enum/V2TimAdvancedMsgListener.dart';
 import 'package:tencent_im_sdk_plugin/enum/V2TimConversationListener.dart';
 import 'package:tencent_im_sdk_plugin/enum/V2TimGroupListener.dart';
@@ -17,7 +17,6 @@ import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_recv_c2c_custom_message.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_user_info.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:onlylive/domain/service/const/tencent.dart';
 
 class IMService {
   IMService(String userId, int roomId) {
@@ -65,6 +64,7 @@ class IMService {
   }
 
   void addListener(OnReceiveMessageCallback receiver) {
+    Logger().e("addListener");
     timManager.v2TIMMessageManager.addAdvancedMsgListener(
       listener: V2TimAdvancedMsgListener(
         onRecvNewMessage: (msg) {
