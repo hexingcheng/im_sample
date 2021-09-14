@@ -166,18 +166,21 @@ class TalentDetailVM with ChangeNotifier {
   }
 
   Future<void> initState() async {
-    await Future.wait([
-      getFan(),
-      getWallet(),
-      getTalent(),
-      getNowFanMeeting(),
-      getFutureFanMeetings(),
-    ]).catchError((e) {
-      debugPrint("failed to init state: $e");
-    });
+    try {
+      await Future.wait([
+        getFan(),
+        getTalent(),
+        getNowFanMeeting(),
+        getFutureFanMeetings(),
+      ]).catchError((e) {
+        debugPrint("failed to init state: $e");
+      });
 
-    await getReservationStatus(nowFanMeetingwId);
-    // periodicUpdateFanmeeting();
+      await getReservationStatus(nowFanMeetingwId)
+          .catchError((e) => debugPrint("failed to init state: $e"));
+      // periodicUpdateFanmeeting();
+
+    } catch (_) {}
     _initilized = true;
     notifyListeners();
   }
@@ -202,7 +205,7 @@ class TalentDetailVM with ChangeNotifier {
     return GetReservationStatusUseCase(Repositories.reservationRepo)
         .execute(fanMeetingID)
         .then((reservationStatus) {
-      _isReserved = reservationStatus.isReserved;
+      _isReserved = reservationStatus.isReserved!;
       _reservedNum = reservationStatus.numReservedFan;
     });
   }
@@ -219,15 +222,14 @@ class TalentDetailVM with ChangeNotifier {
         .execute(fanMeetingID);
   }
 
-  Future<void> getFan() {
-    return GetFanUseCase(Repositories.fanRepository)
-        .execute()
-        .then((_) => {
-              _isLoggedIn = true,
-            })
-        .catchError((e) {
+  Future<void> getFan() async {
+    try {
+      await GetFanUseCase(Repositories.fanRepository).execute();
+      _isLoggedIn = true;
+      await getWallet();
+    } catch (e) {
       _isLoggedIn = false;
-    });
+    }
   }
 
   Future<void> getWallet() {

@@ -12,26 +12,31 @@ import 'package:onlylive/infra/api/fan_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class CallService {
-  CallService() {
-    configure();
-  }
+  CallService();
   late String _number;
 
   final FlutterCallkeep _callKeep = FlutterCallkeep();
 
-  Future<void> configure() {
-    return _callKeep.setup(<String, dynamic>{
-      'ios': {
-        'appName': 'CallKeepDemo',
-      },
-      'android': {
-        'alertTitle': 'Permissions required',
-        'alertDescription':
-            'This application needs to access your phone accounts',
-        'cancelButton': 'Cancel',
-        'okButton': 'ok',
-      },
-    });
+  final options = <String, dynamic>{
+    'ios': {
+      'appName': 'CallKeepDemo',
+    },
+    'android': {
+      'alertTitle': '電話アカウントの許可が必要です',
+      'alertDescription': 'タレントから着信を受けるために許可が必要です',
+      'cancelButton': 'Cancel',
+      'okButton': 'ok',
+    },
+  };
+
+  Future<void> init() {
+    return _callKeep.setup(options);
+  }
+
+  Future<bool> permission() {
+    return _callKeep
+        .setup(options)
+        .then((value) => _callKeep.hasPhoneAccount());
   }
 
   Future<bool> hasPhoneAccount() {
@@ -41,21 +46,7 @@ class CallService {
   }
 
   Future<bool> phoneAccountPermissionRequest(BuildContext context) {
-    return Future.value(
-        _callKeep.hasDefaultPhoneAccount(context, <String, dynamic>{
-      'ios': {
-        'appName': 'CallKeepDemo',
-      },
-      'android': {
-        'alertTitle': 'Permissions required',
-        'alertDescription':
-            'This application needs to access your phone accounts',
-        'cancelButton': 'Cancel',
-        'okButton': 'ok',
-      },
-    }).catchError((e) {
-      Logger().e("failed to has phone account: $e");
-    }));
+    return _callKeep.hasDefaultPhoneAccount(context, options);
   }
 
   // return call uuid

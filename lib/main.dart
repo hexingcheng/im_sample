@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onlylive/config.dart';
 import 'package:onlylive/di.dart';
 import 'package:onlylive/entry.dart';
@@ -13,6 +14,10 @@ import 'flavor.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, //縦固定
+  ]);
+
   const hasEnv = bool.hasEnvironment("FLAVOR");
   if (!hasEnv) {
     debugPrint("not fonud flavor");

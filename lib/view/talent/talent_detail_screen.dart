@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onlylive/theme/theme.dart';
+import 'package:onlylive/view/tab_bar_chage_notifier.dart';
 import 'package:onlylive/view/talent/vm/talent_detail_vm.dart';
 import 'package:onlylive/widgets/atoms/back.dart';
 import 'package:onlylive/widgets/atoms/loading.dart';
@@ -258,54 +259,57 @@ class TalentDetailScreen extends StatelessWidget {
                                       textColor: OnlyliveColor.white,
                                       backgroundColor: OnlyliveColor.purple,
                                       onPressed: () => {
-                                        showDialog(
-                                            context: context,
-                                            builder: (dialogContext) {
-                                              if (vm.isLoggedIn) {
-                                                return ReservationDialog(
-                                                  style: vm.nowFanMeetingStyle,
-                                                  imageUrl:
-                                                      vm.mainRectangleImageUrl,
-                                                  displayName: vm.displayName,
-                                                  balance: vm.balance,
-                                                  unitCoin: vm.unitCoin,
-                                                  waitingFanNum: vm.reservedNum,
-                                                  secondsPerReserved:
-                                                      vm.secondsPerReserved,
-                                                  onPressedButton: () async {
-                                                    Navigator.pop(
-                                                        dialogContext);
-                                                    await showDialog(
-                                                      context: context,
-                                                      builder: (dialogContext2) =>
-                                                          ReservationNotesDialog(
-                                                        onPressedButton:
-                                                            () async {
-                                                          await vm.createReservation(
-                                                              vm.nowFanMeetingwId);
-                                                          Navigator.pop(
-                                                              dialogContext2);
-                                                          await showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (dialogContext3) =>
-                                                                    CompleteReservationDialog(
-                                                              vm.mainRectangleImageUrl,
-                                                            ),
-                                                          );
-                                                        },
-                                                        talentImageUri: vm
-                                                            .mainSquareImageUrl,
-                                                        style: vm
-                                                            .nowFanMeetingStyle,
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              }
-                                              // TODO
-                                              return const SizedBox.shrink();
-                                            }),
+                                        context
+                                            .read<TabBarChageNotifier>()
+                                            .setTab(TabItemType.reservation),
+                                        // showDialog(
+                                        //     context: context,
+                                        //     builder: (dialogContext) {
+                                        //       if (vm.isLoggedIn) {
+                                        //         return ReservationDialog(
+                                        //           style: vm.nowFanMeetingStyle,
+                                        //           imageUrl:
+                                        //               vm.mainRectangleImageUrl,
+                                        //           displayName: vm.displayName,
+                                        //           balance: vm.balance,
+                                        //           unitCoin: vm.unitCoin,
+                                        //           waitingFanNum: vm.reservedNum,
+                                        //           secondsPerReserved:
+                                        //               vm.secondsPerReserved,
+                                        //           onPressedButton: () async {
+                                        //             Navigator.pop(
+                                        //                 dialogContext);
+                                        //             await showDialog(
+                                        //               context: context,
+                                        //               builder: (dialogContext2) =>
+                                        //                   ReservationNotesDialog(
+                                        //                 onPressedButton:
+                                        //                     () async {
+                                        //                   await vm.createReservation(
+                                        //                       vm.nowFanMeetingwId);
+                                        //                   Navigator.pop(
+                                        //                       dialogContext2);
+                                        //                   await showDialog(
+                                        //                     context: context,
+                                        //                     builder:
+                                        //                         (dialogContext3) =>
+                                        //                             CompleteReservationDialog(
+                                        //                       vm.mainRectangleImageUrl,
+                                        //                     ),
+                                        //                   );
+                                        //                 },
+                                        //                 talentImageUri: vm
+                                        //                     .mainSquareImageUrl,
+                                        //                 style: vm
+                                        //                     .nowFanMeetingStyle,
+                                        //               ),
+                                        //             );
+                                        //           },
+                                        //         );
+                                        //       }
+                                        //       // TODO
+                                        //       return const SizedBox.shrink();
+                                        //     }),
                                       },
                                     ),
                             ),

@@ -3,8 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:onlylive/theme/theme.dart';
 import 'package:onlylive/view/reservation/vm/reservation_vm.dart';
 import 'package:onlylive/widgets/atoms/call_icon.dart';
+import 'package:onlylive/widgets/atoms/imgix.dart';
 import 'package:onlylive/widgets/atoms/round_rect_button.dart';
-import 'package:onlylive/widgets/molecules/talent_view.dart';
+import 'package:onlylive/widgets/molecules/rounded_icon.dart';
 import 'package:onlylive/widgets/atoms/simple_app_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -29,10 +30,12 @@ class CallReservationScreen extends StatelessWidget {
         return Scaffold(
           appBar: const SimpleAppBar(title: "通話予約"),
           body: SafeArea(
-            child: vm.existReservation
-                ? LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) {
+            child: FutureBuilder(
+              future: vm.initState(),
+              builder: (context, _) {
+                if (vm.initilized && vm.existReservation) {
+                  return LayoutBuilder(
+                    builder: (context, constraints) {
                       return SingleChildScrollView(
                         physics: const ClampingScrollPhysics(),
                         child: Column(
@@ -44,26 +47,17 @@ class CallReservationScreen extends StatelessWidget {
                               children: [
                                 Container(
                                   height: screenHeight,
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   color: Colors.white,
                                 ),
-                                TalentView(
-                                  height: viewHeight,
-                                  imgList: vm.talentImgList,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.center,
-                                      colors: [
-                                        Colors.black.withOpacity(0.3),
-                                        Colors.black.withOpacity(0)
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                Imgix(
+                                    context: context,
+                                    imageUrl: vm.talentImageUrl,
+                                    width: double.infinity,
+                                    height: 475),
                                 Positioned(
                                   top: viewHeight * 0.95,
-                                  child: Container(
+                                  child: SizedBox(
                                     width: MediaQuery.of(context).size.width,
                                     height: 475,
                                   ),
@@ -93,9 +87,9 @@ class CallReservationScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 2),
+                                      const SizedBox(height: 2),
                                       Text(
-                                        "#${vm.hashTag}",
+                                        "#${vm.talentDisplayName}とonlylive",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline1!
@@ -103,7 +97,7 @@ class CallReservationScreen extends StatelessWidget {
                                               color: Colors.white,
                                             ),
                                       ),
-                                      SizedBox(height: 14),
+                                      const SizedBox(height: 14),
                                       SizedBox(
                                         width: 295,
                                         height: 438,
@@ -113,7 +107,7 @@ class CallReservationScreen extends StatelessWidget {
                                                 BorderRadius.circular(20),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 32),
                                             child: Column(
                                               children: <Widget>[
@@ -141,19 +135,13 @@ class CallReservationScreen extends StatelessWidget {
                                                       .symmetric(vertical: 16),
                                                   child: Stack(
                                                     children: <Widget>[
-                                                      Container(
+                                                      SizedBox(
                                                         child: Center(
-                                                          child: ClipRRect(
-                                                            child: Image.asset(
-                                                                "assets/images/splash.png",
-                                                                width: 52,
-                                                                height: 52,
-                                                                fit: BoxFit
-                                                                    .fitWidth),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        100),
+                                                          child:
+                                                              RoundedIconWithGradientBorder(
+                                                            imageUrl: vm
+                                                                .talentImageUrl,
+                                                            width: 57,
                                                           ),
                                                         ),
                                                       ),
@@ -175,10 +163,11 @@ class CallReservationScreen extends StatelessWidget {
                                                           color: OnlyliveColor
                                                               .grey,
                                                         ),
-                                                    children: const <TextSpan>[
+                                                    children: <TextSpan>[
                                                       TextSpan(
-                                                        text: " あと１人",
-                                                        style: TextStyle(
+                                                        text:
+                                                            " あと${vm.waitNum}",
+                                                        style: const TextStyle(
                                                           color: OnlyliveColor
                                                               .purple,
                                                         ),
@@ -199,9 +188,9 @@ class CallReservationScreen extends StatelessWidget {
                                                             OnlyliveColor.grey,
                                                       ),
                                                 ),
-                                                SizedBox(height: 4),
+                                                const SizedBox(height: 4),
                                                 Text(
-                                                  "30秒",
+                                                  "${vm.secondsPerReservation}秒",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyText2!
@@ -210,7 +199,7 @@ class CallReservationScreen extends StatelessWidget {
                                                             OnlyliveColor.grey,
                                                       ),
                                                 ),
-                                                SizedBox(height: 16),
+                                                const SizedBox(height: 16),
                                                 Text(
                                                   "延長するには",
                                                   style: Theme.of(context)
@@ -221,9 +210,9 @@ class CallReservationScreen extends StatelessWidget {
                                                             OnlyliveColor.grey,
                                                       ),
                                                 ),
-                                                SizedBox(height: 4),
+                                                const SizedBox(height: 4),
                                                 Text(
-                                                  "1,000 / 30秒",
+                                                  "${vm.coinNum} / ${vm.secondsPerReservation}秒",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyText2!
@@ -232,7 +221,7 @@ class CallReservationScreen extends StatelessWidget {
                                                             OnlyliveColor.grey,
                                                       ),
                                                 ),
-                                                SizedBox(height: 32),
+                                                const SizedBox(height: 32),
                                                 SizedBox(
                                                   width: 215,
                                                   height: 52,
@@ -258,11 +247,15 @@ class CallReservationScreen extends StatelessWidget {
                         ),
                       );
                     },
-                  )
-                : const Padding(
-                    padding: const EdgeInsets.only(top: 153),
+                  );
+                } else {
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 153),
                     child: NoCallReservation(),
-                  ),
+                  );
+                }
+              },
+            ),
           ),
         );
       },
@@ -271,7 +264,7 @@ class CallReservationScreen extends StatelessWidget {
 }
 
 class NoCallReservation extends StatelessWidget {
-  const NoCallReservation();
+  const NoCallReservation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +302,7 @@ class NoCallReservation extends StatelessWidget {
               child: RoundRectButton(
                 onPressed: () => {},
                 text: "通話方法を確認",
-                backgroundColor: Color(0xffA3B7FF),
+                backgroundColor: const Color(0xffA3B7FF),
                 textColor: Colors.white,
               ),
             ),

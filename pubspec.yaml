@@ -44,7 +44,9 @@ dependencies:
     git:
       url: https://github.com/iMarke/callkeep.git
       ref: develop
+  tuple: ^2.0.0
   uuid: ^3.0.4
+  web_socket_channel: ^2.1.0
   permission_handler: ^8.1.4
   streaming_shared_preferences: ^2.0.0
   cached_network_image: ^3.1.0

@@ -26,9 +26,9 @@ class GrpcCallTransaction {
 
   String influencerDisplayName;
 
-  String fanMeetingId;
+  int fanMeetingId;
 
-  String reservationId;
+  int reservationId;
 
   GrpcTimestamp updatedAt;
 

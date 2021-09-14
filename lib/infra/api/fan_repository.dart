@@ -94,19 +94,20 @@ class APIFanRepository extends Repository implements FanRepository {
 
   @override
   Future<void> updateCallTransaction(
-      String fanUUID, CallTransaction callTransaction) async {
+      String fanUUID, CallTransaction callTransaction) {
+    final service = FanServiceApi(ApiClient(basePath: _basePath));
     try {
-      final service = FanServiceApi(ApiClient(basePath: _basePath));
-      await service.fanServiceUpdateCallTransaction(
+      return service.fanServiceUpdateCallTransaction(
           fanUUID,
           GrpcUpdateCallTransactionRequest(
-              callUuid: callTransaction.callUUID,
+              callUuid: "a",
               influencerDisplayName: callTransaction.talentDisplayName,
               influencerUuid: callTransaction.talentUUID,
-              reservationId: "",
-              fanMeetingId: ""));
+              reservationId: 1,
+              fanMeetingId: 1));
     } catch (e) {
-      rethrow;
+      print(e);
+      throw e;
     }
   }
 }

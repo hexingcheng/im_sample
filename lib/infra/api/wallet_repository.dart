@@ -13,7 +13,7 @@ class APIWalletRepository extends Repository implements WalletRepository {
   Future<Wallet> getWallet(String apiToken, String fanUUID) {
     final service =
         WalletServiceApi(ApiClient(basePath: _basePath)..addApiToken(apiToken));
-
+    print("ccccccccccc");
     return service
         .walletServiceGetBalanceByFanUUID(fanUUID)
         .then(WalletMapper.decode)

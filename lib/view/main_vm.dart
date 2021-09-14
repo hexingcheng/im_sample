@@ -1,9 +1,12 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:onlylive/domain/entities/fan.dart';
 import 'package:onlylive/domain/repository/repository.dart';
 import 'package:onlylive/domain/service/call_service.dart';
 import 'package:onlylive/domain/service/im_serivce.dart';
-import 'package:onlylive/domain/service/shared_prefrences_service.dart';
 import 'package:onlylive/domain/use_case/fan/get_fan_use_case.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -13,18 +16,21 @@ class MainVM with ChangeNotifier {
   bool _hasUnRegisteredProfile = false;
   bool _isGrantedCameraPermission = false;
   bool _isGrantedMicPermission = false;
+  bool _isGrantedPhonePermission = false;
   bool _initilized = false;
-  bool _hasPhoneAccount = false;
 
   // getter
   bool get hasUnRegisteredProfile => _hasUnRegisteredProfile;
   bool get isGrantedCameraPermission => _isGrantedCameraPermission;
   bool get isGrantedMicPermission => _isGrantedMicPermission;
+  bool get isGrantedPhonePermission => _isGrantedPhonePermission;
   bool get hasNotGrantedPermission =>
-      !_isGrantedMicPermission || !_isGrantedCameraPermission;
+      // !_isGrantedMicPermission ||
+      // !_isGrantedCameraPermission ||
+      // !_isGrantedPhonePermission;
+      false;
   bool get initilized => _initilized;
-  bool get hasPhoneAccount => _hasPhoneAccount;
-  final _service = CallService();
+  final _callService = CallService();
 
   Future<void> initState() async {
     final fan = await getFan();
@@ -36,19 +42,10 @@ class MainVM with ChangeNotifier {
         _hasUnRegisteredProfile = true;
       }
     }
-    // checkPermission();
-
-    // await _service.displayIncomingCall("07043801881");
+    await checkPermission();
     _initilized = true;
-    // final _service = IMService("userId", 0);
-    // await _service.initSDK();
-    // await _service.joinGroup(170);
 
     notifyListeners();
-  }
-
-  void phoneAccountPermissionRequest(BuildContext context) {
-    // _service.phoneAccountPermissionRequest();
   }
 
   Future<Fan?> getFan() async {
@@ -70,7 +67,7 @@ class MainVM with ChangeNotifier {
     notifyListeners();
   }
 
-  void getPermisson(PermissionStatus status) {
+  void getPhonePermission(PermissionStatus status) {
     _isGrantedMicPermission = status.isGranted;
     notifyListeners();
   }
@@ -85,11 +82,22 @@ class MainVM with ChangeNotifier {
         .then((value) => _isGrantedMicPermission = value);
   }
 
+  Future<void> _getPhonePermissionStatus() {
+    if (Platform.isAndroid) {
+      return _callService
+          .hasPhoneAccount()
+          .then((value) => _isGrantedPhonePermission = value);
+    } else {
+      _isGrantedPhonePermission = true;
+      return Future.value();
+    }
+  }
+
   Future<void> checkPermission() {
     return Future.wait([
       _getCameraPermissionStatus(),
       _getMicPermissionStatus(),
-      _service.hasPhoneAccount().then((value) => _hasPhoneAccount = value)
+      _getPhonePermissionStatus(),
     ]);
   }
 }

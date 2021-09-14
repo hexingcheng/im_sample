@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:logger/logger.dart';
 import 'package:onlylive/domain/repository/error.dart';
 import 'package:onlylive/domain/repository/repository.dart';
 import 'package:onlylive/domain/service/shared_prefrences_service.dart';
@@ -9,9 +10,8 @@ import 'package:openapi/api.dart';
 class UseCase {
   static Error useCaseErr(ApiError e) {
     final exception = errorMap[e.code];
-    print(e.message);
-    print(e.code);
-    print("aaaaaaaaaaaaaaaaaaaabbbbbbbbbb");
+    Logger().e(e.message);
+
     if (exception != null) {
       throw exception;
     }

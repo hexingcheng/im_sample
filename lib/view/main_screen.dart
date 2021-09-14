@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:logger/logger.dart';
 import 'package:onlylive/view/auth/register_profile_screen.dart';
 import 'package:onlylive/view/main_vm.dart';
+import 'package:onlylive/view/tab_bar_chage_notifier.dart';
+import 'package:onlylive/widgets/atoms/badge.dart';
 import 'package:onlylive/widgets/organisms/permissoin_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:onlylive/view/reservation/reservation_screen.dart';
@@ -16,7 +17,8 @@ class MainScreen extends StatelessWidget with WidgetsBindingObserver {
         builder: (_) => MainScreen(),
       );
 
-  BottomNavigationBarItem _buildTabBar(String text, String iconRef) {
+  BottomNavigationBarItem _buildTabBar(
+      String text, String iconRef, bool hasBadge) {
     return BottomNavigationBarItem(
       activeIcon: BottomTabItem(
         iconRef: iconRef,
@@ -26,20 +28,37 @@ class MainScreen extends StatelessWidget with WidgetsBindingObserver {
         iconRef: iconRef,
         iconColor: const Color(0xffA2ACBB),
         text: text,
+        hasBadge: hasBadge,
       ),
     );
   }
 
-  final List<TabItem> tabs = [
-    TabItem(text: "ホーム", iconRef: "assets/icons/home.png"),
-    TabItem(text: "通話予約", iconRef: "assets/icons/reservation.png"),
-    TabItem(text: "マイページ", iconRef: "assets/icons/my_page.png"),
-  ];
+  final Map<TabItemType, TabItem> tabs = {
+    TabItemType.home: TabItem(text: "ホーム", iconRef: "assets/icons/home.png"),
+    TabItemType.reservation:
+        TabItem(text: "通話予約", iconRef: "assets/icons/reservation.png"),
+    TabItemType.myPage:
+        TabItem(text: "マイページ", iconRef: "assets/icons/my_page.png"),
+  };
+
+  final Map<TabItemType, Widget> pages = {
+    TabItemType.home: const HomeScreen(),
+    TabItemType.reservation: const CallReservationScreen(),
+    TabItemType.myPage: const SizedBox(),
+  };
+
+  BuildContext? permissionDialogContext;
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MainVM>(
-      create: (context) => MainVM()..initState(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MainVM>(
+          create: (context) => MainVM()..initState(),
+        ),
+        ChangeNotifierProvider<TabBarChageNotifier>(
+            create: (context) => TabBarChageNotifier())
+      ],
       builder: (context, child) {
         final vm = context.watch<MainVM>();
 
@@ -51,57 +70,45 @@ class MainScreen extends StatelessWidget with WidgetsBindingObserver {
             if (vm.hasNotGrantedPermission) {
               showDialog(
                   context: context,
-                  builder: (
-                    _,
-                  ) =>
-                      PermissionDialog(
-                          onTapCameraPermission: vm.getCameraPermisson,
-                          onTapMicPermission: vm.getMicPermisson,
-                          isGrantedMicPermission: vm.isGrantedMicPermission,
-                          isGrantedCameraPermission:
-                              vm.isGrantedCameraPermission));
+                  barrierDismissible: false,
+                  builder: (dialogContext) {
+                    permissionDialogContext = dialogContext;
+                    return PermissionDialog(
+                        onTapCameraPermission: vm.getCameraPermisson,
+                        onTapMicPermission: vm.getMicPermisson,
+                        onTapPhonePermission: vm.getPhonePermission,
+                        isGrantedMicPermission: vm.isGrantedMicPermission,
+                        isGrantedCameraPermission: vm.isGrantedCameraPermission,
+                        isGrantedPhonePermission: vm.isGrantedPhonePermission);
+                  });
+            } else {
+              if (permissionDialogContext != null) {
+                Navigator.pop(permissionDialogContext!);
+              }
             }
           });
         }
-
+        final tabBarChageNotifier = context.watch<TabBarChageNotifier>();
         return CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
-            iconSize: 100,
-            activeColor: const Color(0xffA3B7FF),
-            inactiveColor: const Color(0xffA2ACBB),
-            items: List.generate(
-              tabs.length,
-              (index) => _buildTabBar(tabs[index].text, tabs[index].iconRef),
+            controller: tabBarChageNotifier.controller,
+            tabBar: CupertinoTabBar(
+              iconSize: 100,
+              activeColor: const Color(0xffA3B7FF),
+              inactiveColor: const Color(0xffA2ACBB),
+              items: TabItemType.values
+                  .map((tab) => _buildTabBar(
+                        tabs[tab]!.text,
+                        tabs[tab]!.iconRef,
+                        tabBarChageNotifier.tabBadges[tab]!,
+                      ))
+                  .toList(),
             ),
-          ),
-          tabBuilder: (context, index) {
-            switch (index) {
-              case 0: // 1番左のタブが選ばれた時の画面
-                return CupertinoTabView(builder: (context) {
-                  return const CupertinoPageScaffold(child: HomeScreen());
-                });
-              case 1: // 1番左のタブが選ばれた時の画面
-                return CupertinoTabView(builder: (context) {
-                  return const CupertinoPageScaffold(
-                      child: CallReservationScreen());
-                });
-              case 2: // 1番左のタブが選ばれた時の画面
-                return CupertinoTabView(
-                  builder: (context) {
-                    return const CupertinoPageScaffold(
-                      child: SizedBox(),
-                    );
-                  },
-                );
-              default:
-                return CupertinoTabView(
-                  builder: (context) {
-                    return CupertinoPageScaffold(child: HomeScreen());
-                  },
-                );
-            }
-          },
-        );
+            tabBuilder: (context, index) {
+              return CupertinoTabView(builder: (context) {
+                return CupertinoPageScaffold(
+                    child: pages.values.elementAt(index));
+              });
+            });
       },
     );
   }
@@ -115,21 +122,44 @@ class TabItem {
 
 class BottomTabItem extends StatelessWidget {
   const BottomTabItem(
-      {required this.text, required this.iconRef, this.iconColor});
+      {required this.text,
+      required this.iconRef,
+      this.iconColor,
+      this.hasBadge = false,
+      Key? key})
+      : super(key: key);
   final String text;
   final String iconRef;
   final Color? iconColor;
+  final bool hasBadge;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 10),
-        Image.asset(
-          iconRef,
-          width: 23,
+        SizedBox(
+          width: 30,
           height: 23,
-          color: iconColor,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Image.asset(
+                  iconRef,
+                  width: 23,
+                  height: 23,
+                  color: iconColor,
+                ),
+              ),
+              if (hasBadge)
+                const Positioned(
+                  right: -4,
+                  top: -4,
+                  child: Badge(),
+                ),
+            ],
+          ),
         ),
         const SizedBox(height: 3),
         Text(

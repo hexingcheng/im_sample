@@ -1,8 +1,6 @@
 class ReservationStatus {
-  ReservationStatus({
-    required this.isReserved,
-    required this.numReservedFan,
-  });
-  bool isReserved;
-  int numReservedFan;
+  ReservationStatus({this.isReserved, this.numReservedFan, this.waitNum});
+  bool? isReserved;
+  int? numReservedFan;
+  int? waitNum;
 }

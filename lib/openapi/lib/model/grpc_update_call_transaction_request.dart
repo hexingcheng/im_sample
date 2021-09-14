@@ -28,9 +28,9 @@ class GrpcUpdateCallTransactionRequest {
 
   String influencerDisplayName;
 
-  String fanMeetingId;
+  int fanMeetingId;
 
-  String reservationId;
+  int reservationId;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is GrpcUpdateCallTransactionRequest &&

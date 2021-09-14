@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:onlylive/domain/repository/repository.dart';
 import 'package:onlylive/domain/entities/call_transaction.dart';
+import 'package:onlylive/domain/service/im_serivce.dart';
 import 'package:onlylive/domain/use_case/admin/get_app_config_use_case.dart.dart';
 import 'package:onlylive/domain/use_case/call_transaction/get_call_transaction_use_case.dart';
 import 'package:onlylive/domain/service/shared_prefrences_service.dart';
@@ -34,7 +36,6 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.resumed) {
-      print("cccccc");
       await getEntry();
     }
   }
@@ -95,10 +96,16 @@ class RootVM extends ChangeNotifier with WidgetsBindingObserver {
     if (appConfig.isMaintenance) {
       _entry = EntryType.maintenance;
     }
-    if (await hasCall()) {
-      _entry = EntryType.call;
-    }
+    // if (await hasCall()) {
+    //   _entry = EntryType.call;
+    // }
     initilized = true;
+    final service = IMService("aaa", 1000);
+    await service.init();
+    // service.addListener((message) {
+    //   Logger().e(message);
+    // });
+    // await service.joinGroup(1011);
     notifyListeners();
     return;
   }

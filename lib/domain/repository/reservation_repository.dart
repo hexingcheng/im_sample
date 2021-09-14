@@ -1,5 +1,7 @@
+import 'package:onlylive/domain/entities/fan_meeting.dart';
 import 'package:onlylive/domain/entities/reservation.dart';
 import 'package:onlylive/domain/entities/reservation_status.dart';
+import 'package:tuple/tuple.dart';
 
 abstract class ReservationRepository {
   // CreateReservation is reservation creator
@@ -15,4 +17,7 @@ abstract class ReservationRepository {
       {required String apiToken,
       required String fanUUID,
       required int fanmeetingID});
+
+  Future<Tuple2<FanMeeting, ReservationStatus>> getUnfinishedReservationByFan(
+      String apiToken, String fanUUID);
 }

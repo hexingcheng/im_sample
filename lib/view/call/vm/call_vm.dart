@@ -133,40 +133,6 @@ class CallVM with ChangeNotifier {
 
   final FlutterCallkeep _callKeep = FlutterCallkeep();
 
-  Future<void> hasPhoneAccount(BuildContext context) async {
-    try {
-      _callKeep.setup(<String, dynamic>{
-        'ios': {
-          'appName': 'CallKeepDemo',
-        },
-        'android': {
-          'alertTitle': 'Permissions required',
-          'alertDescription':
-              'This application needs to access your phone accounts',
-          'cancelButton': 'Cancel',
-          'okButton': 'ok',
-        },
-      });
-    } catch (e) {}
-    final hasPhoneAccount = await _callKeep.hasPhoneAccount();
-    if (!hasPhoneAccount) {
-      await _callKeep.hasDefaultPhoneAccount(context, <String, dynamic>{
-        'alertTitle': 'Permissions required',
-        'alertDescription':
-            'This application needs to access your phone accounts',
-        'cancelButton': 'Cancel',
-        'okButton': 'ok',
-      });
-    }
-  }
-
-  Future<void> _permissionRequest() async {
-    final status = await Permission.phone.request();
-    if (!await Permission.contacts.isGranted) {
-      Permission.contacts.request();
-    }
-  }
-
   Future<void> initState() async {
     // await _permissionRequest();
     await Future.wait([

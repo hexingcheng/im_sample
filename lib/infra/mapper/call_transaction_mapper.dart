@@ -19,8 +19,8 @@ class CallTransactionMapper {
       callUuid: callTransaction.callUUID,
       influencerDisplayName: callTransaction.talentDisplayName,
       influencerUuid: callTransaction.talentUUID,
-      reservationId: "callTransaction.reservationID",
-      fanMeetingId: "callTransaction.fanMeetingID",
+      reservationId: 0,
+      fanMeetingId: 0,
       updatedAt:
           TimeStampMapper.encode(callTransaction.updatedAt ?? DateTime(0)),
     );

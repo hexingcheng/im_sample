@@ -35,12 +35,19 @@ class IMService {
       sdkAppID: Config.tencent.sdkAppId,
       loglevel: LogLevel.V2TIM_LOG_DEBUG,
       listener: V2TimSDKListener(
-        onConnectFailed: (code, error) {},
-        onConnectSuccess: () {},
-        onConnecting: () {},
-        // onKickedOffline: () {
-        //   onKickedOffline();
-        // },
+        onConnectFailed: (code, error) {
+          Logger().e(code);
+          Logger().e(error);
+        },
+        onConnectSuccess: () {
+          Logger().e("onConnectSuccess");
+        },
+        onConnecting: () {
+          Logger().e("onnection");
+        },
+        onKickedOffline: () {
+          Logger().e("onKickedOffline");
+        },
         onSelfInfoUpdated: (info) {},
         onUserSigExpired: () {},
       ),
@@ -61,6 +68,7 @@ class IMService {
     timManager.v2TIMMessageManager.addAdvancedMsgListener(
       listener: V2TimAdvancedMsgListener(
         onRecvNewMessage: (msg) {
+          Logger().e(msg);
           final text = msg.textElem?.text;
           if (text == null) return;
           final decoded = json.decode(text) as Map<String, dynamic>;

@@ -15,6 +15,9 @@ class UpdateCallTransactionUseCase extends UseCase {
 
     return UseCase.retryAuth(() =>
             _fanRepository.updateCallTransaction(fanUUID, callTransaction))
-        .catchError((e) => throw UseCase.useCaseErr(e as ApiError));
+        .catchError((e) {
+      print(e);
+      throw UseCase.useCaseErr(e as ApiError);
+    });
   }
 }
